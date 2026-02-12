@@ -114,9 +114,11 @@ Commits: f216d3d (API), ea2ac10 (UI)
 - Rubric weights fix: commit 60ca4d0 (weights now 0.25 each, sum to 1.0)
 - Report card narrative generator: commit 57f7bbf — AI service + API + UI + schema
 - Schools API fix: commit 584fb4f (inArray instead of raw SQL any())
-- Vitest tests: commit a39974a — 7 test files, 44 tests, ALL PASSING
-- Build passes clean: 31 dynamic routes + 2 static pages
+- Vitest tests: 9 test files, 68 tests, ALL PASSING (commits a39974a, 6bb676d)
+- IDOR fix on mastery/[studentId]: commit 35b651e — role-based auth for all user types
+- Build passes clean: 87 routes total (31 dynamic + 2 static + API)
 - TypeScript compiles clean
+- Authorization verified across all 5 roles: all endpoints properly enforce access control
 
 ## All 8 Creative Opus Usages
 1. tool_use for structured output — Rubrics, lesson plans, assignments, quizzes
