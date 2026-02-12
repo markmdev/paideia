@@ -41,6 +41,7 @@ async function seed() {
   // =========================================================
   console.log('Clearing existing data...')
   await db.delete(schema.auditLogs)
+  await db.delete(schema.reportCards)
   await db.delete(schema.notifications)
   await db.delete(schema.messages)
   await db.delete(schema.tutorSessions)
@@ -508,6 +509,12 @@ async function seed() {
     americanDream: createId(),
     cellStructure: createId(),
     fractionsWord: createId(),
+    poetryAnalysis: createId(),
+    narrativeWriting: createId(),
+    geneticsLab: createId(),
+    ecosystemPoster: createId(),
+    multiplicationStories: createId(),
+    readingResponse: createId(),
   }
 
   await db.insert(schema.assignments).values([
@@ -571,8 +578,128 @@ async function seed() {
         'I can explain what a fraction means using words.',
       ]),
     },
+    // --- New Assignments ---
+    {
+      id: assignmentIds.poetryAnalysis,
+      title: 'Poetry Analysis: The Road Not Taken',
+      description: 'Write a 3-4 paragraph analytical essay examining Robert Frost\'s "The Road Not Taken." Analyze the poem\'s use of figurative language, tone, and theme to explain what Frost is saying about choices and regret.',
+      instructions: 'Your essay should include: an introduction with a clear thesis about the poem\'s meaning, body paragraphs analyzing at least 2 literary devices (metaphor, imagery, symbolism, tone), and a conclusion connecting the poem\'s message to broader human experience. Use direct quotes from the poem as evidence.',
+      type: 'essay',
+      gradeLevel: '8',
+      subject: 'ELA',
+      dueDate: daysAgo(21),
+      status: 'completed',
+      classId: classIds.riveraPeriod2,
+      teacherId: userIds.rivera,
+      rubricId: rubricIds.essay,
+      successCriteria: JSON.stringify([
+        'I can identify and explain at least two literary devices used in the poem.',
+        'I can write a thesis that makes a claim about the poem\'s deeper meaning.',
+        'I can use direct quotes from the poem as evidence for my analysis.',
+        'I can connect the poem\'s theme to a broader idea about life or human nature.',
+      ]),
+    },
+    {
+      id: assignmentIds.narrativeWriting,
+      title: 'Narrative Writing: A Turning Point',
+      description: 'Write a personal narrative about a moment that changed the way you saw yourself or the world. Use vivid sensory details, dialogue, and reflection to bring the story to life for your reader.',
+      instructions: 'Your narrative should be 3-5 paragraphs. Include: a compelling opening that hooks the reader, sensory details that help the reader see, hear, and feel the experience, at least one line of realistic dialogue, and a reflective conclusion that explains why this moment mattered. Minimum 400 words.',
+      type: 'essay',
+      gradeLevel: '8',
+      subject: 'ELA',
+      dueDate: daysAgo(7),
+      status: 'grading',
+      classId: classIds.riveraPeriod1,
+      teacherId: userIds.rivera,
+      rubricId: rubricIds.essay,
+      successCriteria: JSON.stringify([
+        'I can begin my narrative with an engaging opening.',
+        'I can use sensory details to make the reader feel present in the story.',
+        'I can include realistic dialogue that reveals character.',
+        'I can reflect on why this experience was a turning point.',
+        'I can organize my narrative with a clear beginning, middle, and end.',
+      ]),
+    },
+    {
+      id: assignmentIds.geneticsLab,
+      title: 'Genetics and Heredity Lab',
+      description: 'Conduct the Mendelian genetics simulation using the provided corn ear samples. Document your observations of kernel phenotypes, calculate phenotypic ratios, and determine whether the observed ratios match expected Mendelian ratios using a chi-square analysis.',
+      instructions: 'Your lab report must include: Title, Hypothesis (predict the expected phenotypic ratio), Materials & Methods, Data Table (phenotype counts for each ear), Chi-Square Calculation, Analysis (explain whether results support or refute your hypothesis), and Conclusion (connect findings to Mendel\'s laws). Follow the formal lab report format.',
+      type: 'lab_report',
+      gradeLevel: '10',
+      subject: 'Science',
+      dueDate: daysAgo(14),
+      status: 'completed',
+      classId: classIds.okaforPeriod1,
+      teacherId: userIds.okafor,
+      rubricId: rubricIds.labReport,
+      successCriteria: JSON.stringify([
+        'I can write a testable hypothesis about expected phenotypic ratios.',
+        'I can accurately count and record phenotype data in a data table.',
+        'I can perform a chi-square calculation and interpret the result.',
+        'I can explain whether my data supports Mendelian inheritance patterns.',
+      ]),
+    },
+    {
+      id: assignmentIds.ecosystemPoster,
+      title: 'Ecosystem Research Poster',
+      description: 'Research one of the world\'s major biomes and create a scientific poster documenting the ecosystem\'s characteristics, food web, biodiversity, and current threats. Your poster should communicate complex scientific information in a visually clear and engaging format.',
+      instructions: 'Choose one biome: tropical rainforest, coral reef, tundra, desert, temperate forest, or grassland. Your poster must include: biome overview (climate, location, key features), a food web with at least 8 organisms, biodiversity data, human impact and conservation status, and at least 3 cited sources.',
+      type: 'essay',
+      gradeLevel: '10',
+      subject: 'Science',
+      dueDate: daysFromNow(7),
+      status: 'published',
+      classId: classIds.okaforPeriod2,
+      teacherId: userIds.okafor,
+      rubricId: null,
+      successCriteria: JSON.stringify([
+        'I can describe the key characteristics of my chosen biome.',
+        'I can create an accurate food web showing energy flow through the ecosystem.',
+        'I can explain how human activity threatens the biome\'s biodiversity.',
+        'I can cite at least 3 reliable scientific sources.',
+      ]),
+    },
+    {
+      id: assignmentIds.multiplicationStories,
+      title: 'Multiplication Stories',
+      description: 'Read each story problem and use multiplication to solve it. Draw an array or equal groups picture to show your thinking, then write a number sentence and explain your answer.',
+      instructions: 'For each of the 6 story problems: 1) Draw a picture (array or groups), 2) Write the multiplication number sentence, 3) Write the answer in a complete sentence. Remember to label your pictures and show all your work!',
+      type: 'short_answer',
+      gradeLevel: '3',
+      subject: 'Math',
+      dueDate: daysAgo(10),
+      status: 'completed',
+      classId: classIds.chenAllSubjects,
+      teacherId: userIds.chen,
+      rubricId: null,
+      successCriteria: JSON.stringify([
+        'I can draw arrays or equal groups to show multiplication.',
+        'I can write a multiplication number sentence to match a story.',
+        'I can explain what my answer means using words.',
+      ]),
+    },
+    {
+      id: assignmentIds.readingResponse,
+      title: 'Reading Response: Charlotte\'s Web',
+      description: 'After reading chapters 10-12 of Charlotte\'s Web, write a reading response that describes how Charlotte helps Wilbur and explains what this tells us about friendship.',
+      instructions: 'Write at least 5 sentences. Include: 1) What Charlotte does for Wilbur in these chapters, 2) How Wilbur feels about Charlotte\'s help, 3) What you think the author is trying to teach us about being a good friend. Use details from the book to support your ideas.',
+      type: 'essay',
+      gradeLevel: '3',
+      subject: 'ELA',
+      dueDate: daysAgo(5),
+      status: 'grading',
+      classId: classIds.chenAllSubjects,
+      teacherId: userIds.chen,
+      rubricId: null,
+      successCriteria: JSON.stringify([
+        'I can describe what happens in the chapters using details from the book.',
+        'I can explain how a character feels and why.',
+        'I can share what I think the author wants us to learn.',
+      ]),
+    },
   ])
-  console.log('  3 assignments created.')
+  console.log('  9 assignments created.')
 
   // =========================================================
   // 10. Student Submissions (American Dream Essay)
