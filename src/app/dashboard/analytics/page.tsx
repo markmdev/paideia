@@ -254,7 +254,7 @@ export default async function AnalyticsPage() {
                           {Math.round(subject.avgScore)}%
                         </span>
                       ) : (
-                        <span className="text-stone-400">--</span>
+                        <span className="text-stone-400">N/A</span>
                       )}
                     </TableCell>
                     <TableCell className="text-center text-stone-600">

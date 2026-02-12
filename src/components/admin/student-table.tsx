@@ -13,6 +13,15 @@ import {
   TableRow,
 } from '@/components/ui/table'
 
+function formatGradeLevel(grade: string | number | null): string {
+  if (!grade) return 'N/A'
+  const n = typeof grade === 'string' ? parseInt(grade, 10) : grade
+  if (isNaN(n)) return String(grade)
+  const suffixes: Record<number, string> = { 1: 'st', 2: 'nd', 3: 'rd' }
+  const suffix = (n % 100 >= 11 && n % 100 <= 13) ? 'th' : (suffixes[n % 10] || 'th')
+  return `${n}${suffix} Grade`
+}
+
 interface StudentData {
   id: string
   name: string | null
@@ -89,7 +98,7 @@ export function StudentTable({ students }: StudentTableProps) {
                   </TableCell>
                   <TableCell className="text-stone-600">{student.email}</TableCell>
                   <TableCell className="text-stone-600">
-                    {student.gradeLevel || 'N/A'}
+                    {formatGradeLevel(student.gradeLevel)}
                   </TableCell>
                   <TableCell className="text-center text-stone-600">
                     {student.classesEnrolled}
@@ -100,7 +109,7 @@ export function StudentTable({ students }: StudentTableProps) {
                         {Math.round(student.avgScore)}%
                       </span>
                     ) : (
-                      <span className="text-stone-400">--</span>
+                      <span className="text-stone-400">N/A</span>
                     )}
                   </TableCell>
                   <TableCell>
