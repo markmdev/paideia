@@ -41,7 +41,7 @@ Building a K-12 education platform for Anthropic hackathon. Five modules + Stude
 - [Drizzle ORM](./api-docs/drizzle-orm.md) - DONE
 - [Next.js Stack](./api-docs/nextjs-stack.md) - DONE
 
-## Creative Opus Usage (Implemented)
+## Creative Opus Usage (12 Implemented)
 1. **tool_use for structured output** — Rubrics, lesson plans, assignments, quizzes (forced tool_choice)
 2. **Multi-step generation** — Smart Assignment Creator generates assignment + rubric + criteria + 3 differentiated versions in one call
 3. **Streaming** — Real-time Socratic tutor responses (Phase 6)
@@ -50,7 +50,10 @@ Building a K-12 education platform for Anthropic hackathon. Five modules + Stude
 6. **IEP individualization** — Similarity detection flags cookie-cutter IEPs (Phase 4)
 7. **Multilingual translation** — Native LLM translation for parent communication (Phase 5)
 8. **District AI analyst** — Opus synthesizes aggregate data into narrative insights (Phase 7)
-9. **Adaptive thinking** — District insights use extended thinking to reason through complex multi-metric data before producing structured output
+9. **Adaptive thinking** — District insights use extended thinking to reason through complex multi-metric data
+10. **Exit ticket generation** — Formative assessment tool generates targeted quick-checks with tool_use
+11. **Early warning interventions** — AI generates per-student intervention recommendations for at-risk students
+12. **Batch report card narratives** — AI generates individualized narratives for entire classes
 
 ## Phase 1 Complete (10 commits)
 - Next.js 16 app scaffold with TypeScript
@@ -115,26 +118,32 @@ Commits: f216d3d (API), ea2ac10 (UI)
 - Rubric weights fix: commit 60ca4d0 (weights now 0.25 each, sum to 1.0)
 - Report card narrative generator: commit 57f7bbf — AI service + API + UI + schema
 - Schools API fix: commit 584fb4f (inArray instead of raw SQL any())
-- Vitest tests: 9 test files, 68 tests, ALL PASSING (commits a39974a, 6bb676d)
+- Vitest tests: 12 test files, 88 tests, ALL PASSING
 - IDOR fix on mastery/[studentId]: commit 35b651e — role-based auth for all user types
-- Build passes clean: 87 routes total (31 dynamic + 2 static + API)
+- Build passes clean: 95 routes total
 - TypeScript compiles clean
 - Authorization verified across all 5 roles: all endpoints properly enforce access control
-- Landing page enhanced with stats, demo credentials, "Powered by Claude" badge (commit pending)
-- Login page enhanced with quick demo login buttons for all 5 roles (commit pending)
+- Landing page enhanced with stats, demo credentials, "Powered by Claude" badge
+- Login page enhanced with quick demo login buttons for all 5 roles
 - AI generation verified end-to-end: rubric generation works (6 criteria), tutor streaming works (Socratic)
-- Lesson plan generation works but takes >90s for Opus (expected for complex tool_use)
+- Quiz generator: AI service existed, added API routes + UI pages + nav entry
+- Exit ticket generator: new AI service + API route + UI page (formative assessment tool)
+- Early warning dashboard: AI-powered at-risk student detection with intervention recommendations
+- Batch report card generation: API endpoint + "Generate All" UI button
 
-## All 9 Creative Opus Usages
-1. tool_use for structured output — Rubrics, lesson plans, assignments, quizzes
-2. Multi-step generation — Assignment + rubric + criteria + 3 differentiated versions
-3. Streaming — Real-time Socratic tutor responses
-4. Prompt caching — Rubric context cached across batch grading
-5. Batch grading — Grade entire class with AI
-6. IEP individualization — Similarity detection flags cookie-cutter IEPs
-7. Multilingual translation — Native LLM translation for parent communication
-8. District AI analyst — Opus synthesizes aggregate data into narrative insights
-9. Adaptive thinking — District insights use extended thinking to reason through complex multi-metric data before producing structured output
+## All 12 Creative Opus Usages
+1. tool_use for structured output — Rubrics, lesson plans, assignments, quizzes (forced tool_choice)
+2. Multi-step generation — Assignment + rubric + criteria + 3 differentiated versions in one call
+3. Streaming — Real-time Socratic tutor responses (Phase 6)
+4. Prompt caching — Rubrics reused across student grading (Phase 3)
+5. Batch grading — Grade entire class at once with AI (Phase 3)
+6. IEP individualization — Similarity detection flags cookie-cutter IEPs (Phase 4)
+7. Multilingual translation — Native LLM translation for parent communication (Phase 5)
+8. District AI analyst — Opus synthesizes aggregate data into narrative insights (Phase 7)
+9. Adaptive thinking — District insights use extended thinking to reason through complex multi-metric data
+10. Exit ticket generation — Formative assessment tool generates targeted quick-checks with tool_use
+11. Early warning interventions — AI generates per-student intervention recommendations for at-risk students
+12. Batch report card narratives — AI generates individualized narratives for entire classes
 
 ## Verified Endpoints (all working)
 - /api/health — 200
@@ -142,14 +151,17 @@ Commits: f216d3d (API), ea2ac10 (UI)
 - /api/assignments (GET/POST) — CRUD
 - /api/rubrics (GET/POST) — CRUD
 - /api/lesson-plans (GET/POST) — CRUD
+- /api/quizzes (GET), /api/quizzes/generate (POST) — quiz generation
+- /api/exit-tickets/generate (POST) — formative assessment
 - /api/grading (GET/POST), /api/grading/[id] (GET/PUT), /api/grading/batch, /api/grading/analytics
 - /api/mastery (GET), /api/mastery/[studentId], /api/mastery/gaps
+- /api/early-warning (GET) — at-risk student detection with AI interventions
 - /api/iep (GET/POST), /api/iep/[id] (GET/PUT/DELETE), goals, progress, compliance
 - /api/parent/dashboard, /api/parent/children/[childId]
 - /api/messages (GET/POST)
 - /api/tutor (POST streaming), /api/tutor/sessions
 - /api/admin/overview, analytics, schools, teachers, students, insights
-- /api/report-cards (GET/POST)
+- /api/report-cards (GET/POST), /api/report-cards/batch (POST)
 
 ## Seed Users (password: password123)
 - rivera@school.edu (teacher, 8th ELA)
