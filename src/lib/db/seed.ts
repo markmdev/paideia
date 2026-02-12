@@ -227,18 +227,15 @@ async function seed() {
   classMembersToInsert.push({ classId: classIds.riveraPeriod1, userId: userIds.deshawn, role: 'student' })
   classMembersToInsert.push({ classId: classIds.rodriguezResource, userId: userIds.deshawn, role: 'student' })
 
-  // Distribute 20 additional students across Rivera's classes (Period 1 already has 2 named students)
+  // Distribute additional students across Rivera's classes (Period 1 already has 2 named students)
   // Period 1: students 0-4 (5 more -> total 7 with Aisha+DeShawn)
   // Period 2: students 5-9 (5 students)
-  // Period 3: students 10-14 (5 students)
-  // Period 4: students 15-17 (3 students)
-  // Period 5: students 18-19 (2 students)
+  // Period 3: students 10-13 (4 students)
+  // Periods 4-5: no additional students (Chen's students are exclusive to 3rd grade)
   const periodStudentAssignment: Record<string, number[]> = {
     [classIds.riveraPeriod1]: [0, 1, 2, 3, 4],
     [classIds.riveraPeriod2]: [5, 6, 7, 8, 9],
-    [classIds.riveraPeriod3]: [10, 11, 12, 13, 14],
-    [classIds.riveraPeriod4]: [15, 16, 17],
-    [classIds.riveraPeriod5]: [18, 19],
+    [classIds.riveraPeriod3]: [10, 11, 12, 13],
   }
 
   for (const [cId, studentIndices] of Object.entries(periodStudentAssignment)) {
