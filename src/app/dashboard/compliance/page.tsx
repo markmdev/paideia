@@ -21,12 +21,12 @@ export default async function ComplianceDashboardPage() {
     redirect('/login')
   }
 
-  // Get all IEPs authored by this teacher to find their student IDs
-  const teacherIeps = await db
-    .select({ studentId: ieps.studentId })
-    .from(ieps)
-    .where(eq(ieps.authorId, session.user.id))
+  // Get student IDs from IEPs: admins see all, SPED teachers see their own caseload
+  const iepQuery = session.user.role === 'admin'
+    ? db.select({ studentId: ieps.studentId }).from(ieps)
+    : db.select({ studentId: ieps.studentId }).from(ieps).where(eq(ieps.authorId, session.user.id))
 
+  const teacherIeps = await iepQuery
   const studentIds = [...new Set(teacherIeps.map((i) => i.studentId))]
 
   if (studentIds.length === 0) {
