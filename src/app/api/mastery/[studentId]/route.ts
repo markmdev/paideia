@@ -1,6 +1,6 @@
 import { auth } from '@/lib/auth'
 import { db } from '@/lib/db'
-import { masteryRecords, standards, classMembers, users, assignments } from '@/lib/db/schema'
+import { masteryRecords, standards, classMembers, users, assignments, parentChildren } from '@/lib/db/schema'
 import { eq, and, inArray, desc } from 'drizzle-orm'
 import { NextRequest, NextResponse } from 'next/server'
 
@@ -48,6 +48,64 @@ export async function GET(
     if (membership.length === 0) {
       return NextResponse.json({ error: 'Not a teacher of this class' }, { status: 403 })
     }
+  } else {
+    // No classId provided — verify the user is authorized to view this student's data
+    const userRole = session.user.role
+
+    if (userRole === 'student') {
+      // Students can only view their own mastery data
+      if (studentId !== session.user.id) {
+        return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+      }
+    } else if (userRole === 'parent') {
+      // Parents can only view mastery data for their own children
+      const parentChild = await db
+        .select({ childId: parentChildren.childId })
+        .from(parentChildren)
+        .where(
+          and(
+            eq(parentChildren.parentId, session.user.id),
+            eq(parentChildren.childId, studentId)
+          )
+        )
+
+      if (parentChild.length === 0) {
+        return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+      }
+    } else if (userRole === 'teacher' || userRole === 'sped_teacher') {
+      // Teachers can only view mastery data for students in their classes
+      const sharedClass = await db
+        .select({ classId: classMembers.classId })
+        .from(classMembers)
+        .where(
+          and(
+            eq(classMembers.userId, session.user.id),
+            eq(classMembers.role, 'teacher')
+          )
+        )
+
+      const teacherClassIds = sharedClass.map((c) => c.classId)
+
+      if (teacherClassIds.length === 0) {
+        return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+      }
+
+      const studentInClass = await db
+        .select({ classId: classMembers.classId })
+        .from(classMembers)
+        .where(
+          and(
+            inArray(classMembers.classId, teacherClassIds),
+            eq(classMembers.userId, studentId),
+            eq(classMembers.role, 'student')
+          )
+        )
+
+      if (studentInClass.length === 0) {
+        return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+      }
+    }
+    // admin and district_admin roles are allowed without restriction
   }
 
   // Fetch the student's info
