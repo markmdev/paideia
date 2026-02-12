@@ -232,35 +232,51 @@ Frontend-design skill installed at .claude/skills/frontend-design/SKILL.md.
 17. ✅ Assignment detail tabs not clickable — added activationMode="automatic" to Tabs (commit a664134)
 18. ✅ Assignment detail "Grade 8" → "8th Grade" — added formatGradeLevel helper (commit a664134)
 19. ✅ Admin compliance page empty for admin — admin now sees all IEPs district-wide (commit b992ba7)
-20. 🔄 "Grade X" → "Xth Grade" in 10+ remaining files — agent a8a33c0 running, extracting shared formatGradeLevel to src/lib/format.ts
+20. ✅ "Grade X" → "Xth Grade" in 12 files — shared formatGradeLevel in src/lib/format.ts (commit 268e36c)
 
-### Pages Tested (Iteration 2 — completed)
-- ✅ Landing page: full scroll — hero, stats, modules, How It Works, CTA, demo credentials, footer
-- ✅ Teacher: Assignments list, Assignment detail (tabs + rubric), Create Assignment wizard
-- ✅ Teacher: Grading page — "The American Dream Essay", 7 to grade, 0% progress
-- ✅ Teacher: Report Cards — 5 class cards with Generate All buttons
-- ✅ Teacher: Quizzes — clean empty state with CTA
-- ✅ Teacher: Exit Tickets — generator form (Topic, Grade, Subject, Questions)
-- ✅ Admin: Dashboard — Welcome Dr. Williams, 4 stat cards, Quick Actions
-- ✅ Admin: Students — 22 students with real diverse names (re-seeded), search works
-- ✅ Admin: Analytics — stat cards (2/4/22/10/3/7), mastery distribution, teacher engagement
-- ✅ Admin: Early Warning — 22 monitored, 0 high risk, 1 moderate, 21 on track, all names real
-- ✅ Admin: Compliance — was empty for admin (BUG #19, fixed), should now show DeShawn deadlines
-- ✅ Admin: Schools, Teachers (4 teachers incl SPED badge)
-- ✅ SPED: IEP Management, IEP Detail, Compliance Dashboard
-- ✅ Parent: My Children, Child Detail
-- ✅ Mobile (390x844): dashboard, assignments, early warning, grading, tutor hub
-- ✅ All previous iteration 1 pages still verified
+### Pages Tested (Iteration 3 — in progress)
+- ✅ Teacher: Report Cards — "ELA | 8th Grade | 7 students" (grade format fix confirmed)
+- ✅ Teacher: Reports & Analytics — "8th Grade" on all 5 class cards (format fix confirmed)
+- ✅ Teacher: Rubrics — 1 template (Essay Writing Rubric), 4 criteria, 4 levels
+- ✅ Teacher: Rubric detail — full 4x4 grid (Thesis, Evidence Use, Organization, Language), 25% weights
+- ✅ Teacher: Assignments list — "8th Grade" badge confirmed
+- ✅ Teacher: Assignment detail — tabs (Assignment, Rubric, Success Criteria), description + instructions
+- ✅ Teacher: Grading detail — 7 submissions with all real student names, "Grade All" button
+- ✅ Teacher: My Classes — 5 periods with correct student counts
+- ✅ Teacher: Create Assignment wizard — 3-step form, all fields
+- ✅ Teacher: Create Lesson Plan — clean form with Subject, Grade, Topic, Duration, Model
+- ✅ SPED: IEP Management — 1 student caseload, stat cards, DeShawn Williams with SLD
+- ✅ SPED: IEP Detail — Present Levels, 2 Goals (Reading Fluency 12pts, Written Expression 6pts), 9 Accommodations, Related Services, Compliance Deadlines
+- ✅ SPED: Progress Monitoring — Quick Data Entry form, charts with baseline/goal lines, "On Track" + "Flat" trends
+- ✅ SPED: Create IEP — 5-step wizard (Student Info, Present Levels, Goals, Accommodations, Review)
+- ✅ Student: Dashboard — "Welcome back, Aisha", stat cards (1 class, 0 assignments, N/A avg, 0 tutor)
+- ✅ Student: Progress — 85% ELA mastery, 4 skills (3 proficient, 1 advanced)
+- ✅ Parent (Sarah Chen): Dashboard — "Welcome back, Sarah", Children card, Quick Actions
+- ✅ Parent: My Children — Aisha Torres, "8th Grade", On Track, ELA
+- ✅ Parent: Child detail — Stats, Skills Snapshot (4 ELA skills), "No progress summaries yet" empty state
+- ✅ Landing page — all sections verified (hero, stats, 6 modules, How It Works, CTA, demo creds, footer)
+- ✅ SPED: Mobile (390x844) — IEP Management page responsive
 
-### Database Re-seeded
-Student 6-20 generic names replaced with diverse realistic names. All 22 students verified in browser.
+### Bugs Found (Iteration 3)
+- Marcus Williams (parent) login fails — likely due to seed agent clearing DB mid-operation. Will re-test after seed completes.
+
+### Rich Seed Data — COMPLETE (commits c6b68a8, cb107c1, 72ea25a)
+Database re-seeded with `npm run db:seed` — ALL data verified inserted:
+- 9 assignments across 3 teachers (Rivera ELA, Okafor Bio, Chen 3rd grade)
+- 34 submissions with 19 feedback drafts and 20 criterion scores
+- 6 lesson plans (2 per teacher)
+- 170 mastery records across all 22 students (multiple standards each)
+- 5 tutor sessions (3 Aisha math/ELA, 2 DeShawn reading)
+- 10 parent-teacher messages (mix of AI-generated and manual)
+- 5 report cards with narratives
+- 2 quizzes with 18 questions
+- 2 IEPs (DeShawn SLD + Ethan Nakamura ADHD) with 3 goals, 26 data points, 3 deadlines
 
 ### Remaining Work (Priority Order)
-1. **MAJOR: Rich seed data** — User requested making the platform look like a fully-integrated school with lots of realistic data (many assignments, graded submissions, lesson plans, tutor sessions, messages, report cards, mastery data across all students/teachers)
-2. **MAJOR: AI LLM testing** — User wants thorough testing of all AI features to ensure great results
+1. **IN PROGRESS: Verify rich data in browser** — Need to check all pages with new data (assignments, grading, reports, lesson plans, tutor, messages, report cards, mastery, admin dashboards)
+2. **MAJOR: AI LLM testing** — Thorough testing of all AI features (quiz gen, exit tickets, assignment gen, lesson plan gen, grading, IEP generation, tutor streaming, district insights, report cards, differentiation)
 3. **Minor: Form validation UX** — quiz form doesn't show visible errors on empty submit
-4. **Minor: Loading skeleton verification** — skeletons exist but not visually tested
-5. **Browser automation note** — Radix UI components don't respond to Chrome extension clicks (missing pointerdown events). NOT a real user bug.
+4. **Browser automation note** — Radix UI components don't respond to Chrome extension clicks (missing pointerdown events). NOT a real user bug.
 
 ## Verified Endpoints (all working)
 - /api/health — 200
