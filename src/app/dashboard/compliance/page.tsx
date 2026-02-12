@@ -21,8 +21,13 @@ export default async function ComplianceDashboardPage() {
     redirect('/login')
   }
 
+  const isAdmin = session.user.role === 'admin'
+  const subtitle = isAdmin
+    ? 'Track IEP compliance deadlines across your district.'
+    : 'Track IEP compliance deadlines across your caseload.'
+
   // Get student IDs from IEPs: admins see all, SPED teachers see their own caseload
-  const iepQuery = session.user.role === 'admin'
+  const iepQuery = isAdmin
     ? db.select({ studentId: ieps.studentId }).from(ieps)
     : db.select({ studentId: ieps.studentId }).from(ieps).where(eq(ieps.authorId, session.user.id))
 
@@ -37,7 +42,7 @@ export default async function ComplianceDashboardPage() {
             Compliance Dashboard
           </h1>
           <p className="text-stone-500 text-sm mt-1">
-            Track IEP compliance deadlines across your caseload.
+            {subtitle}
           </p>
         </div>
         <div className="flex flex-col items-center justify-center py-16 text-center">
@@ -111,7 +116,7 @@ export default async function ComplianceDashboardPage() {
           Compliance Dashboard
         </h1>
         <p className="text-stone-500 text-sm mt-1">
-          Track IEP compliance deadlines across your caseload.
+          {subtitle}
         </p>
       </div>
 
