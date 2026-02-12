@@ -3,6 +3,7 @@
 import { format } from 'date-fns'
 import ReactMarkdown from 'react-markdown'
 import { Bot, User } from 'lucide-react'
+import { ClaudeBadge } from '@/components/ui/claude-badge'
 
 interface ChatMessageProps {
   role: 'user' | 'assistant'
@@ -57,6 +58,9 @@ export function ChatMessage({ role, content, timestamp, isStreaming }: ChatMessa
           >
             {format(new Date(timestamp), 'h:mm a')}
           </p>
+        )}
+        {!isUser && !isStreaming && (
+          <ClaudeBadge className="mt-1.5" />
         )}
       </div>
     </div>

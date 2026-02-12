@@ -7,6 +7,7 @@ import { FileText } from 'lucide-react'
 import { formatGradeLevel } from '@/lib/format'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
+import { ClaudeBadge } from '@/components/ui/claude-badge'
 import { ReportCardActions } from './report-card-actions'
 
 export default async function ReportCardDetailPage({
@@ -148,6 +149,7 @@ export default async function ReportCardDetailPage({
               <p key={i}>{paragraph}</p>
             ))}
           </div>
+          <ClaudeBadge className="mt-2" />
         </CardContent>
       </Card>
 

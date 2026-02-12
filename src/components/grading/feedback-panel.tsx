@@ -25,6 +25,7 @@ import {
 } from '@/components/ui/select'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Separator } from '@/components/ui/separator'
+import { ClaudeBadge } from '@/components/ui/claude-badge'
 import { toast } from 'sonner'
 
 interface CriterionScore {
@@ -375,6 +376,7 @@ export function FeedbackPanel({
           </Button>
         </div>
       </div>
+      <ClaudeBadge className="mt-3 justify-end" />
     </div>
   )
 }

@@ -31,6 +31,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { ProgressNarrative } from '@/components/parent/progress-narrative'
+import { ClaudeBadge } from '@/components/ui/claude-badge'
 import { formatGradeLevel } from '@/lib/utils'
 
 export default async function ChildDetailPage({
@@ -510,6 +511,7 @@ export default async function ChildDetailPage({
               </div>
             </div>
           </div>
+          <ClaudeBadge className="justify-center" />
           <p className="text-[10px] text-sky-700/70 text-center">
             AI assists, humans decide. Every AI-generated output is reviewed by a teacher before reaching students or parents.
           </p>
