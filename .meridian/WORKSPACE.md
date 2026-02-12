@@ -395,32 +395,24 @@ User directive: Think as head of product. What's missing? What features would wi
 ### Dev Server
 Background task b7d8737 running `npm run dev` on localhost:3000.
 Chrome tab ID: 1135439413.
-Currently logged in as: Rodriguez (sped_teacher).
-Two subagents running: a0368c9 (class detail page), a3a9dc2 (school detail page).
 
-### High-Impact Focus (User Directive)
-User feedback: "Focus on high-impact things for the hackathon demo, not just polish."
+### Class Detail Page — IN PROGRESS
+Building `/dashboard/classes/[classId]/page.tsx` — teacher class detail with:
+- Header (class name, subject/grade badges, back link)
+- 4 stat cards (students, assignments, avg score, mastery rate)
+- Student roster with avatar initials, avg score, mastery badge, submission count, links to mastery
+- Recent assignments (top 5) with status badge, due date, submission count, avg score, links to grading
+- Class performance summary (top 3 struggling standards, top 3 excelling standards)
 
-Key insight: Hackathon judges care about:
-1. **End-to-end demo flow** — Teacher→Grade→Student sees feedback→Parent sees insight (one smooth flow)
-2. **Live AI "wow" moments** — See Claude grading essays, generating IEPs, tutoring in real-time
-3. **No dead ends** — Every navigation click should lead somewhere useful
-
-### Dead Ends Identified & Being Fixed
-- **Teacher: My Classes → click a class** — NO class detail page existed. BUILDING NOW (subagent a0368c9)
-  - Will show: student roster, assignment list, class avg score, mastery rate, struggling standards
-  - Path: `/dashboard/classes/[classId]/page.tsx`
-- **Admin: Schools → click a school** — NO school detail page existed. BUILDING NOW (subagent a3a9dc2)
-  - Will show: teachers, classes, student count, average scores
-  - Path: `/dashboard/schools/[schoolId]/page.tsx`
-- ClaudeBadge unused import cleanup: DONE (commit 00dcd53)
+**Status**: Page file created at `src/app/dashboard/classes/[classId]/page.tsx`. Still need to:
+1. Update classes listing page to add Link imports and make cards clickable for teachers
+2. Run `npx tsc --noEmit` to verify
+3. Commit
 
 ### Still Needed (Priority Order)
-1. **Verify class detail + school detail pages work** (after subagents finish)
-2. **Test the AI generation demo flow**: Grade All → see results → approve → student sees feedback
-3. **Ensure "Generate" buttons work end-to-end** (IEP, report cards, quiz, lesson plans)
-4. **Admin student detail page** — clicking a student from admin Students table
-5. **Mobile testing** of new pages
+1. **Make class cards clickable** on My Classes page (Link to /dashboard/classes/[classId])
+2. **TypeScript verification** of new class detail page
+3. **Commit** class detail page changes
 
 ### Commits This Session (Iteration 9)
 ```
