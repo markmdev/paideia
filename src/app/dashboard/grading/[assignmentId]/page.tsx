@@ -16,6 +16,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { SubmissionCard } from '@/components/grading/submission-card'
 import { BatchGradeButton } from '@/components/grading/batch-grade-button'
+import { DifferentiationPanel } from '@/components/grading/differentiation-panel'
 
 export default async function AssignmentGradingPage({
   params,
@@ -241,6 +242,11 @@ export default async function AssignmentGradingPage({
             ))}
           </div>
         </div>
+      )}
+
+      {/* Differentiation panel - available when graded submissions exist */}
+      {gradedCount > 0 && (
+        <DifferentiationPanel assignmentId={assignmentId} />
       )}
     </div>
   )

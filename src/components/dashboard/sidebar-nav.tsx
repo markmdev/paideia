@@ -115,7 +115,7 @@ function getNavGroups(role: string): NavGroup[] {
       items: [
         { title: 'Assignments', href: '/dashboard/assignments', icon: FileText },
         { title: 'AI Tutor', href: '/dashboard/tutor', icon: Bot },
-        { title: 'Progress', href: '/dashboard/progress', icon: TrendingUp },
+        { title: 'Progress', href: '/dashboard/student-progress', icon: TrendingUp },
       ],
     },
   ]
