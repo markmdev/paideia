@@ -13,7 +13,6 @@ import {
   Bot,
   Clock,
   CheckCircle2,
-  AlertCircle,
 } from 'lucide-react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -22,12 +21,20 @@ import { Button } from '@/components/ui/button'
 // Teacher Dashboard
 // ---------------------------------------------------------------------------
 
+export interface TeacherStats {
+  classes: number
+  pendingGrading: number
+  assignments: number
+  students: number
+}
+
 interface TeacherDashboardProps {
   firstName: string
   role: string
+  stats: TeacherStats
 }
 
-export function TeacherDashboard({ firstName, role }: TeacherDashboardProps) {
+export function TeacherDashboard({ firstName, role, stats }: TeacherDashboardProps) {
   return (
     <div className="space-y-6">
       <div>
@@ -43,25 +50,25 @@ export function TeacherDashboard({ firstName, role }: TeacherDashboardProps) {
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard
           title="My Classes"
-          value="5"
+          value={String(stats.classes)}
           description="Active this semester"
           icon={GraduationCap}
         />
         <StatCard
           title="Pending Grading"
-          value="23"
+          value={String(stats.pendingGrading)}
           description="Submissions awaiting review"
           icon={ClipboardList}
         />
         <StatCard
-          title="Upcoming Assignments"
-          value="8"
-          description="Due this week"
+          title="Assignments"
+          value={String(stats.assignments)}
+          description="Created by you"
           icon={Clock}
         />
         <StatCard
           title="Students"
-          value="142"
+          value={String(stats.students)}
           description="Across all classes"
           icon={Users}
         />
@@ -126,11 +133,21 @@ export function TeacherDashboard({ firstName, role }: TeacherDashboardProps) {
 // Student Dashboard
 // ---------------------------------------------------------------------------
 
-interface StudentDashboardProps {
-  firstName: string
+export interface StudentStats {
+  classes: number
+  completedAssignments: number
+  averageScore: number | null
+  tutorSessions: number
 }
 
-export function StudentDashboard({ firstName }: StudentDashboardProps) {
+interface StudentDashboardProps {
+  firstName: string
+  stats: StudentStats
+}
+
+export function StudentDashboard({ firstName, stats }: StudentDashboardProps) {
+  const averageDisplay = stats.averageScore !== null ? `${stats.averageScore}%` : '--'
+
   return (
     <div className="space-y-6">
       <div>
@@ -142,24 +159,30 @@ export function StudentDashboard({ firstName }: StudentDashboardProps) {
         </p>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard
           title="My Classes"
-          value="6"
+          value={String(stats.classes)}
           description="Enrolled this semester"
           icon={GraduationCap}
         />
         <StatCard
-          title="Upcoming Assignments"
-          value="4"
-          description="Due this week"
-          icon={Clock}
+          title="Completed Assignments"
+          value={String(stats.completedAssignments)}
+          description="Graded submissions"
+          icon={CheckCircle2}
         />
         <StatCard
-          title="Recent Grades"
-          value="B+"
-          description="Average across classes"
+          title="Average Score"
+          value={averageDisplay}
+          description="Across graded work"
           icon={BarChart3}
+        />
+        <StatCard
+          title="Tutor Sessions"
+          value={String(stats.tutorSessions)}
+          description="AI tutoring conversations"
+          icon={Bot}
         />
       </div>
 
@@ -194,11 +217,23 @@ export function StudentDashboard({ firstName }: StudentDashboardProps) {
 // Parent Dashboard
 // ---------------------------------------------------------------------------
 
-interface ParentDashboardProps {
-  firstName: string
+export interface ParentStats {
+  children: number
+  childrenNames: string[]
+  unreadMessages: number
 }
 
-export function ParentDashboard({ firstName }: ParentDashboardProps) {
+interface ParentDashboardProps {
+  firstName: string
+  stats: ParentStats
+}
+
+export function ParentDashboard({ firstName, stats }: ParentDashboardProps) {
+  const childrenDescription =
+    stats.childrenNames.length > 0
+      ? stats.childrenNames.join(', ')
+      : 'Enrolled students'
+
   return (
     <div className="space-y-6">
       <div>
@@ -213,20 +248,14 @@ export function ParentDashboard({ firstName }: ParentDashboardProps) {
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <StatCard
           title="Children"
-          value="2"
-          description="Enrolled students"
+          value={String(stats.children)}
+          description={childrenDescription}
           icon={Users}
         />
         <StatCard
-          title="Recent Updates"
-          value="5"
-          description="New this week"
-          icon={AlertCircle}
-        />
-        <StatCard
-          title="Messages"
-          value="2"
-          description="Unread from teachers"
+          title="Unread Messages"
+          value={String(stats.unreadMessages)}
+          description="From teachers"
           icon={BookOpen}
         />
       </div>
@@ -262,11 +291,20 @@ export function ParentDashboard({ firstName }: ParentDashboardProps) {
 // Admin Dashboard
 // ---------------------------------------------------------------------------
 
-interface AdminDashboardProps {
-  firstName: string
+export interface AdminStats {
+  schools: number
+  teachers: number
+  students: number
+  classes: number
+  ungradedSubmissions: number
 }
 
-export function AdminDashboard({ firstName }: AdminDashboardProps) {
+interface AdminDashboardProps {
+  firstName: string
+  stats: AdminStats
+}
+
+export function AdminDashboard({ firstName, stats }: AdminDashboardProps) {
   return (
     <div className="space-y-6">
       <div>
@@ -281,27 +319,27 @@ export function AdminDashboard({ firstName }: AdminDashboardProps) {
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard
           title="Schools"
-          value="12"
+          value={String(stats.schools)}
           description="Active in district"
           icon={GraduationCap}
         />
         <StatCard
           title="Teachers"
-          value="384"
+          value={String(stats.teachers)}
           description="On the platform"
           icon={Users}
         />
         <StatCard
           title="Students"
-          value="8,240"
+          value={String(stats.students)}
           description="Total enrolled"
           icon={Users}
         />
         <StatCard
-          title="SPED Compliance"
-          value="94%"
-          description="IEPs current"
-          icon={ShieldCheck}
+          title="Ungraded Submissions"
+          value={String(stats.ungradedSubmissions)}
+          description="Across all classes"
+          icon={ClipboardList}
         />
       </div>
 
