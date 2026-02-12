@@ -32,7 +32,7 @@ export default async function NewAssignmentPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight">
+        <h1 className="text-2xl font-serif font-bold tracking-tight">
           Create Assignment
         </h1>
         <p className="text-muted-foreground text-sm">

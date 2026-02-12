@@ -215,7 +215,7 @@ export default function NewLessonPlanPage() {
       </div>
 
       <div>
-        <h1 className="text-2xl font-bold tracking-tight">
+        <h1 className="text-2xl font-serif font-bold tracking-tight">
           Create Lesson Plan
         </h1>
         <p className="text-muted-foreground">

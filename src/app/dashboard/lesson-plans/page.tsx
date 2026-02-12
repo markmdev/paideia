@@ -47,7 +47,7 @@ export default async function LessonPlansPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">Lesson Plans</h1>
+          <h1 className="text-2xl font-serif font-bold tracking-tight">Lesson Plans</h1>
           <p className="text-muted-foreground">
             Create, manage, and organize your lesson plans.
           </p>

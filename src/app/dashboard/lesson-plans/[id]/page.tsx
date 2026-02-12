@@ -82,7 +82,7 @@ export default async function LessonPlanDetailPage({
       {/* Title & Meta */}
       <div className="space-y-4">
         <div className="flex items-start justify-between gap-3">
-          <h1 className="text-2xl font-bold tracking-tight">{plan.title}</h1>
+          <h1 className="text-2xl font-serif font-bold tracking-tight">{plan.title}</h1>
           {aiMetadata && (
             <Badge className="bg-amber-100 text-amber-700 border-amber-200 shrink-0">
               <Sparkles className="size-3 mr-1" />

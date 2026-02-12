@@ -33,7 +33,7 @@ export default async function QuizzesPage() {
     <div className="space-y-8">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">Quizzes</h1>
+          <h1 className="text-2xl font-serif font-bold tracking-tight">Quizzes</h1>
           <p className="text-muted-foreground">
             Generate AI-powered quizzes aligned to standards and tagged by Bloom&apos;s taxonomy.
           </p>

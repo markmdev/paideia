@@ -69,7 +69,7 @@ export default async function AssignmentsPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">Assignments</h1>
+          <h1 className="text-2xl font-serif font-bold tracking-tight">Assignments</h1>
           <p className="text-muted-foreground text-sm">
             {isStudent
               ? 'View assignments from your classes.'

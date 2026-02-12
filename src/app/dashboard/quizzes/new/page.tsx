@@ -186,7 +186,7 @@ export default function NewQuizPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight">Generate Quiz</h1>
+        <h1 className="text-2xl font-serif font-bold tracking-tight">Generate Quiz</h1>
         <p className="text-muted-foreground text-sm">
           Use AI to create a standards-aligned quiz with answer keys, explanations, and Bloom&apos;s taxonomy tags.
         </p>

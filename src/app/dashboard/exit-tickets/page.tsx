@@ -179,7 +179,7 @@ export default function ExitTicketsPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight flex items-center gap-2">
+        <h1 className="text-2xl font-serif font-bold tracking-tight flex items-center gap-2">
           <ClipboardCheck className="size-6 text-amber-600" />
           Exit Ticket Generator
         </h1>

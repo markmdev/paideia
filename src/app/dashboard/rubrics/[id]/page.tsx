@@ -64,7 +64,7 @@ export default async function RubricDetailPage({
           </Button>
           <div>
             <div className="flex items-center gap-3 mb-1">
-              <h1 className="text-2xl font-bold tracking-tight">
+              <h1 className="text-2xl font-serif font-bold tracking-tight">
                 {rubric.title}
               </h1>
               <Badge variant="secondary" className="capitalize">

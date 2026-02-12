@@ -38,7 +38,7 @@ export default async function RubricsPage() {
       {/* Page header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">Rubrics</h1>
+          <h1 className="text-2xl font-serif font-bold tracking-tight">Rubrics</h1>
           <p className="text-muted-foreground">
             Create, manage, and reuse assessment rubrics across your assignments.
           </p>

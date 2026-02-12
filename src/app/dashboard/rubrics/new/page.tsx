@@ -189,7 +189,7 @@ export default function NewRubricPage() {
           </Link>
         </Button>
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">Create Rubric</h1>
+          <h1 className="text-2xl font-serif font-bold tracking-tight">Create Rubric</h1>
           <p className="text-muted-foreground">
             Describe your assignment and let AI generate a standards-aligned rubric.
           </p>

@@ -146,7 +146,7 @@ export default async function AssignmentDetailPage({
               </Link>
             </Button>
           </div>
-          <h1 className="text-2xl font-bold tracking-tight">
+          <h1 className="text-2xl font-serif font-bold tracking-tight">
             {assignment.title}
           </h1>
           <div className="flex flex-wrap items-center gap-2 mt-2">

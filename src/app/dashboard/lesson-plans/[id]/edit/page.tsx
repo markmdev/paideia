@@ -145,7 +145,7 @@ export default function EditLessonPlanPage() {
       </div>
 
       <div>
-        <h1 className="text-2xl font-bold tracking-tight">Edit Lesson Plan</h1>
+        <h1 className="text-2xl font-serif font-bold tracking-tight">Edit Lesson Plan</h1>
         <p className="text-muted-foreground">
           Make changes to your lesson plan below.
         </p>

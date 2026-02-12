@@ -38,7 +38,7 @@ export function TeacherDashboard({ firstName, role, stats }: TeacherDashboardPro
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight">
+        <h1 className="text-2xl font-serif font-bold tracking-tight">
           Welcome back, {firstName}
         </h1>
         <p className="text-muted-foreground">
@@ -151,7 +151,7 @@ export function StudentDashboard({ firstName, stats }: StudentDashboardProps) {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight">
+        <h1 className="text-2xl font-serif font-bold tracking-tight">
           Welcome back, {firstName}
         </h1>
         <p className="text-muted-foreground">
@@ -237,7 +237,7 @@ export function ParentDashboard({ firstName, stats }: ParentDashboardProps) {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight">
+        <h1 className="text-2xl font-serif font-bold tracking-tight">
           Welcome back, {firstName}
         </h1>
         <p className="text-muted-foreground">
@@ -308,7 +308,7 @@ export function AdminDashboard({ firstName, stats }: AdminDashboardProps) {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight">
+        <h1 className="text-2xl font-serif font-bold tracking-tight">
           Welcome back, {firstName}
         </h1>
         <p className="text-muted-foreground">
