@@ -201,7 +201,11 @@ export default async function DashboardPage() {
   }
 
   const { role, name, id: userId } = session.user
-  const firstName = name?.split(' ')[0] ?? 'there'
+  const TITLES = ['Ms.', 'Mr.', 'Mrs.', 'Dr.', 'Prof.']
+  const nameParts = name?.split(' ') ?? []
+  const firstName = nameParts.length > 1 && TITLES.includes(nameParts[0])
+    ? nameParts[1]
+    : nameParts[0] ?? 'there'
 
   switch (role) {
     case 'student': {
