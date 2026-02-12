@@ -148,8 +148,8 @@ export default async function IepCaseloadPage() {
                   key={iep.id}
                   iep={iep}
                   student={{ name: student?.name ?? null }}
-                  goalCount={stats?.totalGoals ?? 0}
-                  goalsMetCount={stats?.metGoals ?? 0}
+                  goalCount={Number(stats?.totalGoals ?? 0)}
+                  goalsMetCount={Number(stats?.metGoals ?? 0)}
                 />
               )
             })}
@@ -170,8 +170,8 @@ export default async function IepCaseloadPage() {
                   key={iep.id}
                   iep={iep}
                   student={{ name: student?.name ?? null }}
-                  goalCount={stats?.totalGoals ?? 0}
-                  goalsMetCount={stats?.metGoals ?? 0}
+                  goalCount={Number(stats?.totalGoals ?? 0)}
+                  goalsMetCount={Number(stats?.metGoals ?? 0)}
                 />
               )
             })}
