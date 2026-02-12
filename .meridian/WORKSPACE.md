@@ -257,8 +257,23 @@ Frontend-design skill installed at .claude/skills/frontend-design/SKILL.md.
 - ✅ Landing page — all sections verified (hero, stats, 6 modules, How It Works, CTA, demo creds, footer)
 - ✅ SPED: Mobile (390x844) — IEP Management page responsive
 
-### Bugs Found (Iteration 3)
-- Marcus Williams (parent) login fails — likely due to seed agent clearing DB mid-operation. Will re-test after seed completes.
+### Bugs Found & Fixed (Iteration 3-4)
+21. ✅ Marcus Williams (parent) login fails — seed had `marcus.w@email.com`, CLAUDE.md says `marcus.williams@email.com`. Fixed in seed, re-seeded. (commit da5f928)
+22. ✅ Lesson plan generation: `standards.join is not a function` — standards passed as string, AI service expects array. Added normalization. (commit 8b21976)
+23. ✅ Assignment generation: `differentiatedVersions.belowGrade` undefined — max_tokens too low (4096→8192), added null safety. (commit 6fe0511)
+24. ✅ Re-grading fails with duplicate key constraint — existing feedback_draft not deleted before insert. Added delete-before-insert. (commit by subagent)
+
+### Pages Tested (Iteration 4 — rich data verification)
+- ✅ Admin: Dashboard — 2 schools, 4 teachers, 22 students, 18 ungraded
+- ✅ Admin: Analytics — mastery distribution (37 Adv, 60 Pro, 45 Dev, 28 Beg), avg scores by subject (Math 83%, Science 84%, ELA 72%)
+- ✅ Admin: Teacher Engagement — Okafor (3 assign, 6 sub, 6 graded), Rivera (3/18/5), Chen (3/10/5)
+- ✅ Admin: Schools — Washington MS (78% avg, 3 teachers, 22 students), Jefferson ES (83% avg, 1 teacher, 6 students)
+- ✅ Admin: Students — 22 students with varied avg scores (48%-95%), diverse mastery distributions
+- ✅ Admin: Early Warning — 4 High Risk, 7 Moderate, 11 On Track with specific indicators
+- ✅ Admin: SPED Compliance — 3 deadlines (Ethan 90d, DeShawn 185d/550d), all on track
+- ✅ Marcus Williams (parent): Dashboard — "Welcome back, Marcus", 1 child (DeShawn), 2 unread messages
+- ✅ Marcus: My Children — DeShawn Williams, 8th Grade, On Track, ELA + SPED
+- ✅ Marcus: Messages — 5 messages with varied types (alert, progress, weekly digest, replies)
 
 ### Rich Seed Data — COMPLETE (commits c6b68a8, cb107c1, 72ea25a)
 Database re-seeded with `npm run db:seed` — ALL data verified inserted:
@@ -272,11 +287,25 @@ Database re-seeded with `npm run db:seed` — ALL data verified inserted:
 - 2 quizzes with 18 questions
 - 2 IEPs (DeShawn SLD + Ethan Nakamura ADHD) with 3 goals, 26 data points, 3 deadlines
 
+### AI LLM Testing — IN PROGRESS
+| Feature | Status | Quality | Notes |
+|---------|--------|---------|-------|
+| Quiz Generation | ✅ PASS | Excellent | 10 questions, Bloom's levels, MLK speech example, great distractors |
+| Exit Ticket Generation | ✅ PASS | Excellent | 3 varied question types, original poetry, target skills |
+| Lesson Plan Generation | ✅ PASS | Excellent | Full CER lesson, differentiation, assessment plan, 45min paced |
+| Smart Assignment Creator | ✅ PASS | Excellent | Complete package: assignment + 5-criterion rubric + 8 success criteria + 3 diff versions |
+| AI Grading (single) | ✅ PASS | Excellent | Rubric-aligned scores, specific feedback referencing student work, actionable next steps |
+| Socratic Tutor (streaming) | ✅ PASS | Excellent | Doesn't give answers, asks guiding questions, streaming works |
+| District AI Insights | ❌ FAIL | Unknown | Error — need to investigate server logs |
+| IEP Generation | ⬜ Not tested | | |
+| Report Card Batch | ⬜ Not tested | | |
+| Differentiation | ⬜ Not tested | | |
+| Batch Grading | ⬜ Not tested | | |
+
 ### Remaining Work (Priority Order)
-1. **IN PROGRESS: Verify rich data in browser** — Need to check all pages with new data (assignments, grading, reports, lesson plans, tutor, messages, report cards, mastery, admin dashboards)
-2. **MAJOR: AI LLM testing** — Thorough testing of all AI features (quiz gen, exit tickets, assignment gen, lesson plan gen, grading, IEP generation, tutor streaming, district insights, report cards, differentiation)
-3. **Minor: Form validation UX** — quiz form doesn't show visible errors on empty submit
-4. **Browser automation note** — Radix UI components don't respond to Chrome extension clicks (missing pointerdown events). NOT a real user bug.
+1. **IN PROGRESS: AI LLM testing** — District insights failing, IEP gen, report cards, differentiation, batch grading still to test
+2. **Minor: Form validation UX** — quiz form doesn't show visible errors on empty submit
+3. **Browser automation note** — Radix UI components don't respond to Chrome extension clicks (missing pointerdown events). NOT a real user bug.
 
 ## Verified Endpoints (all working)
 - /api/health — 200
