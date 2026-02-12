@@ -1,10 +1,10 @@
-import { prisma } from '@/lib/prisma'
+import { db } from '@/lib/db'
+import { sql } from 'drizzle-orm'
 import { NextResponse } from 'next/server'
 
 export async function GET() {
   try {
-    // Test DB connection
-    await prisma.$queryRaw`SELECT 1`
+    await db.execute(sql`SELECT 1`)
 
     return NextResponse.json({
       status: 'healthy',
