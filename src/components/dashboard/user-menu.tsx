@@ -1,7 +1,7 @@
 'use client'
 
 import { signOut, useSession } from 'next-auth/react'
-import { LogOut, User } from 'lucide-react'
+import { LogOut } from 'lucide-react'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
 import {
@@ -60,13 +60,6 @@ export function UserMenu() {
             </Badge>
           </div>
         </DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem asChild>
-          <button className="w-full cursor-pointer" onClick={() => void 0}>
-            <User />
-            <span>Profile</span>
-          </button>
-        </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
           <button
