@@ -16,6 +16,15 @@ import {
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 
+function formatGradeLevel(grade: string | number | null): string {
+  if (!grade) return 'N/A'
+  const n = typeof grade === 'string' ? parseInt(grade, 10) : grade
+  if (isNaN(n)) return String(grade)
+  const suffixes: Record<number, string> = { 1: 'st', 2: 'nd', 3: 'rd' }
+  const suffix = (n % 100 >= 11 && n % 100 <= 13) ? 'th' : (suffixes[n % 10] || 'th')
+  return `${n}${suffix} Grade`
+}
+
 const typeConfig: Record<
   string,
   { label: string; icon: React.ComponentType<{ className?: string }>; color: string }
@@ -92,7 +101,7 @@ export function AssignmentCard({
             </Badge>
             <Badge variant="outline" className="text-[10px] font-normal px-1.5 py-0">
               <GraduationCap className="size-2.5 mr-0.5" />
-              {assignment.gradeLevel}
+              {formatGradeLevel(assignment.gradeLevel)}
             </Badge>
           </div>
 

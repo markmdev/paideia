@@ -474,7 +474,7 @@ export function GenerationForm({ classes }: GenerationFormProps) {
             </div>
           </div>
 
-          <Tabs defaultValue="assignment" className="w-full">
+          <Tabs defaultValue="assignment" className="w-full" activationMode="automatic">
             <TabsList className="w-full justify-start">
               <TabsTrigger value="assignment" className="gap-1.5">
                 <BookOpen className="size-3.5" />

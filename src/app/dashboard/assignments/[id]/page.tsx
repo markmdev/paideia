@@ -30,6 +30,15 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { RubricDisplay } from '@/components/assignments/rubric-display'
 import { DeleteAssignmentButton } from './delete-button'
 
+function formatGradeLevel(grade: string | number | null): string {
+  if (!grade) return 'N/A'
+  const n = typeof grade === 'string' ? parseInt(grade, 10) : grade
+  if (isNaN(n)) return String(grade)
+  const suffixes: Record<number, string> = { 1: 'st', 2: 'nd', 3: 'rd' }
+  const suffix = (n % 100 >= 11 && n % 100 <= 13) ? 'th' : (suffixes[n % 10] || 'th')
+  return `${n}${suffix} Grade`
+}
+
 const statusConfig: Record<string, { label: string; color: string }> = {
   draft: { label: 'Draft', color: 'bg-slate-100 text-slate-700' },
   published: { label: 'Published', color: 'bg-emerald-100 text-emerald-700' },
@@ -159,7 +168,7 @@ export default async function AssignmentDetailPage({
             </Badge>
             <Badge variant="outline" className="text-xs font-normal gap-1">
               <GraduationCap className="size-3" />
-              Grade {assignment.gradeLevel}
+              {formatGradeLevel(assignment.gradeLevel)}
             </Badge>
             {result.className && (
               <Badge variant="outline" className="text-xs font-normal">
@@ -180,7 +189,7 @@ export default async function AssignmentDetailPage({
       </div>
 
       {/* Content Tabs */}
-      <Tabs defaultValue="assignment" className="w-full">
+      <Tabs defaultValue="assignment" className="w-full" activationMode="automatic">
         <TabsList className="w-full justify-start">
           <TabsTrigger value="assignment" className="gap-1.5">
             <PenLine className="size-3.5" />
