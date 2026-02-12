@@ -421,8 +421,29 @@ Three new detail pages built by subagents, all verified in browser:
 ### Fixed: Markdown table rendering (commit 6aec5bf)
 Installed `remark-gfm` and added `remarkPlugins={[remarkGfm]}` + table styling components to all 8 files using ReactMarkdown. CER Framework table now renders as proper HTML table with borders and header styling.
 
-### Commits This Session (Iteration 6)
+### Bugs Found & Fixed (Iteration 6 continued)
+53. ✅ Em dash spacing: "Great job —keep" → "Great job — keep" on student-progress page (5 instances, commit cfe78cd)
+54. ✅ Cross-class mastery leakage: ELA class detail showed science standards (HS-LS1-3) in strengths. Fixed by filtering mastery records via standards.subject join (commit e197160)
+55. 🔄 Double-dashes in seed data content (messages, essays, feedback) — fix delegated to background agent ac339e8
+56. ⚠️ Admin student detail: mastery level badges clipped on right edge ("Profici...", "Advanc...") — needs wider column or shorter text
+57. ⚠️ Duplicate "Symbols Speak Louder Than Words" draft assignments in DB (from AI testing) — data clutter, not code bug
+
+### Browser Testing (Iteration 6 continued)
+- ✅ Student: Progress page — em dashes fixed ("Great job — keep it up!")
+- ✅ Teacher: Messages — compose dialog with To dropdown (Sarah Chen, Marcus Williams), subject, message textarea, Send button
+- ✅ Teacher: My Classes — 5 periods, click through to class detail
+- ✅ Teacher: Class Detail (Period 1) — mastery now ELA-only (no science leakage), standards analysis correct
+- ✅ Teacher: Grading list — 3 assignments with progress bars and rubric info
+- ✅ Teacher: Grading detail (American Dream) — 7 submissions, stat cards, "Grade All Ungraded (3)", differentiation section at bottom
+- ✅ Admin: Students table — 22 students, search bar, scores, mastery badges, clickable names
+- ✅ Admin: Student Detail (Aisha Torres) — stat cards, class enrollment table, mastery breakdown (8 ELA standards), recent submissions
+
+### Commits This Session (Iteration 6+)
 ```
+cfe78cd Fix em dash spacing on student progress page
+e197160 Filter class detail mastery records by subject to prevent cross-class leakage
+e900421 Fix double-dash to em dash on student progress page
+6aec5bf Add remark-gfm for markdown table rendering in AI content
 c1126f8 Fix early warning table overflow with whitespace-normal on wrapping cells
 e64dc73 Fix mastery table overflow on student detail page
 61a88a7 Add admin student detail page with clickable names in students table
@@ -430,6 +451,14 @@ aeb2eb9 Add teacher class detail page with roster and performance
 f77d96b Add teacher class detail page with roster and performance
 a2aed86 Add admin school detail page with teachers and classes
 ```
+
+### Next Steps (Iteration 7+)
+- Fix mastery badge clipping on admin student detail page
+- Test mobile responsive on class detail, student detail
+- Test message detail view (clicking a message)
+- Test remaining untested flows: student submit work form, quiz creation wizard
+- Continue testing as all 5 roles
+- Background agent ac339e8 fixing seed data double-dashes — check status
 
 ## Verified Endpoints (all working)
 - /api/health — 200
