@@ -359,7 +359,7 @@ export default function StudentProgressPage() {
                     {data.strengths.map((s, i) => (
                       <Badge
                         key={i}
-                        className="bg-emerald-100 text-emerald-700 border-0 text-xs px-2.5 py-1"
+                        className="bg-emerald-100 text-emerald-700 border-0 text-xs px-2.5 py-1 whitespace-normal"
                       >
                         {s}
                       </Badge>
@@ -389,7 +389,7 @@ export default function StudentProgressPage() {
                     {data.areasForGrowth.map((a, i) => (
                       <Badge
                         key={i}
-                        className="bg-amber-100 text-amber-700 border-0 text-xs px-2.5 py-1"
+                        className="bg-amber-100 text-amber-700 border-0 text-xs px-2.5 py-1 whitespace-normal"
                       >
                         {a}
                       </Badge>
