@@ -1,6 +1,6 @@
 import { auth } from '@/lib/auth'
 import { db } from '@/lib/db'
-import { tutorSessions, users, classMembers, classes } from '@/lib/db/schema'
+import { tutorSessions, classMembers, classes } from '@/lib/db/schema'
 import { eq, and } from 'drizzle-orm'
 import { NextResponse } from 'next/server'
 import { streamTutorResponse } from '@/lib/ai/tutor'
@@ -119,7 +119,6 @@ export async function POST(request: Request) {
 
     // Wrap the stream to capture the full response and save it
     let fullResponse = ''
-    const encoder = new TextEncoder()
     const decoder = new TextDecoder()
     const capturedSessionId = currentSessionId
 
