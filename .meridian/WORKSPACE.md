@@ -1,24 +1,3 @@
-# AI Teaching OS - Workspace
-
-## Project Overview
-Building a K-12 education platform for Anthropic hackathon. Five modules + Student AI Tutor, all in one Next.js web app.
-
-## Tech Stack
-- **Frontend**: Next.js 16 (App Router), TypeScript, Tailwind CSS, shadcn/ui
-- **Database**: Drizzle ORM + PostgreSQL (Supabase hosted via connection pooler)
-- **Auth**: NextAuth.js (Auth.js v5) with @auth/drizzle-adapter, JWT strategy, credentials provider
-- **AI**: Anthropic Claude API (Opus 4.6) via @anthropic-ai/sdk v0.74.0
-- **Testing**: Vitest + API endpoint testing
-
-## Supabase Config
-- Project: teaching-os (us-west-2, IPv6-only, must use pooler)
-- URL: https://qeayczyoaqttlwpstwbn.supabase.co
-- DB via pooler (see .env for URLs)
-- Credentials in .env (never committed)
-
-## Epic: TEAC-w25zza
-| Phase | Pebble ID | Status |
-|-------|-----------|--------|
 | P1: Foundation | TEAC-xlssqq | DONE |
 | P2: Instructional Design | TEAC-nz1ote | DONE |
 | P3: Assessment Intelligence | TEAC-4bg5ia | DONE |
@@ -478,14 +457,31 @@ a2aed86 Add admin school detail page with teachers and classes
 ### Database re-seeded this session
 Ran `npm run db:seed` after seed data double-dash fix (commit 5859fa8). All em dashes now correct in live DB.
 
+### Bugs Found & Fixed (Iteration 6 session 3)
+58. ✅ Compliance page subtitle: "across your caseload" shown to admin — now role-aware ("across your district" for admin). Commit d5055d9.
+
+### Browser Testing (Iteration 6 session 3 — current)
+- ✅ Teacher (Rivera): Quizzes list — 1 quiz card (ELA Vocabulary Unit 3), "8th Grade", "10 questions", "+ New Quiz" button
+- ✅ Teacher: Quiz creation wizard — 3-step stepper (Configure/Generate/Review), Topic, Subject, Grade Level, Num Questions (10 default), Difficulty (Medium), Question Types (MC/Short/Essay toggles), Standards (optional), "Generate with AI" button
+- ✅ Teacher: Exit Tickets — clean form with Topic, Grade Level, Subject, Questions dropdown, Lesson Context, "Generate Exit Ticket" button
+- ✅ Admin (Williams): Schools — 2 school cards, correct pluralization, avg scores (78%, 83%)
+- ✅ Admin: School Detail (Washington MS) — 4 stat cards, 3 teachers table, 10 classes table with subjects/scores, Top Subjects by Score, Mastery Distribution (37 Adv, 60 Pro, 45 Dev, 28 Beg)
+- ✅ Admin: Dashboard — "Welcome back, Dr. Williams", 4 stats, 3 Quick Actions
+- ✅ Admin: Early Warning — 22 students (4 High Risk, 7 Moderate, 11 On Track), expandable AI recommendations work beautifully with numbered steps
+- ✅ Admin: SPED Compliance — 3 deadlines (Ethan 90d, DeShawn 185d/550d), all On Track, subtitle now role-aware
+- ✅ SPED (Rodriguez): IEP Management — 2 students, correct pluralization
+- ✅ SPED: IEP Detail (DeShawn) — full PLAAFP, 2 SMART goals with data/trends, 9 accommodations, services, deadlines
+- ✅ SPED: Progress Monitoring — student list, Quick Data Entry form, goal charts with baseline/goal dashed lines, trend badges
+- ✅ SPED: Sidebar Special Education section — IEP Management, Progress Monitoring, Compliance all linked
+- ✅ Student (DeShawn): Dashboard — 2 classes, 0 completed, N/A avg, 1 tutor, 2 assignment cards with Submitted badges
+
 ### Next Steps (Iteration 7+)
-- Landing page: scroll through module cards, How It Works, demo credentials, footer
-- Test quiz creation wizard (untested)
-- Test admin school detail page (re-verify after reseed)
-- Test SPED progress monitoring data entry
-- Minor: Early warning indicator badges truncate on mobile ("profici...") — cosmetic, not blocking
-- Minor: My Classes cards show raw grade level "8" in top-right corner — redundant with title
-- All roles thoroughly tested; primary focus now is edge cases and new feature testing
+- Test DeShawn's student-progress page (mastery gaps)
+- Test DeShawn's AI Tutor with suggested practice
+- Test teacher Okafor (10th Bio) or Chen (3rd grade) — different subjects/grades
+- Mobile testing on more pages
+- Minor: Early warning indicator badges truncate on mobile — cosmetic
+- Consider testing error states and edge cases
 
 ## Verified Endpoints (all working)
 - /api/health — 200
