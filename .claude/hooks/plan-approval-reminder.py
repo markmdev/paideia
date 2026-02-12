@@ -1,0 +1,88 @@
+#!/usr/bin/env python3
+"""
+Plan Approval Reminder Hook - PostToolUse ExitPlanMode
+
+Clears plan-review-blocked flag and reminds Claude to create Pebble issues after plan is approved.
+"""
+
+import json
+import sys
+import os
+from pathlib import Path
+
+# Add lib to path for imports
+sys.path.insert(0, str(Path(__file__).parent / "lib"))
+from config import get_project_config, cleanup_flag, clear_plan_action_counter, PLAN_REVIEW_FLAG
+
+
+def main():
+    try:
+        input_data = json.load(sys.stdin)
+    except json.JSONDecodeError:
+        sys.exit(1)
+
+    tool_name = input_data.get("tool_name", "")
+    claude_project_dir = os.environ.get("CLAUDE_PROJECT_DIR", "")
+
+    if tool_name != "ExitPlanMode":
+        sys.exit(0)
+
+    # Clear state files (ExitPlanMode succeeded = plan approved)
+    if claude_project_dir:
+        base_dir = Path(claude_project_dir)
+        cleanup_flag(base_dir, PLAN_REVIEW_FLAG)
+        clear_plan_action_counter(base_dir)
+
+    # Check if Pebble and scaffolder are enabled
+    if not claude_project_dir:
+        sys.exit(0)
+
+    config = get_project_config(Path(claude_project_dir))
+    pebble_enabled = config.get('pebble_enabled', False)
+    scaffolder_enabled = config.get('pebble_scaffolder_enabled', True)
+
+    # Build plan management instructions (always runs)
+    plan_instructions = (
+        f"[SYSTEM]: Plan approved. **Archive the plan to the project folder:**\n\n"
+        f"1. **Copy the plan** using bash `cp` command:\n"
+        f"   ```bash\n"
+        f"   mkdir -p .meridian/plans && cp ~/.claude/plans/[name].md .meridian/plans/\n"
+        f"   ```\n"
+        f"   (Use `.meridian/subplans/` if this is a subplan for an epic phase)\n\n"
+        f"2. **Update active plan tracking** (use ABSOLUTE paths):\n"
+        f"   - Write the absolute plan path to `.meridian/.state/active-plan`\n"
+        f"   - If this is a subplan, also write the absolute path to `.meridian/.state/active-subplan`\n\n"
+    )
+
+    # Add Pebble scaffolder instructions if enabled
+    if pebble_enabled and scaffolder_enabled:
+        plan_instructions += (
+            f"3. **Invoke the `pebble-scaffolder` agent** to document the work.\n\n"
+            f"**For epic plans** (new project/feature with phases):\n"
+            f"- Scope: `epic`\n"
+            f"- Creates: epic + phase tasks as children\n\n"
+            f"**For subplans** (planning a specific phase):\n"
+            f"- Scope: `task`\n"
+            f"- Parent: the existing phase task ID (e.g., `MERI-70jfoe`)\n"
+            f"- Creates: step tasks as children of the phase\n"
+            f"- Find the phase task ID with `pb list` or `pb search`\n\n"
+            f"**For standalone tasks** (bug fix, small feature):\n"
+            f"- Scope: `task`, `bug`, or `follow-up`\n"
+            f"- Parent: epic ID if part of larger work, otherwise none\n\n"
+            f"Skip scaffolder only for trivial 5-minute fixes."
+        )
+
+    reason = plan_instructions
+
+    output = {
+        "hookSpecificOutput": {
+            "hookEventName": "PostToolUse",
+            "additionalContext": reason
+        }
+    }
+    print(json.dumps(output))
+    sys.exit(0)
+
+
+if __name__ == "__main__":
+    main()
