@@ -11,6 +11,7 @@ import { eq, and, inArray, desc } from 'drizzle-orm'
 import { redirect, notFound } from 'next/navigation'
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
+import { formatGradeLevel } from '@/lib/format'
 import { Button } from '@/components/ui/button'
 import { MasteryHeatmap } from '@/components/mastery/mastery-heatmap'
 import { GapAnalysisButton } from '@/components/mastery/gap-analysis-button'
@@ -170,7 +171,7 @@ export default async function ClassMasteryPage({
             {cls.name}
           </h1>
           <p className="text-stone-500 text-sm">
-            {cls.subject} | Grade {cls.gradeLevel}
+            {cls.subject} | {formatGradeLevel(cls.gradeLevel)}
             {cls.period ? ` | Period ${cls.period}` : ''} |{' '}
             {studentRows.length} students | {standardRows.length} standards
           </p>

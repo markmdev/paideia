@@ -5,6 +5,7 @@ import { desc } from 'drizzle-orm'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { Plus, FileQuestion, Calendar } from 'lucide-react'
+import { formatGradeLevel } from '@/lib/format'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -84,7 +85,7 @@ export default async function QuizzesPage() {
                     </Badge>
                   </div>
                   <CardDescription className="text-xs">
-                    Grade {quiz.gradeLevel}
+                    {formatGradeLevel(quiz.gradeLevel)}
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="pt-0">

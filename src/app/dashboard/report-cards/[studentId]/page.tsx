@@ -4,6 +4,7 @@ import { db } from '@/lib/db'
 import { reportCards, classMembers, classes, users } from '@/lib/db/schema'
 import { eq, and } from 'drizzle-orm'
 import { FileText } from 'lucide-react'
+import { formatGradeLevel } from '@/lib/format'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { ReportCardActions } from './report-card-actions'
@@ -101,7 +102,7 @@ export default async function ReportCardDetailPage({
             {reportCard.studentName}
           </h1>
           <p className="text-stone-500 text-sm mt-0.5">
-            {reportCard.className} | {reportCard.subject} | Grade {reportCard.gradeLevel} | {reportCard.gradingPeriod}
+            {reportCard.className} | {reportCard.subject} | {formatGradeLevel(reportCard.gradeLevel)} | {reportCard.gradingPeriod}
           </p>
         </div>
         <div className="flex items-center gap-3">

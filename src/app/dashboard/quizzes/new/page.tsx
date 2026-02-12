@@ -24,6 +24,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Skeleton } from '@/components/ui/skeleton'
+import { formatGradeLevel } from '@/lib/format'
 
 interface GeneratedQuestion {
   id: string
@@ -292,7 +293,7 @@ export default function NewQuizPage() {
                     <SelectContent>
                       {gradeLevels.map((g) => (
                         <SelectItem key={g} value={g}>
-                          Grade {g}
+                          {formatGradeLevel(g)}
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -432,7 +433,7 @@ export default function NewQuizPage() {
               <div>
                 <h2 className="text-xl font-bold">{generated.quiz.title}</h2>
                 <p className="text-sm text-muted-foreground mt-1">
-                  {generated.questions.length} questions &middot; {generated.quiz.subject} &middot; Grade {generated.quiz.gradeLevel}
+                  {generated.questions.length} questions &middot; {generated.quiz.subject} &middot; {formatGradeLevel(generated.quiz.gradeLevel)}
                 </p>
               </div>
               <div className="flex gap-2">

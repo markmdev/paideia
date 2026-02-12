@@ -10,6 +10,7 @@ import {
 } from '@/lib/db/schema'
 import { eq, and, inArray, desc, sql } from 'drizzle-orm'
 import { FileText, Users, CheckCircle2, Clock } from 'lucide-react'
+import { formatGradeLevel } from '@/lib/format'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { BatchGenerateDialog } from '@/components/report-cards/batch-generate-dialog'
@@ -166,7 +167,7 @@ export default async function ReportCardsPage() {
                       )}
                     </div>
                     <CardDescription className="text-xs text-stone-500">
-                      {cls.subject} | Grade {cls.gradeLevel} | {students} students
+                      {cls.subject} | {formatGradeLevel(cls.gradeLevel)} | {students} students
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="pt-0 space-y-3">

@@ -12,6 +12,7 @@ import { eq, and, inArray, desc } from 'drizzle-orm'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { TrendingUp, BarChart3 } from 'lucide-react'
+import { formatGradeLevel } from '@/lib/format'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 
@@ -205,7 +206,7 @@ export default async function ReportsPage() {
                     )}
                   </div>
                   <CardDescription className="text-xs text-stone-500">
-                    {cls.subject} | Grade {cls.gradeLevel} |{' '}
+                    {cls.subject} | {formatGradeLevel(cls.gradeLevel)} |{' '}
                     {cls.studentCount} students
                   </CardDescription>
                 </CardHeader>

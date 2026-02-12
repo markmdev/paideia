@@ -24,6 +24,7 @@ import {
 } from '@/components/ui/select'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
+import { formatGradeLevel } from '@/lib/format'
 
 interface ExitTicketQuestion {
   questionText: string
@@ -228,7 +229,7 @@ export default function ExitTicketsPage() {
                 <SelectContent>
                   {gradeLevels.map((g) => (
                     <SelectItem key={g} value={g}>
-                      Grade {g}
+                      {formatGradeLevel(g)}
                     </SelectItem>
                   ))}
                 </SelectContent>

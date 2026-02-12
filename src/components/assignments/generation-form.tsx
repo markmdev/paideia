@@ -30,6 +30,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Badge } from '@/components/ui/badge'
 import { Skeleton } from '@/components/ui/skeleton'
 import { RubricDisplay } from '@/components/assignments/rubric-display'
+import { formatGradeLevel } from '@/lib/format'
 
 interface ClassOption {
   id: string
@@ -360,7 +361,7 @@ export function GenerationForm({ classes }: GenerationFormProps) {
                   <SelectContent>
                     {gradeLevels.map((g) => (
                       <SelectItem key={g} value={g}>
-                        Grade {g}
+                        {formatGradeLevel(g)}
                       </SelectItem>
                     ))}
                   </SelectContent>
