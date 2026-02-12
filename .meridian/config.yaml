@@ -1,0 +1,67 @@
+# Project-level configuration for the Claude workflow
+
+# Project type affects which code guide add-on is loaded:
+# - hackathon   → use CODE_GUIDE_ADDON_HACKATHON.md
+# - standard    → baseline only
+# - production  → use CODE_GUIDE_ADDON_PRODUCTION.md
+project_type: standard
+
+# Plan review: require plan-reviewer agent before exiting plan mode.
+# When false, ExitPlanMode proceeds without review.
+plan_review_enabled: true
+
+# Plan review minimum actions: Skip plan-reviewer if fewer than this many actions
+# occurred since entering plan mode. Prevents heavyweight review for quick plans.
+# Set to 0 to always enforce.
+plan_review_min_actions: 20
+
+# Code review: require code-reviewer agent before stopping.
+# When false, code review is skipped.
+code_review_enabled: true
+
+# Pre-compaction sync: prompt agent to save context before conversation compacts.
+# When false, no warning is given before compaction.
+pre_compaction_sync_enabled: true
+
+# Token threshold for pre-compaction sync warning (default: 150000).
+pre_compaction_sync_threshold: 144000
+
+# Auto-compact off: When true, agent stops after pre-compaction sync
+# instead of allowing auto-compaction. User must run /clear manually.
+# This gives you control over when sessions reset.
+auto_compact_off: false
+
+# Folders to ignore for CLAUDE.md review suggestions.
+# When agent modifies files, stop hook suggests reviewing CLAUDE.md files
+# on the path to those files. These folders are excluded.
+# Default: .git, .meridian, node_modules, __pycache__, .venv, venv, dist, build
+# claudemd_ignored_folders:
+#   - .git
+#   - .meridian
+#   - node_modules
+#   - vendor
+
+# Workspace: Agent's living knowledge base (WORKSPACE.md root file).
+# The root file is trimmed when over this limit.
+# Set to 0 to disable trimming (unlimited size).
+workspace_max_lines: 500
+
+
+# Pebble integration: Git-backed graph issue tracker for AI agents.
+# When enabled, agent MUST actively use Pebble to manage work.
+# See PEBBLE_GUIDE.md for command reference and principles.
+# See: https://github.com/anthropics/pebble
+pebble_enabled: true
+
+# Stop hook minimum actions: Skip stop hook prompts if fewer than this many
+# tool calls occurred since the user's last input. Prevents interruption
+# on quick/simple tasks. Set to 0 to always run stop hook.
+stop_hook_min_actions: 40
+
+# Pebble scaffolder: Auto-invoke pebble-scaffolder after plan approval.
+# When false, you can use Pebble without automatic issue scaffolding.
+pebble_scaffolder_enabled: true
+
+# Docs researcher write requirement: Block docs-researcher if it didn't write files.
+# When false, docs-researcher can complete without writing to api-docs.
+docs_researcher_write_required: false

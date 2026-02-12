@@ -40,4 +40,13 @@ next-env.d.ts
 # misc
 .DS_Store
 
-/src/generated/prisma
+# meridian state (session-specific)
+.meridian/.state/
+.meridian/.scratch/
+.meridian/.pre-compaction-sync.log
+
+# claude hooks cache
+.claude/hooks/lib/__pycache__/
+
+# drizzle
+drizzle/
