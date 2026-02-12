@@ -13,6 +13,7 @@ import {
   users,
 } from '@/lib/db/schema'
 import { eq, and } from 'drizzle-orm'
+import ReactMarkdown from 'react-markdown'
 import { ArrowLeft, User, Calendar, FileText } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -214,10 +215,8 @@ export default async function FeedbackReviewPage({
               </div>
             </CardHeader>
             <CardContent className="p-6">
-              <div className="prose prose-sm prose-stone max-w-none">
-                <div className="whitespace-pre-wrap text-sm text-stone-700 leading-relaxed">
-                  {submission.content}
-                </div>
+              <div className="prose prose-sm prose-stone max-w-none text-sm text-stone-700 leading-relaxed">
+                <ReactMarkdown>{submission.content}</ReactMarkdown>
               </div>
             </CardContent>
           </Card>

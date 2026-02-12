@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useCallback } from 'react'
+import ReactMarkdown from 'react-markdown'
 import {
   CheckCircle2,
   ArrowUpRight,
@@ -258,8 +259,8 @@ export function FeedbackPanel({
             </div>
           </div>
         ) : (
-          <div className="bg-white rounded-xl border border-stone-200 p-4 text-sm text-stone-700 leading-relaxed whitespace-pre-wrap">
-            {displayFeedback}
+          <div className="bg-white rounded-xl border border-stone-200 p-4 text-sm text-stone-700 leading-relaxed prose prose-sm max-w-none">
+            <ReactMarkdown>{displayFeedback}</ReactMarkdown>
           </div>
         )}
       </div>

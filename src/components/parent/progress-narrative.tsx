@@ -1,5 +1,6 @@
 'use client'
 
+import ReactMarkdown from 'react-markdown'
 import { Sparkles, Home, TrendingUp, AlertTriangle, CheckCircle2, Clock } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -164,9 +165,9 @@ export function ProgressNarrative({ narrative }: ProgressNarrativeProps) {
             )}
           </>
         ) : (
-          <p className="text-sm text-stone-700 leading-relaxed whitespace-pre-wrap">
-            {narrative.content}
-          </p>
+          <div className="text-sm text-stone-700 leading-relaxed prose prose-sm max-w-none">
+            <ReactMarkdown>{narrative.content}</ReactMarkdown>
+          </div>
         )}
       </CardContent>
     </Card>

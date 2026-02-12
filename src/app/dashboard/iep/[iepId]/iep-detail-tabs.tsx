@@ -1,5 +1,7 @@
 'use client'
 
+import ReactMarkdown from 'react-markdown'
+
 interface Accommodation {
   type: string
   description: string
@@ -91,9 +93,9 @@ export function IepDetailTabs({
           Present Levels
         </h2>
         {iep.presentLevels ? (
-          <p className="text-sm text-stone-600 whitespace-pre-wrap">
-            {iep.presentLevels}
-          </p>
+          <div className="text-sm text-stone-600 prose prose-sm max-w-none">
+            <ReactMarkdown>{iep.presentLevels}</ReactMarkdown>
+          </div>
         ) : (
           <p className="text-sm text-stone-400 italic">
             No present levels documented yet.
