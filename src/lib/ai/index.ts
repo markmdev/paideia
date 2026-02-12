@@ -20,3 +20,20 @@ export type {
   BatchSubmission,
   BatchGradingResult,
 } from './grade-submission'
+
+export {
+  generatePresentLevels,
+  generateIEPGoals,
+  generateAccommodations,
+  generateProgressNarrative,
+} from './iep-service'
+export type {
+  PresentLevelsInput,
+  GeneratedPresentLevels,
+  IEPGoalInput,
+  GeneratedIEPGoal,
+  AccommodationsInput,
+  GeneratedAccommodations,
+  ProgressNarrativeInput,
+  GeneratedProgressNarrative,
+} from './iep-service'
