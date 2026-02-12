@@ -1,4 +1,5 @@
 import { redirect } from 'next/navigation'
+import Link from 'next/link'
 import { auth } from '@/lib/auth'
 import { db } from '@/lib/db'
 import { classes, classMembers, users } from '@/lib/db/schema'
@@ -107,51 +108,62 @@ export default async function ClassesPage() {
         </div>
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {myClasses.map((cls) => (
-            <Card key={cls.classId} className="h-full">
-              <CardHeader className="pb-3">
-                <div className="flex items-start justify-between gap-2">
-                  <CardTitle className="text-base leading-tight">
-                    {cls.className}
-                  </CardTitle>
-                  <Badge
-                    variant="secondary"
-                    className="shrink-0 text-xs"
-                  >
-                    {cls.gradeLevel}
-                  </Badge>
-                </div>
-              </CardHeader>
-              <CardContent className="pt-0">
-                <div className="space-y-2 text-sm text-muted-foreground">
-                  <div className="flex items-center gap-2">
-                    <BookOpen className="size-3.5" />
-                    <span>{cls.subject}</span>
+          {myClasses.map((cls) => {
+            const isTeacher = role === 'teacher' || role === 'sped_teacher' || role === 'admin'
+            const card = (
+              <Card className={`h-full${isTeacher ? ' hover:bg-stone-50/80 transition-colors' : ''}`}>
+                <CardHeader className="pb-3">
+                  <div className="flex items-start justify-between gap-2">
+                    <CardTitle className="text-base leading-tight">
+                      {cls.className}
+                    </CardTitle>
+                    <Badge
+                      variant="secondary"
+                      className="shrink-0 text-xs"
+                    >
+                      {cls.gradeLevel}
+                    </Badge>
                   </div>
-                  {cls.period && (
-                    <div className="text-xs">Period {cls.period}</div>
-                  )}
-                  {(role === 'teacher' || role === 'sped_teacher' || role === 'admin') && (
-                    <div className="flex items-center gap-2 pt-1">
-                      <Users className="size-3.5" />
-                      <span>
-                        {studentCounts[cls.classId] ?? 0}{' '}
-                        {(studentCounts[cls.classId] ?? 0) === 1
-                          ? 'student'
-                          : 'students'}
-                      </span>
+                </CardHeader>
+                <CardContent className="pt-0">
+                  <div className="space-y-2 text-sm text-muted-foreground">
+                    <div className="flex items-center gap-2">
+                      <BookOpen className="size-3.5" />
+                      <span>{cls.subject}</span>
                     </div>
-                  )}
-                  {role === 'student' && teacherNames[cls.classId] && (
-                    <div className="flex items-center gap-2 pt-1">
-                      <Users className="size-3.5" />
-                      <span>{teacherNames[cls.classId]}</span>
-                    </div>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+                    {cls.period && (
+                      <div className="text-xs">Period {cls.period}</div>
+                    )}
+                    {isTeacher && (
+                      <div className="flex items-center gap-2 pt-1">
+                        <Users className="size-3.5" />
+                        <span>
+                          {studentCounts[cls.classId] ?? 0}{' '}
+                          {(studentCounts[cls.classId] ?? 0) === 1
+                            ? 'student'
+                            : 'students'}
+                        </span>
+                      </div>
+                    )}
+                    {role === 'student' && teacherNames[cls.classId] && (
+                      <div className="flex items-center gap-2 pt-1">
+                        <Users className="size-3.5" />
+                        <span>{teacherNames[cls.classId]}</span>
+                      </div>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+            )
+
+            return isTeacher ? (
+              <Link key={cls.classId} href={`/dashboard/classes/${cls.classId}`} className="block">
+                {card}
+              </Link>
+            ) : (
+              <div key={cls.classId}>{card}</div>
+            )
+          })}
         </div>
       )}
     </div>
