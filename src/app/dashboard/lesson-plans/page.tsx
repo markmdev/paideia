@@ -17,6 +17,23 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 
+function formatGradeLevel(gradeLevel: string): string {
+  const num = parseInt(gradeLevel, 10)
+  if (isNaN(num)) return gradeLevel
+  const suffix =
+    num === 1 ? 'st' :
+    num === 2 ? 'nd' :
+    num === 3 ? 'rd' :
+    'th'
+  return `${num}${suffix} Grade`
+}
+
+function formatDuration(duration: string): string {
+  const num = parseInt(duration, 10)
+  if (isNaN(num) || String(num) !== duration.trim()) return duration
+  return `${num} min`
+}
+
 export default async function LessonPlansPage() {
   const session = await auth()
 
@@ -97,7 +114,7 @@ export default async function LessonPlansPage() {
                   <div className="flex flex-wrap gap-2">
                     <Badge variant="outline" className="text-xs font-normal">
                       <GraduationCap className="size-3 mr-1" />
-                      {plan.gradeLevel}
+                      {formatGradeLevel(plan.gradeLevel)}
                     </Badge>
                     <Badge variant="outline" className="text-xs font-normal">
                       <BookOpen className="size-3 mr-1" />
@@ -106,7 +123,7 @@ export default async function LessonPlansPage() {
                     {plan.duration && (
                       <Badge variant="outline" className="text-xs font-normal">
                         <Clock className="size-3 mr-1" />
-                        {plan.duration}
+                        {formatDuration(plan.duration)}
                       </Badge>
                     )}
                   </div>
