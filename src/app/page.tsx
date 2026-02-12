@@ -144,8 +144,8 @@ export default function Home() {
               Teachers save 5+ hours every week
             </h2>
             <p className="mt-4 text-muted-foreground">
-              Join thousands of educators who use AI Teaching OS to reduce
-              administrative burden and focus on meaningful instruction.
+              See how AI Teaching OS reduces administrative burden so teachers
+              can focus on meaningful instruction.
             </p>
             <div className="mt-8">
               <Button asChild size="lg">
