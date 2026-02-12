@@ -254,7 +254,7 @@ export function MasteryHeatmap({
                       )
                     })}
                     <td className="border-l border-stone-200 px-3 py-1.5 text-center text-xs font-medium text-stone-700">
-                      {avgScore >= 0 ? `${Math.round(avgScore)}%` : '--'}
+                      {avgScore >= 0 ? `${Math.round(avgScore)}%` : 'N/A'}
                     </td>
                   </tr>
                 )

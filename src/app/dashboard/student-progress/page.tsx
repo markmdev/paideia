@@ -184,7 +184,7 @@ export default function StudentProgressPage() {
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold">
-              {data.overallAverage != null ? `${data.overallAverage}%` : '--'}
+              {data.overallAverage != null ? `${data.overallAverage}%` : 'N/A'}
             </div>
             <p className="text-xs text-muted-foreground mt-1">
               Across all graded work
@@ -319,7 +319,7 @@ export default function StudentProgressPage() {
                         <span
                           className={`inline-flex items-center justify-center rounded-md px-2 py-0.5 text-xs font-semibold ${scoreColor(sub.score)} ${scoreBg(sub.score)}`}
                         >
-                          {sub.score != null ? `${sub.score}%` : '--'}
+                          {sub.score != null ? `${sub.score}%` : 'N/A'}
                         </span>
                       </TableCell>
                       <TableCell className="text-right text-muted-foreground text-xs">

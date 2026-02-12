@@ -191,7 +191,7 @@ export default async function ComplianceDashboardPage() {
                           />
                         </td>
                         <td className="py-3 px-3 text-stone-400 text-xs max-w-[200px] truncate">
-                          {d.notes ?? '--'}
+                          {d.notes ?? 'N/A'}
                         </td>
                       </tr>
                     )

@@ -265,7 +265,7 @@ export default async function ChildDetailPage({
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              {avgPercentage !== null ? `${avgPercentage}%` : '--'}
+              {avgPercentage !== null ? `${avgPercentage}%` : 'N/A'}
             </div>
             <p className="text-xs text-muted-foreground">
               Across recent assignments

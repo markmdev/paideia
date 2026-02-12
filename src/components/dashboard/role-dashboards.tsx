@@ -146,7 +146,7 @@ interface StudentDashboardProps {
 }
 
 export function StudentDashboard({ firstName, stats }: StudentDashboardProps) {
-  const averageDisplay = stats.averageScore !== null ? `${stats.averageScore}%` : '--'
+  const averageDisplay = stats.averageScore !== null ? `${stats.averageScore}%` : 'N/A'
 
   return (
     <div className="space-y-6">

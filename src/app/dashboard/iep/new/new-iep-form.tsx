@@ -595,11 +595,11 @@ export function NewIepForm({ students }: NewIepFormProps) {
             <div className="grid grid-cols-2 gap-4 text-sm">
               <div>
                 <p className="text-stone-400 text-xs font-medium uppercase tracking-wider">Student</p>
-                <p className="text-stone-800 font-medium">{selectedStudent?.name ?? '--'}</p>
+                <p className="text-stone-800 font-medium">{selectedStudent?.name ?? 'N/A'}</p>
               </div>
               <div>
                 <p className="text-stone-400 text-xs font-medium uppercase tracking-wider">Disability</p>
-                <p className="text-stone-800 font-medium">{disabilityCategory || '--'}</p>
+                <p className="text-stone-800 font-medium">{disabilityCategory || 'N/A'}</p>
               </div>
               <div>
                 <p className="text-stone-400 text-xs font-medium uppercase tracking-wider">Start Date</p>

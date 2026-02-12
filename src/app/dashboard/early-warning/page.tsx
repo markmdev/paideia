@@ -333,7 +333,7 @@ export default function EarlyWarningPage() {
                             {avgScore}%
                           </span>
                         ) : (
-                          <span className="text-stone-400">--</span>
+                          <span className="text-stone-400">N/A</span>
                         )}
                       </TableCell>
                     </TableRow>

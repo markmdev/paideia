@@ -89,7 +89,7 @@ export function StudentTable({ students }: StudentTableProps) {
                   </TableCell>
                   <TableCell className="text-stone-600">{student.email}</TableCell>
                   <TableCell className="text-stone-600">
-                    {student.gradeLevel || '--'}
+                    {student.gradeLevel || 'N/A'}
                   </TableCell>
                   <TableCell className="text-center text-stone-600">
                     {student.classesEnrolled}

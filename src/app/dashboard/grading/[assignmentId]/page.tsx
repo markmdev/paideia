@@ -203,7 +203,7 @@ export default async function AssignmentGradingPage({
               <span className="text-[11px] text-blue-600 uppercase tracking-wider">Average</span>
             </div>
             <p className="text-2xl font-bold text-blue-700 mt-1">
-              {avgScore != null ? `${avgScore}%` : '--'}
+              {avgScore != null ? `${avgScore}%` : 'N/A'}
             </p>
           </CardContent>
         </Card>

@@ -128,7 +128,7 @@ export function ChildStatusCard({ child }: ChildStatusCardProps) {
                     <span className="text-muted-foreground truncate max-w-[180px]">
                       {g.assignment}
                     </span>
-                    <span className="font-medium">{g.letterGrade ?? '--'}</span>
+                    <span className="font-medium">{g.letterGrade ?? 'N/A'}</span>
                   </div>
                 ))}
               </div>
