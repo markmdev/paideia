@@ -44,6 +44,7 @@ vi.mock('@/lib/db', () => {
       }),
       insert: vi.fn(() => createChainMock([])),
       update: vi.fn(() => createChainMock([])),
+      delete: vi.fn(() => createChainMock([])),
       query: {},
     },
   }

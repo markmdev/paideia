@@ -198,6 +198,10 @@ export async function POST(req: Request) {
 
     const gradingResult = await gradeSubmission(gradeInput)
 
+    // Delete existing feedback and scores if re-grading
+    await db.delete(feedbackDrafts).where(eq(feedbackDrafts.submissionId, targetSubmission.id))
+    await db.delete(criterionScores).where(eq(criterionScores.submissionId, targetSubmission.id))
+
     // Store feedback draft
     await db.insert(feedbackDrafts).values({
       submissionId: targetSubmission.id,
