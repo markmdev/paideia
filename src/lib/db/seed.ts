@@ -1273,7 +1273,54 @@ DeShawn's specific learning disability in reading significantly impacts his abil
 
   await db.insert(schema.submissions).values(multiplicationSubRecords)
 
-  console.log('  New assignment submissions created (poetry: 5, narrative: 6, genetics: 6, multiplication: 5).')
+  // Reading Response: Charlotte's Web submissions (grading, Chen class = students[14..19])
+  const readingResponseSubmissions = [
+    { studentId: userIds.students[14], content: 'In chapters 10-12, Charlotte helps Wilbur by writing words in her web. She writes "SOME PIG" and then "TERRIFIC" to make people think Wilbur is special. This is important because the farmer was going to turn Wilbur into bacon and Charlotte wanted to save his life. Wilbur feels so happy and grateful because Charlotte is the best friend he has ever had. He tells her she is the best friend anyone could have. I think the author E.B. White is trying to teach us that a good friend will do anything to help you, even if it is really hard. Charlotte stayed up all night to write in her web. That is what a real friend does.' },
+    { studentId: userIds.students[15], content: 'Charlotte writes words in her web to help Wilbur not get killed. She is a very smart spider. Wilbur is happy she is helping. I think the author is saying friends help each other.' },
+    { studentId: userIds.students[16], content: 'Charlotte is a spider who is Wilbur the pig\'s friend. In these chapters she writes "TERRIFIC" in her web so the farmer will think Wilbur is amazing and won\'t make him into ham. Wilbur feels really thankful and he says Charlotte is a true friend. Charlotte works really hard at night when nobody is watching. I think the author wants us to know that good friends help you even when nobody is looking and even when it is hard for them. Charlotte is tired from making the web but she does it anyway because she loves Wilbur.' },
+    { studentId: userIds.students[17], content: 'Charlotte helps Wilbur by putting words in the web. She writes stuff like some pig and terriffic. Wilbur is glad she helped him. The book is about friendship and how friends help each other. I liked these chapters because the spider is cool.' },
+    { studentId: userIds.students[18], content: 'In chapters 10, 11, and 12 of Charlotte\'s Web, Charlotte helps Wilbur by spinning special words into her web. First she writes "SOME PIG" and all the people in the town come to see it. Then she writes "TERRIFIC" because she needs a new word to keep people interested. Charlotte does all of this at night when it is dark and quiet. She has to take apart her old web and build a new one with the letters. Wilbur watches her work and he feels amazed and lucky to have such a wonderful friend. He even tries to spin a web himself but he can\'t because he is a pig, not a spider. I think the author is teaching us that being a good friend means using your special talents to help the people you care about. Charlotte is good at making webs and she uses that talent to save Wilbur\'s life. Everyone has something they are good at and they can use it to help their friends.' },
+  ]
+
+  const readingResponseSubRecords = readingResponseSubmissions.map((s) => ({
+    id: createId(),
+    assignmentId: assignmentIds.readingResponse,
+    studentId: s.studentId,
+    content: s.content,
+    status: 'submitted' as const,
+    submittedAt: daysAgo(5),
+    totalScore: null,
+    maxScore: null,
+    letterGrade: null,
+  }))
+
+  await db.insert(schema.submissions).values(readingResponseSubRecords)
+
+  // Feedback drafts for reading responses
+  await db.insert(schema.feedbackDrafts).values([
+    {
+      id: createId(),
+      submissionId: readingResponseSubRecords[0].id,
+      teacherId: userIds.chen,
+      aiFeedback: 'Great job! You clearly explained what Charlotte does for Wilbur and why it matters. Your connection to the idea that "a real friend does" hard things for others shows strong thinking. Try adding one more detail from the book about how Wilbur shows his gratitude.',
+      status: 'draft',
+      strengths: JSON.stringify(['Explains Charlotte\'s actions with detail', 'Strong connection to the friendship theme', 'Meets the sentence requirement']),
+      improvements: JSON.stringify(['Could add more about Wilbur\'s feelings', 'Try using a quote from the book']),
+      nextSteps: JSON.stringify(['Practice finding exact words from the book to use as evidence']),
+    },
+    {
+      id: createId(),
+      submissionId: readingResponseSubRecords[1].id,
+      teacherId: userIds.chen,
+      aiFeedback: 'You have the right idea about Charlotte helping Wilbur! Your response needs more details. Can you tell me what specific words Charlotte writes? How does Wilbur feel? Try to write at least 5 sentences and include details from the chapters.',
+      status: 'draft',
+      strengths: JSON.stringify(['Identifies the main idea correctly', 'Understands the friendship theme']),
+      improvements: JSON.stringify(['Needs more sentences (at least 5)', 'Add specific details from the chapters', 'Explain how Wilbur feels using examples']),
+      nextSteps: JSON.stringify(['Use the sentence starter: "In the book, Charlotte..." to add more details']),
+    },
+  ])
+
+  console.log('  New assignment submissions created (poetry: 5, narrative: 6, genetics: 6, multiplication: 5, reading response: 5).')
 
   // =========================================================
   // 15. Lesson Plans
@@ -2114,8 +2161,8 @@ Ethan's ADHD significantly impacts his ability to organize, initiate, and comple
   console.log(`  Standards: ${standardsToInsert.length}`)
   console.log('  Rubrics: 2, Criteria: 8')
   console.log('  Assignments: 9')
-  console.log(`  Submissions: ${submissionRecords.length + poetrySubRecords.length + narrativeSubRecords.length + geneticsSubRecords.length + multiplicationSubRecords.length}`)
-  console.log(`  Feedback drafts: ${feedbackData.length + poetryFeedback.length + 3 + geneticsSubRecords.length}`)
+  console.log(`  Submissions: ${submissionRecords.length + poetrySubRecords.length + narrativeSubRecords.length + geneticsSubRecords.length + multiplicationSubRecords.length + readingResponseSubRecords.length}`)
+  console.log(`  Feedback drafts: ${feedbackData.length + poetryFeedback.length + 3 + geneticsSubRecords.length + 2}`)
   console.log('  Criterion scores: 20 (poetry)')
   console.log('  IEPs: 2, Goals: 3')
   console.log(`  Progress data points: ${fluencyDataPoints.length + writingDataPoints.length + ethanProgressData.length}`)
