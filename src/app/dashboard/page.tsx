@@ -81,11 +81,23 @@ async function getTeacherStats(userId: string): Promise<TeacherStats> {
     studentCount = Number(sCount.count)
   }
 
+  // Count unread messages
+  const [unreadMessageCount] = await db
+    .select({ count: sql<number>`count(*)` })
+    .from(messages)
+    .where(
+      and(
+        eq(messages.receiverId, userId),
+        ne(messages.status, 'read')
+      )
+    )
+
   return {
     classes: Number(classCount.count),
     pendingGrading,
     assignments: Number(assignmentCount.count),
     students: studentCount,
+    unreadMessages: Number(unreadMessageCount.count),
   }
 }
 

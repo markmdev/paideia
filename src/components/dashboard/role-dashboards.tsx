@@ -27,6 +27,7 @@ export interface TeacherStats {
   pendingGrading: number
   assignments: number
   students: number
+  unreadMessages: number
 }
 
 interface TeacherDashboardProps {
@@ -72,6 +73,12 @@ export function TeacherDashboard({ firstName, role, stats }: TeacherDashboardPro
           value={String(stats.students)}
           description="Across all classes"
           icon={Users}
+        />
+        <StatCard
+          title="Unread Messages"
+          value={String(stats.unreadMessages)}
+          description="Awaiting your reply"
+          icon={MessageSquare}
         />
       </div>
 
