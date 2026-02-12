@@ -74,7 +74,7 @@ Make the assignment engaging, age-appropriate, and pedagogically sound. Ensure a
 
     const response = await anthropic.messages.create({
       model: 'claude-opus-4-6',
-      max_tokens: 4096,
+      max_tokens: 8192,
       tool_choice: { type: 'tool', name: 'create_smart_assignment' },
       tools: [
         {
@@ -276,41 +276,41 @@ Make the assignment engaging, age-appropriate, and pedagogically sound. Ensure a
       })
       .returning()
 
-    // 4. Create differentiated versions
+    // 4. Create differentiated versions (with null safety for truncated AI responses)
+    const dv = generated.differentiatedVersions
     const versionEntries = [
-      {
+      dv?.belowGrade && {
         assignmentId: createdAssignment.id,
         tier: 'below_grade',
-        title: generated.differentiatedVersions.belowGrade.title,
-        content: generated.differentiatedVersions.belowGrade.content,
-        scaffolds: JSON.stringify(
-          generated.differentiatedVersions.belowGrade.scaffolds
-        ),
+        title: dv.belowGrade.title,
+        content: dv.belowGrade.content,
+        scaffolds: JSON.stringify(dv.belowGrade.scaffolds || []),
       },
-      {
+      dv?.onGrade && {
         assignmentId: createdAssignment.id,
         tier: 'on_grade',
-        title: generated.differentiatedVersions.onGrade.title,
-        content: generated.differentiatedVersions.onGrade.content,
-        scaffolds: JSON.stringify(
-          generated.differentiatedVersions.onGrade.scaffolds
-        ),
+        title: dv.onGrade.title,
+        content: dv.onGrade.content,
+        scaffolds: JSON.stringify(dv.onGrade.scaffolds || []),
       },
-      {
+      dv?.aboveGrade && {
         assignmentId: createdAssignment.id,
         tier: 'above_grade',
-        title: generated.differentiatedVersions.aboveGrade.title,
-        content: generated.differentiatedVersions.aboveGrade.content,
-        scaffolds: JSON.stringify(
-          generated.differentiatedVersions.aboveGrade.scaffolds
-        ),
+        title: dv.aboveGrade.title,
+        content: dv.aboveGrade.content,
+        scaffolds: JSON.stringify(dv.aboveGrade.scaffolds || []),
       },
-    ]
+    ].filter(Boolean) as Array<{
+      assignmentId: string
+      tier: string
+      title: string
+      content: string
+      scaffolds: string
+    }>
 
-    const createdVersions = await db
-      .insert(differentiatedVersions)
-      .values(versionEntries)
-      .returning()
+    const createdVersions = versionEntries.length > 0
+      ? await db.insert(differentiatedVersions).values(versionEntries).returning()
+      : []
 
     return NextResponse.json({
       assignment: createdAssignment,
