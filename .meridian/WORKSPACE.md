@@ -149,15 +149,19 @@ Commits: f216d3d (API), ea2ac10 (UI)
 13. **Assessment-driven differentiation** — AI clusters students by performance and generates tiered follow-up activities
 
 ## Current State
-- 14 test files, 103 tests, ALL PASSING
-- Code review: 14 issues found, all 14 closed (13 fixed, 1 won't-fix P2)
+- 16 test files, 122 tests, ALL PASSING
+- Pebble epic TEAC-w25zza: 48/48 issues CLOSED
 - Production build: 100 routes, TypeScript clean
-- Schema pushed to Supabase (quizzes table got `difficultyLevel` and `createdBy` columns)
+- Schema pushed to Supabase
 - All dashboard pages verified 200 for all 5 roles
 - All API endpoints verified with auth boundary checks (401/403)
+- AI features verified with real Opus API: quiz gen, exit tickets, streaming tutor
 - Loading skeletons on 9 dashboard pages, error boundary at dashboard level
 - Favicon (SVG book icon on amber) + apple touch icon
 - Login/register pages use design system tokens (consistent with dashboard)
+- Registration privilege escalation fixed (role hardcoded to 'teacher')
+- Quiz generation handles standards as array or comma-separated string
+- 90 git commits
 
 ## Verified Endpoints (all working)
 - /api/health — 200
