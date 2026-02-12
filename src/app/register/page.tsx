@@ -4,20 +4,11 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 
-const ROLE_OPTIONS = [
-  { value: 'teacher', label: 'Teacher' },
-  { value: 'student', label: 'Student' },
-  { value: 'parent', label: 'Parent' },
-  { value: 'sped_teacher', label: 'SPED Teacher' },
-  { value: 'admin', label: 'Admin' },
-]
-
 export default function RegisterPage() {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
-  const [role, setRole] = useState('teacher')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const router = useRouter()
@@ -42,7 +33,7 @@ export default function RegisterPage() {
       const res = await fetch('/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, password, role }),
+        body: JSON.stringify({ name, email, password }),
       })
 
       const data = await res.json()
@@ -131,23 +122,9 @@ export default function RegisterPage() {
             />
           </div>
 
-          <div>
-            <label htmlFor="role" className="block text-sm font-medium text-foreground">
-              Role
-            </label>
-            <select
-              id="role"
-              value={role}
-              onChange={(e) => setRole(e.target.value)}
-              className="mt-1 block w-full rounded-md border border-input px-3 py-2 shadow-sm focus:border-ring focus:outline-none focus:ring-1 focus:ring-ring"
-            >
-              {ROLE_OPTIONS.map((opt) => (
-                <option key={opt.value} value={opt.value}>
-                  {opt.label}
-                </option>
-              ))}
-            </select>
-          </div>
+          <p className="text-xs text-muted-foreground">
+            You will be registered as a Teacher. Contact your administrator for other role types.
+          </p>
 
           <button
             type="submit"
