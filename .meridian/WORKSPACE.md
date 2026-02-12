@@ -1,23 +1,3 @@
-## API Docs
-- [Anthropic API](./api-docs/anthropic-api.md) - DONE (SDK v0.74.0, claude-opus-4-6)
-- [Drizzle ORM](./api-docs/drizzle-orm.md) - DONE
-- [Next.js Stack](./api-docs/nextjs-stack.md) - DONE
-
-## Creative Opus Usage (12 Implemented)
-1. **tool_use for structured output** — Rubrics, lesson plans, assignments, quizzes (forced tool_choice)
-2. **Multi-step generation** — Smart Assignment Creator generates assignment + rubric + criteria + 3 differentiated versions in one call
-3. **Streaming** — Real-time Socratic tutor responses (Phase 6)
-4. **Prompt caching** — Rubrics reused across student grading (Phase 3)
-5. **Batch grading** — Grade entire class at once with AI (Phase 3)
-6. **IEP individualization** — Similarity detection flags cookie-cutter IEPs (Phase 4)
-7. **Multilingual translation** — Native LLM translation for parent communication (Phase 5)
-8. **District AI analyst** — Opus synthesizes aggregate data into narrative insights (Phase 7)
-9. **Adaptive thinking** — District insights use extended thinking to reason through complex multi-metric data
-10. **Exit ticket generation** — Formative assessment tool generates targeted quick-checks with tool_use
-11. **Early warning interventions** — AI generates per-student intervention recommendations for at-risk students
-12. **Batch report card narratives** — AI generates individualized narratives for entire classes
-
-## Phase 1 Complete (10 commits)
 - Next.js 16 app scaffold with TypeScript
 - Drizzle ORM with 31 tables pushed to Supabase
 - NextAuth.js with credentials auth + JWT
@@ -478,13 +458,34 @@ Ran `npm run db:seed` after seed data double-dash fix (commit 5859fa8). All em d
 - ✅ Mobile (390x844): Admin school detail — 2x2 stat grid, tables fit, mastery distribution clean
 - ✅ Mobile (390x844): Admin students — table readable but rightmost columns (Avg Score, Mastery) cut off (minor, acceptable)
 
+### Browser Testing (Iteration 7 continued — this session)
+- ✅ Teacher (Rivera): Messages — 7 messages, compose dialog opens cleanly
+- ✅ Teacher: Compose message — To dropdown shows Sarah Chen (Parent), Marcus Williams (Parent)
+- ✅ Teacher: Send message — composed "Upcoming Poetry Unit" to Sarah Chen, sent successfully, appeared at top of list
+- ✅ Parent (Sarah Chen): Messages — received "Upcoming Poetry Unit" from Ms. Rivera at top, dated 2/12/2026
+- ✅ Parent: Message detail — full body, "Translate this message" feature with language dropdown, Reply section with "Reply to: Ms. Rivera"
+- ✅ **Message compose flow: END-TO-END VERIFIED** (teacher → parent, appears in both inboxes)
+- ✅ Mobile (390x844): SPED Progress Monitoring — student list (DeShawn 2 goals, Ethan 1 goal), Quick Data Entry form clean
+- ✅ Mobile: DeShawn Reading Fluency chart — On Track, baseline/goal/data lines, 12 data points, 99 wpm latest
+- ✅ Mobile: DeShawn Written Expression chart — Flat trend, 6 data points, rubric score 2.5/4
+- ✅ Mobile: Ethan Organization goal — On Track, 8 data points, 65% latest, clear upward trend
+- ✅ Mobile: Teacher Grading list — 3 assignments with progress bars, clean responsive cards
+- ✅ Mobile: Teacher Grading detail (American Dream) — 2x2 stat grid, 7 submissions with avatar initials, all readable
+- ✅ Admin: District Analytics — 6 stat cards, mastery distribution, avg scores by subject, teacher engagement table
+- ✅ Admin: "Generate AI District Insights" button visible at bottom
+- ✅ Teacher: Report Cards — 5 classes, Period 1 has 5 report cards (1 draft, 4 approved), Recent table with varied grades
+- ✅ Teacher: Early Warning (after reseed) — 16 students, 3 High Risk, 5 Moderate, 8 On Track
+- ✅ Student (DeShawn): Progress — 42% ELA mastery (Beginning), encouraging messages, Areas to Improve with standards
+
+### Bugs Found & Fixed (Iteration 7 continued)
+60. ✅ Report Cards: "Generate All" button shown for classes with 0 students — hidden when studentCount is 0. Commit 87a3c11.
+
 ### Next Steps (Iteration 8+)
-- Verify 3rd Grade students visible in admin students table on mobile
-- Test Rivera's dashboard after reseed (16 students instead of 22)
-- Test Okafor's empty Period 3 class (0 students empty state)
-- Mobile: SPED progress monitoring charts, teacher grading detail
-- Consider testing compose/send message flow end-to-end
-- Minor: Early warning indicator badges truncate on mobile — cosmetic
+- Test DeShawn's AI Tutor "Suggested Practice" section (mastery gaps → practice links)
+- Test parent compose message flow (parent → teacher)
+- Test admin student detail page after reseed
+- Mobile: message compose dialog
+- Consider: verify empty states on pages with no data
 
 ## Verified Endpoints (all working)
 - /api/health — 200
