@@ -1,7 +1,7 @@
 import { auth } from '@/lib/auth'
 import { db } from '@/lib/db'
 import { quizzes, quizQuestions } from '@/lib/db/schema'
-import { desc } from 'drizzle-orm'
+import { desc, eq, inArray } from 'drizzle-orm'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { Plus, FileQuestion, Calendar } from 'lucide-react'
@@ -19,11 +19,16 @@ export default async function QuizzesPage() {
   const allQuizzes = await db
     .select()
     .from(quizzes)
+    .where(eq(quizzes.createdBy, session.user.id))
     .orderBy(desc(quizzes.createdAt))
 
-  const allQuestions = await db
-    .select({ quizId: quizQuestions.quizId })
-    .from(quizQuestions)
+  const quizIds = allQuizzes.map((q) => q.id)
+  const allQuestions = quizIds.length > 0
+    ? await db
+        .select({ quizId: quizQuestions.quizId })
+        .from(quizQuestions)
+        .where(inArray(quizQuestions.quizId, quizIds))
+    : []
 
   const questionCountMap: Record<string, number> = {}
   for (const q of allQuestions) {
@@ -71,40 +76,42 @@ export default async function QuizzesPage() {
           {allQuizzes.map((quiz) => {
             const count = questionCountMap[quiz.id] ?? 0
             return (
-              <Card key={quiz.id} className="h-full hover:bg-accent/50 transition-colors">
-                <CardHeader className="pb-3">
-                  <div className="flex items-start justify-between gap-2">
-                    <CardTitle className="text-base leading-tight">
-                      {quiz.title}
-                    </CardTitle>
-                    <Badge
-                      variant="secondary"
-                      className="shrink-0 text-xs"
-                    >
-                      {quiz.subject}
-                    </Badge>
-                  </div>
-                  <CardDescription className="text-xs">
-                    {formatGradeLevel(quiz.gradeLevel)}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="pt-0">
-                  <div className="flex items-center gap-4 text-xs text-muted-foreground">
-                    <span className="flex items-center gap-1">
-                      <FileQuestion className="size-3" />
-                      {count} {count === 1 ? 'question' : 'questions'}
-                    </span>
-                    <span className="flex items-center gap-1 ml-auto">
-                      <Calendar className="size-3" />
-                      {quiz.createdAt.toLocaleDateString('en-US', {
-                        month: 'short',
-                        day: 'numeric',
-                        year: 'numeric',
-                      })}
-                    </span>
-                  </div>
-                </CardContent>
-              </Card>
+              <Link key={quiz.id} href={`/dashboard/quizzes/${quiz.id}`} className="block">
+                <Card className="h-full hover:bg-accent/50 transition-colors">
+                  <CardHeader className="pb-3">
+                    <div className="flex items-start justify-between gap-2">
+                      <CardTitle className="text-base leading-tight">
+                        {quiz.title}
+                      </CardTitle>
+                      <Badge
+                        variant="secondary"
+                        className="shrink-0 text-xs"
+                      >
+                        {quiz.subject}
+                      </Badge>
+                    </div>
+                    <CardDescription className="text-xs">
+                      {formatGradeLevel(quiz.gradeLevel)}
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="pt-0">
+                    <div className="flex items-center gap-4 text-xs text-muted-foreground">
+                      <span className="flex items-center gap-1">
+                        <FileQuestion className="size-3" />
+                        {count} {count === 1 ? 'question' : 'questions'}
+                      </span>
+                      <span className="flex items-center gap-1 ml-auto">
+                        <Calendar className="size-3" />
+                        {quiz.createdAt.toLocaleDateString('en-US', {
+                          month: 'short',
+                          day: 'numeric',
+                          year: 'numeric',
+                        })}
+                      </span>
+                    </div>
+                  </CardContent>
+                </Card>
+              </Link>
             )
           })}
         </div>
