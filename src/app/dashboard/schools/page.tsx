@@ -18,6 +18,9 @@ interface SchoolData {
   avgScore: number | null
 }
 
+const plural = (n: number, word: string, pluralForm?: string) =>
+  `${n} ${n === 1 ? word : (pluralForm ?? word + 's')}`
+
 export default async function SchoolsPage() {
   const session = await auth()
   if (!session?.user) {
@@ -95,19 +98,19 @@ export default async function SchoolsPage() {
                   <div className="grid grid-cols-2 gap-3 text-[11px]">
                     <div className="flex items-center gap-1.5 text-stone-600">
                       <Users className="size-3 text-stone-400" />
-                      <span>{school.teacherCount} Teachers</span>
+                      <span>{plural(school.teacherCount, 'Teacher')}</span>
                     </div>
                     <div className="flex items-center gap-1.5 text-stone-600">
                       <GraduationCap className="size-3 text-stone-400" />
-                      <span>{school.studentCount} Students</span>
+                      <span>{plural(school.studentCount, 'Student')}</span>
                     </div>
                     <div className="flex items-center gap-1.5 text-stone-600">
                       <BookOpen className="size-3 text-stone-400" />
-                      <span>{school.classCount} Classes</span>
+                      <span>{plural(school.classCount, 'Class', 'Classes')}</span>
                     </div>
                     <div className="flex items-center gap-1.5 text-stone-600">
                       <FileText className="size-3 text-stone-400" />
-                      <span>{school.assignmentCount} Assignments</span>
+                      <span>{plural(school.assignmentCount, 'Assignment')}</span>
                     </div>
                   </div>
                 </CardContent>
