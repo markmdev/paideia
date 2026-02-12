@@ -101,13 +101,34 @@ Commits: 55f5003, fd4e7a7, e1c4813, bf9633f, 237a391
 - Creative Opus: STREAMING real-time Socratic tutoring — the showpiece feature
 - Verified: Student Aisha gets Socratic responses for "2x + 5 = 13" — AI asks guiding questions
 
-## Phase 7 In Progress: District Intelligence
-Agents running:
-- district-api (a56d039): Admin API routes — overview, analytics, schools, teachers, students, AI insights
-- district-ui (a8a4049): Admin dashboard pages — analytics, schools, teachers, students
-- Creative Opus: AI-generated district narrative insights (POST /api/admin/insights)
+## Phase 7 Complete: District Intelligence
+Commits: f216d3d (API), ea2ac10 (UI)
+- Admin API: /api/admin/overview, /api/admin/analytics, /api/admin/schools (500 error — needs fix), /api/admin/teachers, /api/admin/students, /api/admin/insights
+- Admin UI: /dashboard/analytics (with loading.tsx), /dashboard/schools, /dashboard/teachers, /dashboard/students
+- Components: stat-card, ai-insights, student-search, student-table
+- AI service: district-insights.ts — Opus generates narrative insights from aggregate data
+- Verified: Login as williams@school.edu (admin), overview returns real data (2 schools, 5 teachers, 22 students), analytics returns mastery distribution, teachers returns engagement metrics, students returns performance data
+- BUG: /api/admin/schools returns 500 — needs investigation and fix
 
-### Still remaining: Phase 8 (Integration & Polish)
+## Phase 8 In Progress: Integration & Polish
+- Rubric weights fix: DONE (commit 60ca4d0, weights now 0.25 each)
+- Report card narratives: DONE (commit 57f7bbf) — AI service + API + UI + schema
+- Vitest tests: Agent a0f6d03 still running — 7 test files created (health, assignments, rubrics, grading, mastery, parent, tutor)
+- Schools API fix: NEEDED (500 error)
+- Sidebar nav: Need to add Report Cards link for teachers
+- Final build verification: NEEDED
+- End-to-end demo: NEEDED
+
+## Seed Users (CORRECTED)
+- rivera@school.edu (teacher, 8th ELA)
+- okafor@school.edu (teacher, 10th Bio)
+- chen@school.edu (teacher, 3rd grade)
+- rodriguez@school.edu (sped_teacher)
+- williams@school.edu (admin) — NOT admin@school.edu
+- sarah.chen@email.com (parent)
+- marcus.williams@email.com (parent)
+- aisha@student.edu (student)
+- deshawn@student.edu (student)
 
 ## Auth Session Testing
 Login flow verified via curl:
