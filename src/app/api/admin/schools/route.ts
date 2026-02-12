@@ -8,7 +8,7 @@ import {
   assignments,
   submissions,
 } from '@/lib/db/schema'
-import { eq, sql, and } from 'drizzle-orm'
+import { eq, sql, and, inArray } from 'drizzle-orm'
 import { NextResponse } from 'next/server'
 
 export async function GET() {
@@ -51,7 +51,7 @@ export async function GET() {
           .from(classMembers)
           .where(
             and(
-              sql`${classMembers.classId} = any(${classIds})`,
+              inArray(classMembers.classId, classIds),
               eq(classMembers.role, 'teacher')
             )
           )
@@ -62,7 +62,7 @@ export async function GET() {
           .from(classMembers)
           .where(
             and(
-              sql`${classMembers.classId} = any(${classIds})`,
+              inArray(classMembers.classId, classIds),
               eq(classMembers.role, 'student')
             )
           )
@@ -76,7 +76,7 @@ export async function GET() {
         const [aCount] = await db
           .select({ count: sql<number>`count(*)` })
           .from(assignments)
-          .where(sql`${assignments.classId} = any(${classIds})`)
+          .where(inArray(assignments.classId, classIds))
         assignmentCount = Number(aCount.count)
 
         const [scoreResult] = await db
@@ -85,7 +85,7 @@ export async function GET() {
           })
           .from(submissions)
           .innerJoin(assignments, eq(submissions.assignmentId, assignments.id))
-          .where(sql`${assignments.classId} = any(${classIds})`)
+          .where(inArray(assignments.classId, classIds))
         avgScore = scoreResult.avgScore
           ? Math.round(Number(scoreResult.avgScore) * 100) / 100
           : null
