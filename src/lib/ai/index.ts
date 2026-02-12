@@ -37,3 +37,17 @@ export type {
   ProgressNarrativeInput,
   GeneratedProgressNarrative,
 } from './iep-service'
+
+export {
+  generateParentProgressNarrative,
+  generateWeeklyDigest,
+  translateCommunication,
+} from './parent-communication'
+export type {
+  ProgressNarrativeInput as ParentProgressNarrativeInput,
+  GeneratedParentProgressNarrative,
+  WeeklyDigestInput,
+  GeneratedWeeklyDigest,
+  TranslationInput,
+  TranslatedContent,
+} from './parent-communication'
