@@ -43,10 +43,6 @@ export async function GET(req: NextRequest) {
     if (role === 'admin' || role === 'district_admin') {
       // Admins see all students (optionally filtered by schoolId)
       if (schoolId) {
-        const classesInSchool = await db
-          .select({ id: assignments.classId })
-          .from(assignments)
-        // Get classes in the school
         const { classes } = await import('@/lib/db/schema')
         const schoolClasses = await db
           .select({ id: classes.id })
@@ -136,32 +132,7 @@ export async function GET(req: NextRequest) {
 
     const recentAssignmentIds = recentAssignments.map((a) => a.id)
 
-    let recentSubmissions: {
-      id: string
-      studentId: string
-      totalScore: number | null
-      maxScore: number | null
-      status: string
-      assignmentId: string
-      submittedAt: Date
-    }[] = []
-
-    if (recentAssignmentIds.length > 0) {
-      recentSubmissions = await db
-        .select({
-          id: submissions.id,
-          studentId: submissions.studentId,
-          totalScore: submissions.totalScore,
-          maxScore: submissions.maxScore,
-          status: submissions.status,
-          assignmentId: submissions.assignmentId,
-          submittedAt: submissions.submittedAt,
-        })
-        .from(submissions)
-        .where(inArray(submissions.assignmentId, recentAssignmentIds))
-    }
-
-    // Also fetch all submissions for these students to catch missing ones
+    // Fetch all submissions for these students
     const allStudentSubmissions = await db
       .select({
         id: submissions.id,
