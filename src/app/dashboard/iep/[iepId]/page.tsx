@@ -7,7 +7,6 @@ import { eq, and, desc } from 'drizzle-orm'
 import { Pencil, ArrowLeft } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { ClaudeBadge } from '@/components/ui/claude-badge'
 import { IepDetailTabs } from './iep-detail-tabs'
 
 interface PageProps {
