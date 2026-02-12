@@ -149,7 +149,7 @@ Commits: f216d3d (API), ea2ac10 (UI)
 13. **Assessment-driven differentiation** — AI clusters students by performance and generates tiered follow-up activities
 
 ## Current State
-- 23 test files, 184 tests, ALL PASSING
+- 24 test files, 192 tests, ALL PASSING
 - Pebble epic TEAC-w25zza: 48/48 issues CLOSED
 - Production build: 100 routes, TypeScript clean
 - Schema pushed to Supabase
@@ -161,7 +161,50 @@ Commits: f216d3d (API), ea2ac10 (UI)
 - Login/register pages use design system tokens (consistent with dashboard)
 - Registration privilege escalation fixed (role hardcoded to 'teacher')
 - Quiz generation handles standards as array or comma-separated string
-- 92 git commits
+- ~100 git commits
+- **Database re-seeded** with updated student names (Jayden Park, Sofia Martinez, Ethan Nakamura, Zara Ahmed, Lucas Thompson instead of Student 1-5)
+
+## Polish Loop (Iteration 1 of 30)
+Work-until loop active: browser testing + visual/UX polish.
+Dev server running as background task b7d8737.
+Chrome browser tab ID: 1135439413.
+Frontend-design skill installed at .claude/skills/frontend-design/SKILL.md.
+
+### Bugs Found & Fixed
+1. ✅ Landing page: "--" → em dashes, stats updated, K-12 non-breaking (commit 19b0356)
+2. ✅ Dashboard greeting: title-aware name display "Ms. Rivera" (commits 49c2d00, 56b3083)
+3. ✅ Double-dash placeholders → "N/A" across 10 files (commit 4c6db8e)
+4. ✅ Admin Schools page: pluralization fix "1 Teacher" not "1 Teachers" (commit 5265f79)
+5. ✅ IEP detail: capitalize accommodation types and deadline types (commit 8fb5421)
+6. ✅ Seed data: realistic student names instead of "Student 1-5" (commit after reseed)
+7. ✅ Lesson plan metadata: "8" → "8th Grade", "45" → "45 min" display formatting
+
+### Pages Tested (all 5 roles)
+- ✅ Landing page (/) - clean, fixes verified
+- ✅ Login page (/login) - demo buttons work
+- ✅ Teacher dashboard (Ms. Rivera) - greeting correct, all stats
+- ✅ Teacher: Assignments, Lesson Plans, Rubrics, Quizzes, Exit Tickets
+- ✅ Teacher: Assessment & Grading, Reports, Report Cards, Early Warning
+- ✅ Student dashboard (Aisha Torres) - greeting, stats correct
+- ✅ Parent dashboard (Sarah Chen) - greeting, children section
+- ✅ Admin dashboard (Dr. Williams) - greeting, stats, analytics
+- ✅ Admin: Schools (pluralization fixed), Teachers, Students
+- ✅ SPED Teacher dashboard (Ms. Rodriguez) - greeting, Special Education section
+- ✅ SPED: IEP Management (caseload overview), IEP Detail (present levels, goals, accommodations, compliance)
+- ✅ SPED: Compliance Dashboard
+- ✅ Grading detail page (assignment submissions, scores)
+
+### Remaining Issues to Address
+- **Re-seeded database** — need to log out and back in to get fresh session (old user IDs stale)
+- **NextAuth signout page** — default unstyled, doesn't match app design (low priority)
+- **Design improvements** — landing page is functional but generic for a hackathon. Consider using frontend-design skill for a more distinctive look
+- **Messages page** — not yet tested
+- **Children detail page (parent)** — not yet tested
+- **Student progress page** — not yet tested
+- **Tutor chat page** — not yet tested
+- **Registration page** — not yet tested
+- **Create assignment flow** — not yet tested
+- **New IEP form** — not yet tested
 
 ## Verified Endpoints (all working)
 - /api/health — 200
