@@ -1,5 +1,6 @@
 import { pgTable, text, timestamp, real, integer, uniqueIndex } from 'drizzle-orm/pg-core'
 import { createId } from '@paralleldrive/cuid2'
+import { users } from './auth'
 import { standards } from './standards'
 
 export const quizzes = pgTable('quizzes', {
@@ -8,7 +9,9 @@ export const quizzes = pgTable('quizzes', {
   subject: text('subject').notNull(),
   gradeLevel: text('grade_level').notNull(),
   standards: text('standards_json'), // JSON
+  difficultyLevel: text('difficulty_level'),
   timeLimit: integer('time_limit'),
+  createdBy: text('created_by').references(() => users.id),
   createdAt: timestamp('created_at', { mode: 'date' }).notNull().defaultNow(),
 })
 

@@ -10,6 +10,14 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
+  const role = session.user.role
+  if (role !== 'teacher' && role !== 'sped_teacher') {
+    return NextResponse.json(
+      { error: 'Only teachers can generate quizzes' },
+      { status: 403 }
+    )
+  }
+
   try {
     const {
       topic,
@@ -28,13 +36,16 @@ export async function POST(req: Request) {
       )
     }
 
+    const clampedCount = Math.min(Math.max(numberOfQuestions ?? 10, 1), 20)
+
     const generated = await generateQuiz({
       topic,
       gradeLevel,
       subject,
-      numQuestions: numberOfQuestions ?? 10,
+      numQuestions: clampedCount,
       questionTypes: questionTypes ?? ['multiple_choice', 'short_answer'],
       standards: standards ? standards.split(',').map((s: string) => s.trim()).filter(Boolean) : undefined,
+      difficultyLevel: difficultyLevel || undefined,
     })
 
     // Save the quiz to the database
@@ -45,6 +56,8 @@ export async function POST(req: Request) {
         subject,
         gradeLevel,
         standards: standards || null,
+        difficultyLevel: difficultyLevel || null,
+        createdBy: session.user.id,
       })
       .returning()
 

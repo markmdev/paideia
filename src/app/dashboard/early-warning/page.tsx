@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import {
   AlertTriangle,
   TrendingDown,
@@ -263,9 +263,8 @@ export default function EarlyWarningPage() {
                     : null
 
                 return (
-                  <>
+                  <Fragment key={student.id}>
                     <TableRow
-                      key={student.id}
                       className={`${hasRecommendations ? 'cursor-pointer hover:bg-stone-50' : ''} ${isExpanded ? 'bg-stone-50' : ''}`}
                       onClick={() => hasRecommendations && toggleExpand(student.id)}
                     >
@@ -339,7 +338,7 @@ export default function EarlyWarningPage() {
                       </TableCell>
                     </TableRow>
                     {isExpanded && hasRecommendations && (
-                      <TableRow key={`${student.id}-detail`} className="bg-stone-50/50">
+                      <TableRow className="bg-stone-50/50">
                         <TableCell colSpan={6} className="py-4">
                           <div className="ml-8 rounded-lg border border-amber-200 bg-amber-50/50 p-4">
                             <div className="flex items-center gap-2 mb-3">
@@ -365,7 +364,7 @@ export default function EarlyWarningPage() {
                         </TableCell>
                       </TableRow>
                     )}
-                  </>
+                  </Fragment>
                 )
               })}
             </TableBody>

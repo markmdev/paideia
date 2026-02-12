@@ -124,13 +124,37 @@ export async function GET(req: NextRequest) {
       .orderBy(desc(masteryRecords.assessedAt))
 
     // Step 4: Fetch recent submissions with scores
-    // Get assignments from the last 30 days
+    // Get assignments from the last 30 days, including their classId
     const recentAssignments = await db
-      .select({ id: assignments.id })
+      .select({ id: assignments.id, classId: assignments.classId })
       .from(assignments)
       .where(gte(assignments.createdAt, thirtyDaysAgo))
 
-    const recentAssignmentIds = recentAssignments.map((a) => a.id)
+    // Build a map of classId -> assignment IDs for missing submission checks
+    const assignmentsByClass = new Map<string, string[]>()
+    for (const a of recentAssignments) {
+      const list = assignmentsByClass.get(a.classId) ?? []
+      list.push(a.id)
+      assignmentsByClass.set(a.classId, list)
+    }
+
+    // Fetch each student's enrolled class IDs for scoping assignment expectations
+    const studentClassMemberships = await db
+      .select({ userId: classMembers.userId, classId: classMembers.classId })
+      .from(classMembers)
+      .where(
+        and(
+          inArray(classMembers.userId, studentIds),
+          eq(classMembers.role, 'student')
+        )
+      )
+
+    const studentClassMap = new Map<string, Set<string>>()
+    for (const m of studentClassMemberships) {
+      const set = studentClassMap.get(m.userId) ?? new Set()
+      set.add(m.classId)
+      studentClassMap.set(m.userId, set)
+    }
 
     // Fetch all submissions for these students
     const allStudentSubmissions = await db
@@ -168,7 +192,12 @@ export async function GET(req: NextRequest) {
       const recentScores = gradedSubs
         .sort((a, b) => b.submittedAt.getTime() - a.submittedAt.getTime())
         .slice(0, 10)
-        .map((s) => Math.round(((s.totalScore ?? 0) / (s.maxScore ?? 100)) * 100))
+        .map((s) => {
+          const score = s.totalScore ?? 0
+          const maxScore = s.maxScore ?? 0
+          const percentage = maxScore > 0 ? (score / maxScore) * 100 : 0
+          return Math.round(percentage)
+        })
 
       // Indicator 1: Declining score trend
       let trendDirection: 'declining' | 'stable' | 'improving' = 'stable'
@@ -197,11 +226,18 @@ export async function GET(req: NextRequest) {
       }
 
       // Indicator 3: Missing submissions
-      // Count assignments the student should have submitted but didn't
+      // Only count assignments from classes the student is enrolled in
       const studentSubmittedAssignmentIds = new Set(studentSubs.map((s) => s.assignmentId))
-      const missingCount = recentAssignmentIds.filter(
-        (id) => !studentSubmittedAssignmentIds.has(id)
-      ).length
+      const enrolledClassIds = studentClassMap.get(studentId) ?? new Set()
+      let missingCount = 0
+      for (const classId of enrolledClassIds) {
+        const classAssignmentIds = assignmentsByClass.get(classId) ?? []
+        for (const assignmentId of classAssignmentIds) {
+          if (!studentSubmittedAssignmentIds.has(assignmentId)) {
+            missingCount++
+          }
+        }
+      }
       if (missingCount > 0) {
         indicators.push(`${missingCount} missing submission${missingCount !== 1 ? 's' : ''}`)
       }
@@ -244,15 +280,21 @@ export async function GET(req: NextRequest) {
 
     if (flaggedStudents.length > 0) {
       try {
-        const studentSummaries = flaggedStudents.map((s) => {
-          const firstName = s.name.split(' ')[0]
-          return `Student: ${firstName}\nRisk Level: ${s.riskLevel.replace('_', ' ')}\nIndicators: ${s.indicators.join(', ')}\nRecent Scores: ${s.recentScores.join(', ') || 'No scores'}\nTrend: ${s.trendDirection}`
+        // Build anonymized identifiers to avoid sending PII to the AI
+        const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+        const anonymizedIdToStudent = new Map<string, StudentRisk>()
+        const studentSummaries = flaggedStudents.map((s, index) => {
+          const anonId = index < 26
+            ? `Student ${alphabet[index]}`
+            : `Student ${alphabet[Math.floor(index / 26) - 1]}${alphabet[index % 26]}`
+          anonymizedIdToStudent.set(anonId, s)
+          return `Student: ${anonId}\nRisk Level: ${s.riskLevel.replace('_', ' ')}\nIndicators: ${s.indicators.join(', ')}\nRecent Scores: ${s.recentScores.join(', ') || 'No scores'}\nTrend: ${s.trendDirection}`
         }).join('\n\n')
 
         const response = await anthropic.messages.create({
           model: AI_MODEL,
           max_tokens: 4096,
-          system: 'You are an expert K-12 education interventionist. Based on student performance data, generate specific, actionable intervention recommendations for teachers.',
+          system: 'You are an expert K-12 education interventionist. Based on student performance data, generate specific, actionable intervention recommendations for teachers. Students are identified by anonymized labels (e.g. "Student A", "Student B"). Use these exact labels in your response.',
           tools: [
             {
               name: 'student_interventions',
@@ -265,9 +307,9 @@ export async function GET(req: NextRequest) {
                     items: {
                       type: 'object',
                       properties: {
-                        firstName: {
+                        studentLabel: {
                           type: 'string',
-                          description: 'The student\'s first name.',
+                          description: 'The anonymized student label exactly as provided (e.g. "Student A").',
                         },
                         recommendations: {
                           type: 'array',
@@ -275,7 +317,7 @@ export async function GET(req: NextRequest) {
                           description: '2-3 specific, actionable intervention recommendations for this student.',
                         },
                       },
-                      required: ['firstName', 'recommendations'],
+                      required: ['studentLabel', 'recommendations'],
                     },
                   },
                 },
@@ -299,14 +341,12 @@ export async function GET(req: NextRequest) {
 
         if (toolUseBlock) {
           const result = toolUseBlock.input as {
-            students: { firstName: string; recommendations: string[] }[]
+            students: { studentLabel: string; recommendations: string[] }[]
           }
 
-          // Match recommendations back to students by first name
+          // Match recommendations back to students using anonymized labels
           for (const rec of result.students) {
-            const match = flaggedStudents.find(
-              (s) => s.name.split(' ')[0].toLowerCase() === rec.firstName.toLowerCase()
-            )
+            const match = anonymizedIdToStudent.get(rec.studentLabel)
             if (match) {
               match.recommendations = rec.recommendations
             }

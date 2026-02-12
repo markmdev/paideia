@@ -7,6 +7,7 @@ export interface QuizInput {
   numQuestions?: number
   questionTypes?: ('multiple_choice' | 'short_answer' | 'essay')[]
   standards?: string[]
+  difficultyLevel?: string
 }
 
 export interface GeneratedQuiz {
@@ -103,9 +104,10 @@ Grade Level: ${input.gradeLevel}
 Topic: ${input.topic}
 Number of Questions: ${numQuestions}
 Question Types: ${questionTypes.join(', ')}
+${input.difficultyLevel ? `Difficulty Level: ${input.difficultyLevel}` : ''}
 ${input.standards?.length ? `Standards: ${input.standards.join(', ')}` : ''}
 
-Generate ${numQuestions} questions that span Bloom's taxonomy levels. For multiple-choice questions, include 4 options with plausible distractors based on common misconceptions. Include an answer key with explanations for every question.`,
+Generate ${numQuestions} questions that span Bloom's taxonomy levels.${input.difficultyLevel ? ` Target an overall difficulty of "${input.difficultyLevel}" -- adjust question complexity, vocabulary, and required reasoning depth accordingly.` : ''} For multiple-choice questions, include 4 options with plausible distractors based on common misconceptions. Include an answer key with explanations for every question.`,
       },
     ],
   })

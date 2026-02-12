@@ -13,6 +13,7 @@ export async function GET() {
   const results = await db
     .select()
     .from(quizzes)
+    .where(eq(quizzes.createdBy, session.user.id))
     .orderBy(desc(quizzes.createdAt))
 
   const quizIds = results.map((q) => q.id)
