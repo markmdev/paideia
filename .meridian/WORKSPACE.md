@@ -305,9 +305,33 @@ Database re-seeded with `npm run db:seed` — ALL data verified inserted:
 | Report Card Batch | ✅ PASS | Excellent | 7 individualized narratives referencing actual student performance data |
 | Differentiation | ✅ PASS | Excellent | Clustered students by tier, generated scaffolded activities per tier |
 
+### Bugs Found & Fixed (Iteration 5)
+25. ✅ Lesson plan detail: raw "8" → "8th Grade" via formatGradeLevel (commit ec0e176)
+26. ✅ Lesson plan detail: raw markdown (**bold**, *italic*) → rendered HTML via ReactMarkdown (commit ec0e176)
+27. ✅ Assignment detail: raw markdown in description, instructions, differentiated versions → ReactMarkdown (commit 603d83f)
+28. ✅ Grading feedback panel: raw markdown → ReactMarkdown for AI feedback display (commit 3f700ef)
+29. ✅ Submission detail: raw markdown → ReactMarkdown for AI feedback (commit 3f700ef)
+30. ✅ Parent progress narrative: raw markdown → ReactMarkdown (commit 3f700ef)
+31. ✅ IEP present levels: raw markdown → ReactMarkdown (commit 3f700ef)
+32. ✅ IEP goal count pluralization: "1 goals" → "1 goal" — SQL count returns string, added Number() coercion (commit 9b25bb3)
+
+### Pages Tested (Iteration 5)
+- ✅ Teacher: Lesson plan detail — markdown rendered (bold, italic), "8th Grade" grade badge
+- ✅ Teacher: Assignment detail (AI-generated) — markdown rendered in description, instructions
+- ✅ Teacher: Grading list — 3 assignments with grading stats (American Dream 4/7 graded 62%, Poetry 5/5 100%, Narrative 0/6)
+- ✅ Teacher: Grading detail (American Dream) — 7 submissions with scores, differentiation section
+- ✅ Teacher: Report Cards — Period 1 shows 12 report cards (8 draft, 4 approved), grades B/D+/D/C+
+- ✅ SPED: IEP Management — "2 goals" and "1 goal" (pluralization fixed)
+- ✅ SPED: IEP Detail (DeShawn) — rich present levels, 2 goals with progress, accommodations, services, deadlines
+- ✅ Admin: Analytics — all data correct, "Generate AI District Insights" button present
+- ✅ Student: Dashboard — stats correct (1 class, 2 tutor sessions)
+- ✅ Student: Assignments — shows class assignments
+- ✅ Mobile (390x844): Admin analytics — no overflow
+
 ### Remaining Work (Priority Order)
 1. **Minor: Form validation UX** — quiz form doesn't show visible errors on empty submit
-2. **Continue browser testing** — look for more visual/UX polish opportunities
+2. **Continue browser testing** — mobile responsiveness, remaining pages
+3. **Consider: Prose styling** — the `prose prose-sm` classes may need Tailwind typography plugin for full styling
 
 ## Verified Endpoints (all working)
 - /api/health — 200
