@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { auth } from '@/lib/auth'
 import { db } from '@/lib/db'
 import { assignments, classes, classMembers, rubrics } from '@/lib/db/schema'
-import { eq, desc, and, inArray } from 'drizzle-orm'
+import { eq, desc, and, inArray, ne } from 'drizzle-orm'
 import { FileText, Plus, Sparkles } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { AssignmentCard } from '@/components/assignments/assignment-card'
@@ -48,7 +48,7 @@ export default async function AssignmentsPage() {
         .from(assignments)
         .leftJoin(classes, eq(assignments.classId, classes.id))
         .leftJoin(rubrics, eq(assignments.rubricId, rubrics.id))
-        .where(inArray(assignments.classId, classIds))
+        .where(and(inArray(assignments.classId, classIds), ne(assignments.status, 'draft')))
         .orderBy(desc(assignments.createdAt))
     }
   } else {
