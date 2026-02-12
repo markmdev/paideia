@@ -10,6 +10,7 @@ import {
   ClipboardList,
   ClipboardCheck,
   FileQuestion,
+  AlertTriangle,
   BarChart3,
   Users,
   MessageSquare,
@@ -67,6 +68,7 @@ function getNavGroups(role: string): NavGroup[] {
         { title: 'Assessment & Grading', href: '/dashboard/grading', icon: BarChart3 },
         { title: 'Reports', href: '/dashboard/reports', icon: TrendingUp },
         { title: 'Report Cards', href: '/dashboard/report-cards', icon: FileText },
+        { title: 'Early Warning', href: '/dashboard/early-warning', icon: AlertTriangle },
       ],
     },
   ]
@@ -137,6 +139,7 @@ function getNavGroups(role: string): NavGroup[] {
       label: 'Intelligence',
       items: [
         { title: 'Analytics', href: '/dashboard/analytics', icon: BarChart3 },
+        { title: 'Early Warning', href: '/dashboard/early-warning', icon: AlertTriangle },
         { title: 'SPED Compliance', href: '/dashboard/compliance', icon: ShieldCheck },
       ],
     },
