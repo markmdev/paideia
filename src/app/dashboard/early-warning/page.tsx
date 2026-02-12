@@ -295,7 +295,7 @@ export default function EarlyWarningPage() {
                           {config.label}
                         </Badge>
                       </TableCell>
-                      <TableCell>
+                      <TableCell className="whitespace-normal">
                         <div className="flex flex-wrap gap-1">
                           {student.indicators.length > 0 ? (
                             student.indicators.map((indicator, i) => (
@@ -339,7 +339,7 @@ export default function EarlyWarningPage() {
                     </TableRow>
                     {isExpanded && hasRecommendations && (
                       <TableRow className="bg-stone-50/50">
-                        <TableCell colSpan={6} className="py-4">
+                        <TableCell colSpan={6} className="py-4 whitespace-normal">
                           <div className="ml-8 rounded-lg border border-amber-200 bg-amber-50/50 p-4">
                             <div className="flex items-center gap-2 mb-3">
                               <Sparkles className="size-4 text-amber-600" />
