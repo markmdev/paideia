@@ -24,7 +24,7 @@ code_review_enabled: true
 pre_compaction_sync_enabled: true
 
 # Token threshold for pre-compaction sync warning (default: 150000).
-pre_compaction_sync_threshold: 145000
+pre_compaction_sync_threshold: 150000
 
 # Auto-compact off: When true, agent stops after pre-compaction sync
 # instead of allowing auto-compaction. User must run /clear manually.

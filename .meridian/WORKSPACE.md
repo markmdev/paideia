@@ -178,33 +178,49 @@ Frontend-design skill installed at .claude/skills/frontend-design/SKILL.md.
 5. ✅ IEP detail: capitalize accommodation types and deadline types (commit 8fb5421)
 6. ✅ Seed data: realistic student names instead of "Student 1-5" (commit after reseed)
 7. ✅ Lesson plan metadata: "8" → "8th Grade", "45" → "45 min" display formatting
+8. ✅ Tutor subject badge: "General" → correct subject (Math) after URL replacement (commit bf27e39)
+9. ✅ Parent pages grade level: "8" → "8th Grade" on children list and detail (commit a4d3274)
+10. ✅ Registration page: removed misleading role dropdown (commit 20fd78b)
+11. ✅ Student assignments page: role-aware query, hide Create button for students (commit 11e2cdd)
+12. ✅ Landing page redesign: Instrument Serif headings, warm editorial aesthetic, colored module cards (commit 321131e)
 
 ### Pages Tested (all 5 roles)
-- ✅ Landing page (/) - clean, fixes verified
-- ✅ Login page (/login) - demo buttons work
+- ✅ Landing page (/) - redesigned with warm editorial aesthetic, Instrument Serif, colored module cards
+- ✅ Login page (/login) - demo buttons work, sign out redirects here cleanly
+- ✅ Registration page (/register) - role dropdown removed, clean form
 - ✅ Teacher dashboard (Ms. Rivera) - greeting correct, all stats
-- ✅ Teacher: Assignments, Lesson Plans, Rubrics, Quizzes, Exit Tickets
-- ✅ Teacher: Assessment & Grading, Reports, Report Cards, Early Warning
+- ✅ Teacher: Assignments list, Create Assignment form (3-step wizard), Lesson Plans list
+- ✅ Teacher: Create Lesson Plan form, Rubrics, Quizzes list, Create Quiz form (3-step wizard)
+- ✅ Teacher: Exit Tickets (generator form), Assessment & Grading, Reports, Report Cards
+- ✅ Teacher: Early Warning dashboard (22 students, risk badges, indicator pills)
+- ✅ Teacher: My Classes (5 periods, student counts)
 - ✅ Student dashboard (Aisha Torres) - greeting, stats correct
+- ✅ Student: Assignments - shows class assignments, no Create button (fixed)
+- ✅ Student: My Classes - "8th Grade ELA - Period 1", Ms. Rivera
+- ✅ Student: Progress page - 85% mastery, ELA skills with progress bars
+- ✅ Student: AI Tutor hub - colorful subject cards, personalized greeting
+- ✅ Student: AI Tutor chat - streaming Socratic response works, subject badge fixed
 - ✅ Parent dashboard (Sarah Chen) - greeting, children section
+- ✅ Parent: My Children - Aisha Torres card with "8th Grade", On Track badge
+- ✅ Parent: Child detail - stats cards, Skills Snapshot, progress summaries empty state
+- ✅ Parent: Progress page - 85% mastery, ELA skills with progress bars
+- ✅ Parent: Messages - clean empty state
 - ✅ Admin dashboard (Dr. Williams) - greeting, stats, analytics
 - ✅ Admin: Schools (pluralization fixed), Teachers, Students
 - ✅ SPED Teacher dashboard (Ms. Rodriguez) - greeting, Special Education section
-- ✅ SPED: IEP Management (caseload overview), IEP Detail (present levels, goals, accommodations, compliance)
-- ✅ SPED: Compliance Dashboard
+- ✅ SPED: IEP Management (caseload), IEP Detail, Create IEP form (5-step wizard)
+- ✅ SPED: Exit Tickets, Compliance Dashboard
 - ✅ Grading detail page (assignment submissions, scores)
+- ✅ User menu dropdown (name, email, role badge, sign out)
+- ✅ Sign out flow - redirects to /login cleanly (no unstyled NextAuth page)
 
-### Remaining Issues to Address
-- **Re-seeded database** — need to log out and back in to get fresh session (old user IDs stale)
-- **NextAuth signout page** — default unstyled, doesn't match app design (low priority)
-- **Design improvements** — landing page is functional but generic for a hackathon. Consider using frontend-design skill for a more distinctive look
-- **Messages page** — not yet tested
-- **Children detail page (parent)** — not yet tested
-- **Student progress page** — not yet tested
-- **Tutor chat page** — not yet tested
-- **Registration page** — not yet tested
-- **Create assignment flow** — not yet tested
-- **New IEP form** — not yet tested
+### Remaining Work
+- **Reports/mastery page** — not yet visually verified this iteration (was about to check)
+- **Rubrics list page** — visually verified earlier but could recheck
+- **Mobile responsiveness** — not yet tested on narrow viewport
+- **Form validation UX** — not yet tested (submit empty forms, check error states)
+- **Dark mode** — not tested (likely unsupported, low priority)
+- **Loading states** — skeletons exist on 9 pages but not visually verified this iteration
 
 ## Verified Endpoints (all working)
 - /api/health — 200
