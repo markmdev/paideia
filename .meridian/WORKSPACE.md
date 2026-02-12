@@ -148,6 +148,16 @@ Commits: f216d3d (API), ea2ac10 (UI)
 12. **Batch report card narratives** — AI generates individualized narratives for entire classes
 13. **Assessment-driven differentiation** — AI clusters students by performance and generates tiered follow-up activities
 
+## Current State (Post-Compaction Note)
+- 14 test files, 103 tests (102 passing, 1 failing)
+- FAILING TEST: `tests/api/early-warning.test.ts` — "returns correct structure" test needs mock update
+  - The early-warning route was refactored to add class-scoped assignment attribution and PII anonymization
+  - The test mocks need additional query results: student class memberships (query 6) and the mock structure changed
+  - Fix: read the actual route queries (6+ selects for teacher flow) and update selectResults array to match
+  - The route queries in order: teacherClasses, studentMembers, studentInfo, masteryRecords, recentAssignments (with classId), studentClassMemberships, submissions
+- Code reviewers (a63f38f, a618807) ran and found 14 issues — 12 fixed, 2 P2 remaining (TEAC-zgymed quiz N+0 query, TEAC-129dqx difficulty dropped — already fixed)
+- Schema change: quizzes table got `difficultyLevel` and `createdBy` columns — may need `npx drizzle-kit push` on Supabase
+
 ## Verified Endpoints (all working)
 - /api/health — 200
 - /api/auth/csrf, /api/auth/callback/credentials, /api/auth/session — auth flow
