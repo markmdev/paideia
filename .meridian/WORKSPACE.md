@@ -358,22 +358,37 @@ User directive: Think as head of product. What's missing? What features would wi
 - ✅ Student: Assignment detail (American Dream) — "Assignment" + "Your Submission" tabs, no delete button, no rubric/differentiation tabs
 - ✅ Student: Your Submission tab — full essay text, "Submitted" badge, submission date. (This submission hasn't been graded yet so no feedback section — correct behavior)
 
-### Next Steps — Product Enhancements to Continue
-- Test student assignment detail for a graded submission with feedback (need to find one in seed data)
-- Test AI Tutor hub with suggested practice topics (logged in as Aisha)
-- Test compose message dialog (as teacher Rivera or parent)
-- Test teacher Messages page (verify Rivera sees messages)
-- Consider more product improvements:
-  - Student submission form (allow students to submit work)
-  - AI transparency dashboard for parents
-  - Teacher dashboard: add "unread messages" stat card
-  - Assignment list cards should be clickable links to detail pages for students
-  - Polish: loading states on new features
+### Product Improvements Implemented (Iteration 8)
+44. ✅ Student submission API: POST /api/submissions with upsert logic, enrollment validation, role check (commit 539c87d)
+45. ✅ Student submit form: SubmitWorkForm client component on assignment detail — textarea + submit button, shows when no existing submission (commit 539c87d)
+46. ✅ Teacher unread messages stat: "Unread Messages" card on teacher dashboard with MessageSquare icon (commit b28baee)
+47. ✅ Teacher dashboard 5-card grid: lg:grid-cols-5 to accommodate new stat card (commit 9850a70)
+48. ✅ Student dashboard: "Your Assignments" section below Quick Actions — shows assignment cards with Submitted/Not Submitted badges, due dates, "View Submission" / "Start Working" links (commit 9850a70)
+
+### Browser Testing (Iteration 8)
+- ✅ DeShawn: AI Tutor hub — "Suggested Practice" shows 4 ELA gaps (35-38% mastery) with Practice This links
+- ✅ DeShawn: Dashboard — stat cards (2 classes, 0 completed, N/A avg, 1 tutor)
+- ✅ DeShawn: Assignments — 2 assignments visible, clickable cards
+- ✅ DeShawn: Assignment detail (Narrative Writing) — "Your Submission" tab, essay text, "Submitted" badge
+- ✅ DeShawn: Dashboard "Your Assignments" section — 2 cards with "Submitted" badges, due dates, class names
+- ✅ Teacher (Rivera): Dashboard — 5 stat cards in one row (5 classes, 9 pending, 5 assignments, 22 students, 0 unread)
+- ✅ Teacher: Sidebar "Communication > Messages" section confirmed
+- ✅ DeShawn: My Classes — 2 classes (ELA Period 1 + SPED Resource Room)
+- ✅ Mobile (390x844): Student dashboard responsive — cards stack, assignments section clean
+
+### In Progress — Next Product Improvements
+- Parent AI transparency section on child detail page (was editing when compaction warning hit)
+  - File: src/app/dashboard/children/[childId]/page.tsx
+  - Need to add ShieldCheck, Eye, Bot icons and AI transparency card at bottom
+- More planned improvements:
+  - "Powered by Claude" badge on AI-generated content (feedback, report cards, IEP docs)
+  - Student "waiting for feedback" message on submission tab
+  - Assignment list cards already clickable (confirmed — Link wrapper exists)
 
 ### Dev Server
 Background task b7d8737 running `npm run dev` on localhost:3000.
 Chrome tab ID: 1135439413.
-Currently logged in as: Aisha Torres (student), on assignment detail page.
+Currently logged in as: DeShawn Williams (student), on classes page.
 
 ## Verified Endpoints (all working)
 - /api/health — 200
