@@ -42,7 +42,8 @@ export async function generateDistrictInsights(
 ): Promise<DistrictInsights> {
   const response = await anthropic.messages.create({
     model: AI_MODEL,
-    max_tokens: 2000,
+    max_tokens: 16000,
+    thinking: { type: 'adaptive' },
     system: `You are a district education analyst for a K-12 school district using an AI-powered teaching platform. You analyze aggregate data and generate actionable insights for district administrators. Your analysis is data-driven, specific, and focused on improving student outcomes and teacher effectiveness. Reference exact numbers from the data. Prioritize findings by impact.`,
     tools: [
       {
