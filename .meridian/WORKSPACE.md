@@ -50,6 +50,7 @@ Building a K-12 education platform for Anthropic hackathon. Five modules + Stude
 6. **IEP individualization** — Similarity detection flags cookie-cutter IEPs (Phase 4)
 7. **Multilingual translation** — Native LLM translation for parent communication (Phase 5)
 8. **District AI analyst** — Opus synthesizes aggregate data into narrative insights (Phase 7)
+9. **Adaptive thinking** — District insights use extended thinking to reason through complex multi-metric data before producing structured output
 
 ## Phase 1 Complete (10 commits)
 - Next.js 16 app scaffold with TypeScript
@@ -124,7 +125,7 @@ Commits: f216d3d (API), ea2ac10 (UI)
 - AI generation verified end-to-end: rubric generation works (6 criteria), tutor streaming works (Socratic)
 - Lesson plan generation works but takes >90s for Opus (expected for complex tool_use)
 
-## All 8 Creative Opus Usages
+## All 9 Creative Opus Usages
 1. tool_use for structured output — Rubrics, lesson plans, assignments, quizzes
 2. Multi-step generation — Assignment + rubric + criteria + 3 differentiated versions
 3. Streaming — Real-time Socratic tutor responses
@@ -133,6 +134,7 @@ Commits: f216d3d (API), ea2ac10 (UI)
 6. IEP individualization — Similarity detection flags cookie-cutter IEPs
 7. Multilingual translation — Native LLM translation for parent communication
 8. District AI analyst — Opus synthesizes aggregate data into narrative insights
+9. Adaptive thinking — District insights use extended thinking to reason through complex multi-metric data before producing structured output
 
 ## Verified Endpoints (all working)
 - /api/health — 200
