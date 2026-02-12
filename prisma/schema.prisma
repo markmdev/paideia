@@ -1,0 +1,509 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+// ==================== AUTH ====================
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  emailVerified DateTime?
+  image         String?
+  passwordHash  String?
+  role          String    @default("teacher") // teacher, student, parent, sped_teacher, admin, district_admin
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  accounts      Account[]
+  sessions      Session[]
+
+  // Teacher relations
+  teacherClasses    ClassMember[]
+  assignments       Assignment[]
+  lessonPlans       LessonPlan[]
+  rubrics           Rubric[]
+  feedbackDrafts    FeedbackDraft[]
+  iepsAuthored      IEP[]
+
+  // Student relations
+  studentEnrollments  ClassMember[]    @relation("StudentMember")
+  submissions         Submission[]
+  masteryRecords      MasteryRecord[]
+  tutorSessions       TutorSession[]
+  ieps                IEP[]            @relation("StudentIEP")
+  progressData        ProgressDataPoint[]
+
+  // Parent relations
+  parentChildren      ParentChild[]    @relation("Parent")
+  childOf             ParentChild[]    @relation("Child")
+
+  // Communication
+  sentMessages        Message[]        @relation("Sender")
+  receivedMessages    Message[]        @relation("Receiver")
+  notifications       Notification[]
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+  @@unique([identifier, token])
+}
+
+// ==================== CLASSES & ENROLLMENT ====================
+model Class {
+  id          String   @id @default(cuid())
+  name        String
+  subject     String
+  gradeLevel  String
+  period      String?
+  schoolYear  String   @default("2025-2026")
+  schoolId    String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  school      School?       @relation(fields: [schoolId], references: [id])
+  members     ClassMember[]
+  assignments Assignment[]
+  standards   ClassStandard[]
+}
+
+model ClassMember {
+  id        String   @id @default(cuid())
+  classId   String
+  userId    String
+  role      String   // teacher, student
+  joinedAt  DateTime @default(now())
+
+  class     Class    @relation(fields: [classId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  studentUser User?  @relation("StudentMember", fields: [userId], references: [id])
+
+  @@unique([classId, userId])
+}
+
+model ParentChild {
+  id        String @id @default(cuid())
+  parentId  String
+  childId   String
+
+  parent    User   @relation("Parent", fields: [parentId], references: [id])
+  child     User   @relation("Child", fields: [childId], references: [id])
+
+  @@unique([parentId, childId])
+}
+
+// ==================== SCHOOLS & DISTRICTS ====================
+model School {
+  id          String   @id @default(cuid())
+  name        String
+  districtId  String?
+  address     String?
+  createdAt   DateTime @default(now())
+
+  district    District? @relation(fields: [districtId], references: [id])
+  classes     Class[]
+}
+
+model District {
+  id        String   @id @default(cuid())
+  name      String
+  state     String
+  createdAt DateTime @default(now())
+
+  schools   School[]
+}
+
+// ==================== STANDARDS ====================
+model Standard {
+  id          String   @id @default(cuid())
+  code        String   @unique
+  description String
+  subject     String
+  gradeLevel  String
+  domain      String?
+  state       String   @default("CCSS") // Common Core by default
+
+  classStandards  ClassStandard[]
+  masteryRecords  MasteryRecord[]
+  rubricCriteria  RubricCriterion[]
+  questionStandards QuestionStandard[]
+}
+
+model ClassStandard {
+  id         String @id @default(cuid())
+  classId    String
+  standardId String
+
+  class      Class    @relation(fields: [classId], references: [id], onDelete: Cascade)
+  standard   Standard @relation(fields: [standardId], references: [id])
+
+  @@unique([classId, standardId])
+}
+
+// ==================== ASSIGNMENTS & RUBRICS ====================
+model Assignment {
+  id              String   @id @default(cuid())
+  title           String
+  description     String
+  instructions    String?
+  type            String   @default("essay") // essay, quiz, short_answer, project, lab_report
+  gradeLevel      String
+  subject         String
+  dueDate         DateTime?
+  status          String   @default("draft") // draft, published, grading, completed
+  classId         String
+  teacherId       String
+  rubricId        String?
+  successCriteria String?  // JSON array of "I can" statements
+  aiMetadata      String?  // JSON - AI generation context
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  class           Class       @relation(fields: [classId], references: [id])
+  teacher         User        @relation(fields: [teacherId], references: [id])
+  rubric          Rubric?     @relation(fields: [rubricId], references: [id])
+  submissions     Submission[]
+  differentiatedVersions DifferentiatedVersion[]
+}
+
+model Rubric {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  type        String   @default("analytical") // analytical, holistic
+  levels      String   // JSON array of level names e.g. ["Beginning", "Developing", "Proficient", "Advanced"]
+  teacherId   String
+  isTemplate  Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  teacher     User            @relation(fields: [teacherId], references: [id])
+  criteria    RubricCriterion[]
+  assignments Assignment[]
+}
+
+model RubricCriterion {
+  id          String   @id @default(cuid())
+  rubricId    String
+  name        String
+  description String?
+  weight      Float    @default(1.0)
+  standardId  String?
+  descriptors String   // JSON object mapping level -> descriptor text
+
+  rubric      Rubric   @relation(fields: [rubricId], references: [id], onDelete: Cascade)
+  standard    Standard? @relation(fields: [standardId], references: [id])
+  scores      CriterionScore[]
+}
+
+// ==================== SUBMISSIONS & GRADING ====================
+model Submission {
+  id            String   @id @default(cuid())
+  assignmentId  String
+  studentId     String
+  content       String   // Student's work text
+  attachments   String?  // JSON array of file paths/URLs
+  status        String   @default("submitted") // draft, submitted, grading, graded, returned
+  submittedAt   DateTime @default(now())
+  gradedAt      DateTime?
+  totalScore    Float?
+  maxScore      Float?
+  letterGrade   String?
+
+  assignment    Assignment     @relation(fields: [assignmentId], references: [id])
+  student       User           @relation(fields: [studentId], references: [id])
+  feedbackDraft FeedbackDraft?
+  criterionScores CriterionScore[]
+}
+
+model FeedbackDraft {
+  id            String   @id @default(cuid())
+  submissionId  String   @unique
+  teacherId     String
+  aiFeedback    String   // AI-generated feedback
+  teacherEdits  String?  // Teacher's edited version
+  finalFeedback String?  // Final approved feedback
+  status        String   @default("draft") // draft, edited, approved, sent
+  strengths     String?  // JSON array
+  improvements  String?  // JSON array
+  nextSteps     String?  // JSON array
+  aiMetadata    String?  // JSON - model used, tokens, reasoning
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  submission    Submission @relation(fields: [submissionId], references: [id])
+  teacher       User       @relation(fields: [teacherId], references: [id])
+  auditLog      AuditLog[]
+}
+
+model CriterionScore {
+  id            String   @id @default(cuid())
+  submissionId  String
+  criterionId   String
+  level         String   // The proficiency level achieved
+  score         Float
+  maxScore      Float
+  justification String?  // AI's reasoning for the score
+
+  submission    Submission      @relation(fields: [submissionId], references: [id], onDelete: Cascade)
+  criterion     RubricCriterion @relation(fields: [criterionId], references: [id])
+
+  @@unique([submissionId, criterionId])
+}
+
+// ==================== MASTERY TRACKING ====================
+model MasteryRecord {
+  id          String   @id @default(cuid())
+  studentId   String
+  standardId  String
+  level       String   // beginning, developing, proficient, advanced
+  score       Float    // 0-100 normalized
+  assessedAt  DateTime @default(now())
+  source      String   // assignment_id or assessment reference
+  notes       String?
+
+  student     User     @relation(fields: [studentId], references: [id])
+  standard    Standard @relation(fields: [standardId], references: [id])
+}
+
+// ==================== DIFFERENTIATION ====================
+model DifferentiatedVersion {
+  id            String @id @default(cuid())
+  assignmentId  String
+  tier          String // below_grade, on_grade, above_grade
+  title         String
+  content       String
+  scaffolds     String? // JSON - graphic organizers, word banks, etc.
+  createdAt     DateTime @default(now())
+
+  assignment    Assignment @relation(fields: [assignmentId], references: [id], onDelete: Cascade)
+}
+
+// ==================== LESSON PLANS ====================
+model LessonPlan {
+  id              String   @id @default(cuid())
+  title           String
+  subject         String
+  gradeLevel      String
+  duration        String?  // e.g. "45 minutes"
+  standards       String?  // JSON array of standard codes
+  objectives      String   // JSON array
+  warmUp          String?
+  directInstruction String?
+  guidedPractice  String?
+  independentPractice String?
+  closure         String?
+  materials       String?  // JSON array
+  differentiation String?  // JSON - scaffolds and extensions
+  assessmentPlan  String?
+  teacherId       String
+  aiMetadata      String?  // JSON
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  teacher         User     @relation(fields: [teacherId], references: [id])
+}
+
+// ==================== QUIZZES ====================
+model Quiz {
+  id          String   @id @default(cuid())
+  title       String
+  subject     String
+  gradeLevel  String
+  standards   String?  // JSON array
+  timeLimit   Int?     // minutes
+  createdAt   DateTime @default(now())
+
+  questions   QuizQuestion[]
+}
+
+model QuizQuestion {
+  id            String   @id @default(cuid())
+  quizId        String
+  type          String   // multiple_choice, short_answer, essay, matching, fill_blank
+  questionText  String
+  options       String?  // JSON array for MC
+  correctAnswer String?
+  explanation   String?
+  bloomsLevel   String?  // remember, understand, apply, analyze, evaluate, create
+  points        Float    @default(1.0)
+  orderIndex    Int
+
+  quiz          Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  standards     QuestionStandard[]
+}
+
+model QuestionStandard {
+  id         String @id @default(cuid())
+  questionId String
+  standardId String
+
+  question   QuizQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  standard   Standard     @relation(fields: [standardId], references: [id])
+
+  @@unique([questionId, standardId])
+}
+
+// ==================== SPED / IEP ====================
+model IEP {
+  id              String   @id @default(cuid())
+  studentId       String
+  authorId        String   // SPED teacher
+  status          String   @default("draft") // draft, review, active, archived
+  startDate       DateTime?
+  endDate         DateTime?
+  presentLevels   String?  // Rich text - PLAAFP
+  disabilityCategory String?
+  accommodations  String?  // JSON array
+  modifications   String?  // JSON array
+  relatedServices String?  // JSON array
+  transitionPlan  String?  // JSON - for age 16+
+  meetingDate     DateTime?
+  meetingNotes    String?
+  parentInput     String?
+  aiMetadata      String?  // JSON - AI generation context
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  student         User         @relation("StudentIEP", fields: [studentId], references: [id])
+  author          User         @relation(fields: [authorId], references: [id])
+  goals           IEPGoal[]
+  auditLog        AuditLog[]
+}
+
+model IEPGoal {
+  id              String   @id @default(cuid())
+  iepId           String
+  area            String   // reading, writing, math, behavior, social, etc.
+  goalText        String
+  baseline        String?
+  target          String?
+  measureMethod   String?
+  frequency       String?  // how often measured
+  timeline        String?
+  status          String   @default("active") // active, met, not_met, discontinued
+  similarityScore Float?   // AI-calculated similarity to other IEPs
+  aiGenerated     Boolean  @default(false)
+  createdAt       DateTime @default(now())
+
+  iep             IEP      @relation(fields: [iepId], references: [id], onDelete: Cascade)
+  progressData    ProgressDataPoint[]
+}
+
+model ProgressDataPoint {
+  id          String   @id @default(cuid())
+  goalId      String
+  studentId   String
+  value       Float    // The measurement value
+  unit        String   // percentage, count, rating, wpm, etc.
+  date        DateTime @default(now())
+  notes       String?
+  recordedBy  String?  // User ID of person recording
+
+  goal        IEPGoal  @relation(fields: [goalId], references: [id], onDelete: Cascade)
+  student     User     @relation(fields: [studentId], references: [id])
+}
+
+model ComplianceDeadline {
+  id          String   @id @default(cuid())
+  type        String   // initial_eval, annual_review, triennial, reevaluation
+  studentId   String
+  dueDate     DateTime
+  status      String   @default("upcoming") // upcoming, approaching, overdue, completed
+  completedAt DateTime?
+  notes       String?
+}
+
+// ==================== COMMUNICATION ====================
+model Message {
+  id          String   @id @default(cuid())
+  senderId    String
+  receiverId  String
+  subject     String?
+  content     String
+  type        String   @default("general") // general, progress_update, assignment_insight, weekly_digest, alert
+  language    String   @default("en")
+  isAIGenerated Boolean @default(false)
+  status      String   @default("sent") // draft, sent, read
+  metadata    String?  // JSON
+  createdAt   DateTime @default(now())
+
+  sender      User     @relation("Sender", fields: [senderId], references: [id])
+  receiver    User     @relation("Receiver", fields: [receiverId], references: [id])
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  type      String   // alert, celebration, deadline, message
+  title     String
+  body      String
+  isRead    Boolean  @default(false)
+  link      String?
+  createdAt DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+// ==================== TUTOR ====================
+model TutorSession {
+  id          String   @id @default(cuid())
+  studentId   String
+  subject     String
+  topic       String?
+  messages    String   // JSON array of message objects
+  startedAt   DateTime @default(now())
+  endedAt     DateTime?
+  metadata    String?  // JSON - performance data
+
+  student     User     @relation(fields: [studentId], references: [id])
+}
+
+// ==================== AUDIT ====================
+model AuditLog {
+  id          String   @id @default(cuid())
+  entityType  String   // iep, feedback_draft, etc.
+  entityId    String
+  action      String   // ai_generated, human_edited, approved, etc.
+  userId      String?
+  before      String?  // Previous state (JSON)
+  after       String?  // New state (JSON)
+  aiModel     String?
+  aiPrompt    String?  // Anonymized prompt context
+  timestamp   DateTime @default(now())
+
+  iep         IEP?          @relation(fields: [entityId], references: [id])
+  feedback    FeedbackDraft? @relation(fields: [entityId], references: [id])
+}
