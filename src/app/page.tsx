@@ -29,11 +29,11 @@ export default function Home() {
         <section className="bg-gradient-to-b from-amber-50/60 via-orange-50/30 to-background">
           <div className="mx-auto flex max-w-6xl flex-col items-center px-4 py-24 text-center">
             <h1 className="max-w-3xl text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
-              The Operating System for K-12 Teaching
+              The Operating System for <span className="whitespace-nowrap">K&#x2011;12</span> Teaching
             </h1>
             <p className="mt-6 max-w-2xl text-lg text-muted-foreground">
               Plan lessons, grade with AI-assisted feedback, track student mastery,
-              manage IEPs, and communicate with families -- all in one platform.
+              manage IEPs, and communicate with families — all in one platform.
               Reclaim hours every week so you can focus on what matters: your students.
             </p>
             <Badge variant="outline" className="mt-6 gap-1.5 border-amber-300 bg-amber-50 px-3 py-1 text-sm text-amber-800">
@@ -58,8 +58,8 @@ export default function Home() {
           <div className="mx-auto grid max-w-4xl grid-cols-2 gap-6 px-4 sm:grid-cols-4">
             <StatCard value="5+" label="Hours saved per week" />
             <StatCard value="13" label="AI-powered features" />
-            <StatCard value="5" label="User roles" />
-            <StatCard value="45" label="Database tables" />
+            <StatCard value="100+" label="Standards aligned" />
+            <StatCard value="6" label="Modules built-in" />
           </div>
         </section>
 
@@ -77,7 +77,7 @@ export default function Home() {
               <FeatureCard
                 icon={BookOpen}
                 title="Instructional Design"
-                description="Smart assignments, lesson plans, rubrics, quizzes, and differentiation -- all standards-aligned and curriculum-grounded."
+                description="Smart assignments, lesson plans, rubrics, quizzes, and differentiation — all standards-aligned and curriculum-grounded."
               />
               <FeatureCard
                 icon={BarChart3}
@@ -131,7 +131,7 @@ export default function Home() {
               <StepCard
                 step="3"
                 title="Grow"
-                description="Longitudinal mastery tracking powers differentiation, parent insights, SPED compliance, and Socratic tutoring -- all from the same data."
+                description="Longitudinal mastery tracking powers differentiation, parent insights, SPED compliance, and Socratic tutoring — all from the same data."
               />
             </div>
           </div>
