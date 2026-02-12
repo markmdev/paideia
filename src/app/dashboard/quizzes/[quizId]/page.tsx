@@ -38,9 +38,16 @@ export default async function QuizDetailPage({
     .where(eq(quizQuestions.quizId, quizId))
     .orderBy(quizQuestions.orderIndex)
 
-  const standards: string[] = quiz.standards
-    ? JSON.parse(quiz.standards)
-    : []
+  let standards: string[] = []
+  if (quiz.standards) {
+    try {
+      const parsed = JSON.parse(quiz.standards)
+      standards = Array.isArray(parsed) ? parsed : [quiz.standards]
+    } catch {
+      // Standards stored as comma-separated string, not JSON
+      standards = quiz.standards.split(',').map((s: string) => s.trim()).filter(Boolean)
+    }
+  }
 
   const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
 

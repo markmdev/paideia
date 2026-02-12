@@ -59,7 +59,13 @@ export async function POST(req: Request) {
         title: generated.title,
         subject,
         gradeLevel,
-        standards: standards || null,
+        standards: standards
+          ? JSON.stringify(
+              Array.isArray(standards)
+                ? standards
+                : standards.split(',').map((s: string) => s.trim()).filter(Boolean)
+            )
+          : null,
         difficultyLevel: difficultyLevel || null,
         createdBy: session.user.id,
       })
