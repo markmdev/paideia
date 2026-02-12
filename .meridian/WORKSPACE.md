@@ -314,24 +314,39 @@ Database re-seeded with `npm run db:seed` — ALL data verified inserted:
 30. ✅ Parent progress narrative: raw markdown → ReactMarkdown (commit 3f700ef)
 31. ✅ IEP present levels: raw markdown → ReactMarkdown (commit 3f700ef)
 32. ✅ IEP goal count pluralization: "1 goals" → "1 goal" — SQL count returns string, added Number() coercion (commit 9b25bb3)
+33. ✅ Draft assignments visible to students — added `ne(assignments.status, 'draft')` filter (commit a9758df)
+34. ✅ Quiz detail page crash: JSON.parse on non-JSON standards field — handle both JSON array and comma-separated string formats (commit 66b5e33)
+35. ✅ Quiz generation route stores raw standards string — now normalizes to JSON array (commit 66b5e33)
 
-### Pages Tested (Iteration 5)
+### Pages Tested (Iteration 5-6)
 - ✅ Teacher: Lesson plan detail — markdown rendered (bold, italic), "8th Grade" grade badge
 - ✅ Teacher: Assignment detail (AI-generated) — markdown rendered in description, instructions
 - ✅ Teacher: Grading list — 3 assignments with grading stats (American Dream 4/7 graded 62%, Poetry 5/5 100%, Narrative 0/6)
 - ✅ Teacher: Grading detail (American Dream) — 7 submissions with scores, differentiation section
 - ✅ Teacher: Report Cards — Period 1 shows 12 report cards (8 draft, 4 approved), grades B/D+/D/C+
+- ✅ Teacher: Report Card detail — Jayden Park A, rich narrative, strengths/growth/recommendations, AI disclosure footer
+- ✅ Teacher: Quiz detail — 10 questions, Bloom's badges, correct answers green, explanations, standards badges
 - ✅ SPED: IEP Management — "2 goals" and "1 goal" (pluralization fixed)
 - ✅ SPED: IEP Detail (DeShawn) — rich present levels, 2 goals with progress, accommodations, services, deadlines
+- ✅ SPED: Progress Monitoring — DeShawn (2 goals: Reading Fluency On Track 99wpm, Written Expression Flat 2.5/4), Ethan (1 goal: Organization On Track 65%)
+- ✅ SPED: Dashboard — role badge, SPED nav section, correct stats
 - ✅ Admin: Analytics — all data correct, "Generate AI District Insights" button present
 - ✅ Student: Dashboard — stats correct (1 class, 2 tutor sessions)
-- ✅ Student: Assignments — shows class assignments
-- ✅ Mobile (390x844): Admin analytics — no overflow
+- ✅ Student: Assignments — shows only non-draft assignments (fixed)
+- ✅ Marcus (parent): Dashboard — 1 child (DeShawn), 2 unread messages
+- ✅ Mobile (390x844): Admin analytics, quizzes list, quiz detail — all responsive, no overflow
 
-### Remaining Work (Priority Order)
-1. **Minor: Form validation UX** — quiz form doesn't show visible errors on empty submit
-2. **Continue browser testing** — mobile responsiveness, remaining pages
-3. **Consider: Prose styling** — the `prose prose-sm` classes may need Tailwind typography plugin for full styling
+### User Request: Product Enhancement Phase
+After finishing verification, user wants me to shift into **product thinking mode**:
+- Think as head of product — what's missing? What features would win the hackathon?
+- Focus on judgment and taste — what's unclear for users, what would make it the best tool
+- No rush, plenty of time
+
+### Remaining Verification Work
+1. Marcus (parent): Child detail page, messages page
+2. Mobile testing of remaining pages (IEP detail, parent portal, grading detail)
+3. Minor: Form validation UX — quiz form doesn't show visible errors on empty submit
+4. Then: Product enhancement phase
 
 ## Verified Endpoints (all working)
 - /api/health — 200
