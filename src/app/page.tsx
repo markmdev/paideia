@@ -57,7 +57,7 @@ export default function Home() {
         <section className="border-y bg-muted/30 py-12">
           <div className="mx-auto grid max-w-4xl grid-cols-2 gap-6 px-4 sm:grid-cols-4">
             <StatCard value="5+" label="Hours saved per week" />
-            <StatCard value="8" label="AI-powered features" />
+            <StatCard value="12" label="AI-powered features" />
             <StatCard value="5" label="User roles" />
             <StatCard value="31+" label="Database tables" />
           </div>
