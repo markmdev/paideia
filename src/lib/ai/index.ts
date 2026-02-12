@@ -54,3 +54,15 @@ export type {
 
 export { streamTutorResponse } from './tutor'
 export type { TutorInput } from './tutor'
+
+export { generateReportCardNarrative } from './report-card'
+export type {
+  ReportCardInput,
+  GeneratedReportCard,
+} from './report-card'
+
+export { generateDistrictInsights } from './district-insights'
+export type {
+  DistrictSnapshot,
+  DistrictInsights,
+} from './district-insights'
