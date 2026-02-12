@@ -12,3 +12,11 @@ export type { QuizInput, GeneratedQuiz } from './generate-quiz'
 
 export { differentiateContent } from './differentiate'
 export type { DifferentiateInput, DifferentiatedContent } from './differentiate'
+
+export { gradeSubmission, batchGradeSubmissions } from './grade-submission'
+export type {
+  GradeSubmissionInput,
+  GradingResult,
+  BatchSubmission,
+  BatchGradingResult,
+} from './grade-submission'
