@@ -179,7 +179,13 @@ export default async function ClassDetailPage({
         assessedAt: masteryRecords.assessedAt,
       })
       .from(masteryRecords)
-      .where(inArray(masteryRecords.studentId, studentIds))
+      .innerJoin(standards, eq(masteryRecords.standardId, standards.id))
+      .where(
+        and(
+          inArray(masteryRecords.studentId, studentIds),
+          eq(standards.subject, cls.subject)
+        )
+      )
       .orderBy(desc(masteryRecords.assessedAt))
   }
 
