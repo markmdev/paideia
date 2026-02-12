@@ -50,7 +50,15 @@ Building a K-12 education platform for Anthropic hackathon. Five modules + Stude
 7. **Multi-modal** for handwritten work analysis (image upload)
 
 ## Active Context
-- Iteration 1/50 of work-until loop
-- Scaffolding agent built base Next.js + Prisma (need to pivot to Drizzle)
-- Drizzle docs being researched
-- Next: Pivot to Drizzle+Supabase, set up auth, seed data, build Phase 1
+- Foundation layer complete: Next.js 16, Drizzle ORM, NextAuth.js with credentials auth, DB schema, middleware
+- Building dashboard layout (P1 task): sidebar nav, user menu, role-aware dashboard home, session provider
+- Files to create:
+  1. `src/components/providers/session-provider.tsx` - AuthSessionProvider wrapper
+  2. `src/components/dashboard/sidebar-nav.tsx` - Role-aware sidebar navigation
+  3. `src/components/dashboard/user-menu.tsx` - User dropdown with sign out
+  4. `src/app/dashboard/layout.tsx` - Dashboard layout with sidebar + header
+  5. `src/app/dashboard/page.tsx` - Role-aware dashboard home
+  6. Update `src/app/page.tsx` - Landing page with hero
+  7. Update `src/app/layout.tsx` - Wrap with SessionProvider
+- Existing shadcn components: sidebar, card, badge, dropdown-menu, avatar, button, separator, sheet, tabs, etc.
+- User roles: teacher, student, parent, sped_teacher, admin, district_admin
