@@ -44,7 +44,11 @@ export async function POST(req: Request) {
       subject,
       numQuestions: clampedCount,
       questionTypes: questionTypes ?? ['multiple_choice', 'short_answer'],
-      standards: standards ? standards.split(',').map((s: string) => s.trim()).filter(Boolean) : undefined,
+      standards: standards
+        ? Array.isArray(standards)
+          ? standards
+          : standards.split(',').map((s: string) => s.trim()).filter(Boolean)
+        : undefined,
       difficultyLevel: difficultyLevel || undefined,
     })
 
