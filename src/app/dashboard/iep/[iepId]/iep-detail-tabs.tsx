@@ -168,12 +168,12 @@ export function IepDetailTabs({
           <div className="space-y-3">
             {accommodations.map((a, i) => (
               <div key={`acc-${i}`} className="text-sm text-stone-600">
-                <span className="font-medium">{a.type}:</span> {a.description}
+                <span className="font-medium">{a.type.charAt(0).toUpperCase() + a.type.slice(1)}:</span> {a.description}
               </div>
             ))}
             {modifications.map((m, i) => (
               <div key={`mod-${i}`} className="text-sm text-stone-600">
-                <span className="font-medium">{m.type} (modification):</span>{' '}
+                <span className="font-medium">{m.type.charAt(0).toUpperCase() + m.type.slice(1)} (modification):</span>{' '}
                 {m.description}
               </div>
             ))}
@@ -230,7 +230,7 @@ export function IepDetailTabs({
                 >
                   <div>
                     <span className="text-stone-700 font-medium">
-                      {d.type.replace(/_/g, ' ')}
+                      {d.type.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}
                     </span>
                     <span className="text-stone-400 ml-2">
                       {dueDate.toLocaleDateString('en-US', {
