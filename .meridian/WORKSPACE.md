@@ -336,17 +336,44 @@ Database re-seeded with `npm run db:seed` — ALL data verified inserted:
 - ✅ Marcus (parent): Dashboard — 1 child (DeShawn), 2 unread messages
 - ✅ Mobile (390x844): Admin analytics, quizzes list, quiz detail — all responsive, no overflow
 
-### User Request: Product Enhancement Phase
-After finishing verification, user wants me to shift into **product thinking mode**:
-- Think as head of product — what's missing? What features would win the hackathon?
-- Focus on judgment and taste — what's unclear for users, what would make it the best tool
-- No rush, plenty of time
+### Product Enhancement Phase — IN PROGRESS
+User directive: Think as head of product. What's missing? What features would win hackathon?
 
-### Remaining Verification Work
-1. Marcus (parent): Child detail page, messages page
-2. Mobile testing of remaining pages (IEP detail, parent portal, grading detail)
-3. Minor: Form validation UX — quiz form doesn't show visible errors on empty submit
-4. Then: Product enhancement phase
+### Product Improvements Implemented (Iteration 7)
+36. ✅ Landing page hero: "Try the Demo" is now primary CTA → /login (commit 04d348c)
+37. ✅ Student Quick Action nav fix: /dashboard/progress → /dashboard/student-progress (commit 04d348c)
+38. ✅ Parent dashboard icon: BookOpen → MessageSquare for Unread Messages (commit 04d348c)
+39. ✅ Parent Messages Quick Action: BookOpen → MessageSquare icon (commit 04d348c)
+40. ✅ Teacher sidebar: added "Communication > Messages" nav section (commit 04d348c)
+41. ✅ Student assignment detail: students can view assignments, see their submission content, score/grade, and approved AI feedback with strengths/improvements/next steps. Teacher-only features (rubric, differentiation, delete) hidden. (commit 60c19e0)
+42. ✅ Compose message dialog: "New Message" button on Messages page opens dialog with role-aware contacts dropdown, subject, content. Parents see teachers, teachers see parents. POST to /api/messages. New /api/messages/contacts endpoint. (commit a5bf4ac)
+43. ✅ AI tutor connected to mastery gaps: Tutor hub shows "Suggested Practice" section with student's weak areas (score < 70) from mastery data, with "Practice This" links that pre-fill tutor topic. (commit cad0ace)
+
+### Browser Testing (Iteration 7)
+- ✅ Landing page: "Try the Demo" primary CTA, "Get Started Free" secondary — confirmed
+- ✅ Try Demo button navigates to /login → auto-detected existing session, went to dashboard
+- ✅ Parent (Marcus) dashboard: MessageSquare icon on Unread Messages card — confirmed
+- ✅ Student (Aisha) dashboard: sidebar has "Progress" linking to /dashboard/student-progress — confirmed
+- ✅ Student: Assignments page — 2 assignments (American Dream Essay, Narrative Writing)
+- ✅ Student: Assignment detail (American Dream) — "Assignment" + "Your Submission" tabs, no delete button, no rubric/differentiation tabs
+- ✅ Student: Your Submission tab — full essay text, "Submitted" badge, submission date. (This submission hasn't been graded yet so no feedback section — correct behavior)
+
+### Next Steps — Product Enhancements to Continue
+- Test student assignment detail for a graded submission with feedback (need to find one in seed data)
+- Test AI Tutor hub with suggested practice topics (logged in as Aisha)
+- Test compose message dialog (as teacher Rivera or parent)
+- Test teacher Messages page (verify Rivera sees messages)
+- Consider more product improvements:
+  - Student submission form (allow students to submit work)
+  - AI transparency dashboard for parents
+  - Teacher dashboard: add "unread messages" stat card
+  - Assignment list cards should be clickable links to detail pages for students
+  - Polish: loading states on new features
+
+### Dev Server
+Background task b7d8737 running `npm run dev` on localhost:3000.
+Chrome tab ID: 1135439413.
+Currently logged in as: Aisha Torres (student), on assignment detail page.
 
 ## Verified Endpoints (all working)
 - /api/health — 200
@@ -367,6 +394,7 @@ After finishing verification, user wants me to shift into **product thinking mod
 - /api/report-cards (GET/POST), /api/report-cards/batch (POST)
 - /api/grading/differentiate (POST) — assessment-driven differentiation
 - /api/student/progress (GET) — student self-service mastery view
+- /api/messages/contacts (GET) — role-aware contact list for compose
 
 ## Seed Users (password: password123)
 - rivera@school.edu (teacher, 8th ELA)
