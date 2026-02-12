@@ -12,6 +12,7 @@ import { eq, and, inArray, desc, sql } from 'drizzle-orm'
 import { FileText, Users, CheckCircle2, Clock } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
+import { BatchGenerateDialog } from '@/components/report-cards/batch-generate-dialog'
 
 export default async function ReportCardsPage() {
   const session = await auth()
@@ -168,7 +169,7 @@ export default async function ReportCardsPage() {
                       {cls.subject} | Grade {cls.gradeLevel} | {students} students
                     </CardDescription>
                   </CardHeader>
-                  <CardContent className="pt-0">
+                  <CardContent className="pt-0 space-y-3">
                     <div className="flex items-center justify-between text-xs text-stone-500">
                       <span className="flex items-center gap-1">
                         <Users className="size-3" />
@@ -189,6 +190,11 @@ export default async function ReportCardsPage() {
                         )}
                       </div>
                     </div>
+                    <BatchGenerateDialog
+                      classId={cls.id}
+                      className={cls.name}
+                      studentCount={students}
+                    />
                   </CardContent>
                 </Card>
               </Link>
