@@ -22,10 +22,10 @@ Building a K-12 education platform for Anthropic hackathon. Five modules + Stude
 | P1: Foundation | TEAC-xlssqq | DONE |
 | P2: Instructional Design | TEAC-nz1ote | DONE |
 | P3: Assessment Intelligence | TEAC-4bg5ia | DONE |
-| P4: SPED/Compliance | TEAC-275nqy | In Progress |
-| P5: Family Engagement | TEAC-hc17it | Blocked by P4 |
-| P6: Student AI Tutor | TEAC-2novwk | Blocked by P5 |
-| P7: District Intelligence | TEAC-rnynnz | Blocked by P6 |
+| P4: SPED/Compliance | TEAC-275nqy | DONE |
+| P5: Family Engagement | TEAC-hc17it | DONE |
+| P6: Student AI Tutor | TEAC-2novwk | DONE |
+| P7: District Intelligence | TEAC-rnynnz | In Progress |
 | P8: Integration & Polish | TEAC-y2fott | Blocked by P7 |
 
 ## Key Decisions
@@ -42,11 +42,14 @@ Building a K-12 education platform for Anthropic hackathon. Five modules + Stude
 - [Next.js Stack](./api-docs/nextjs-stack.md) - DONE
 
 ## Creative Opus Usage (Implemented)
-1. **tool_use for structured output** - Rubrics, lesson plans, assignments, quizzes (forced tool_choice)
-2. **Multi-step generation** - Smart Assignment Creator generates assignment + rubric + criteria + 3 differentiated versions in one call
-3. **Streaming** - Real-time Socratic tutor responses (Phase 6)
-4. **Prompt caching** - Rubrics reused across student grading (Phase 3)
-5. **Message batches** - Batch grading entire classes (Phase 3)
+1. **tool_use for structured output** — Rubrics, lesson plans, assignments, quizzes (forced tool_choice)
+2. **Multi-step generation** — Smart Assignment Creator generates assignment + rubric + criteria + 3 differentiated versions in one call
+3. **Streaming** — Real-time Socratic tutor responses (Phase 6)
+4. **Prompt caching** — Rubrics reused across student grading (Phase 3)
+5. **Batch grading** — Grade entire class at once with AI (Phase 3)
+6. **IEP individualization** — Similarity detection flags cookie-cutter IEPs (Phase 4)
+7. **Multilingual translation** — Native LLM translation for parent communication (Phase 5)
+8. **District AI analyst** — Opus synthesizes aggregate data into narrative insights (Phase 7)
 
 ## Phase 1 Complete (10 commits)
 - Next.js 16 app scaffold with TypeScript
@@ -72,40 +75,39 @@ All verified end-to-end (commits 4039ca7, 3be8a26, bfa286d, d09ad94):
 2. Grading API (4 routes) — single grade, batch grade (3/6 graded, 3 had seed data conflicts), approve, analytics
 3. Grading UI (3 pages + 3 components) — feedback review, approve/edit/regenerate
 4. Mastery tracking (3 API routes + 2 UI pages + 2 components) — heatmap, gap analysis
-5. Known issue: seed rubric weights sum to 4.0 not 1.0, causing scores >100. Fix in Phase 8.
+5. Seed rubric weights sum to 1.0 per rubric (0.25 per criterion).
 
-## Phase 4 Active: SPED & Compliance Module
-Building 3 features in parallel (2 agents still running: a5b37bf=API, abadcbd=UI):
+## Phase 4 Complete: SPED & Compliance Module
+Commits: a800b69, f8512b6, a5a6c11, 88a5dd5, 2ea17df
+- IEP AI service: generatePresentLevels, generateIEPGoals (similarity detection), generateAccommodations, generateProgressNarrative
+- IEP API: 11 routes (CRUD + AI generation + progress + compliance)
+- IEP UI: caseload overview, detail with tabs, new/edit forms, components
+- Compliance API: deadlines with color-coding
+- Verified: Login as rodriguez, GET /api/iep returns DeShawn's IEP, all pages 200
 
-### Completed
-- IEP AI service (`src/lib/ai/iep-service.ts`) — committed as a800b69
-  - generatePresentLevels, generateIEPGoals, generateAccommodations, generateProgressNarrative
-- IEP components committed as f8512b6 (iep-card, goal-card, progress-chart, compliance-badge, data-entry-form)
-- IEP UI pages committed as a5a6c11 (caseload page + detail page with tabs)
+## Phase 5 Complete: Family Engagement
+Commits: 13bb5c6, 7b948b0, 1de83b1, 23a210f
+- AI service: parent-communication.ts (progress narratives, weekly digests, multilingual translation)
+- API: /api/parent/dashboard, /api/parent/children/[childId], /api/messages
+- UI: /dashboard/children, /dashboard/progress, /dashboard/messages
+- Creative Opus: native LLM multilingual translation
+- Verified: Parent Sarah Chen sees child Aisha Torres, all pages 200
 
-### In Progress (agents still running)
-- IEP API agent (a5b37bf): 9 IEP routes + 2 compliance routes created, not yet committed
-  - src/app/api/iep/route.ts, [iepId]/route.ts, [iepId]/goals/route.ts, [iepId]/goals/[goalId]/route.ts
-  - src/app/api/iep/generate/present-levels/route.ts, goals/route.ts, accommodations/route.ts
-  - src/app/api/iep/[iepId]/progress/route.ts, progress/narrative/route.ts
-  - src/app/api/compliance/route.ts, [studentId]/route.ts
-- IEP UI agent (abadcbd): compliance page + progress-monitoring page still pending
+## Phase 6 Complete: Student AI Tutor
+Commits: 55f5003, fd4e7a7, e1c4813, bf9633f, 237a391
+- AI service: tutor.ts with streaming Socratic responses (anthropic.messages.stream())
+- API: /api/tutor (streaming POST), /api/tutor/sessions
+- UI: /dashboard/tutor (hub + chat interface)
+- Creative Opus: STREAMING real-time Socratic tutoring — the showpiece feature
+- Verified: Student Aisha gets Socratic responses for "2x + 5 = 13" — AI asks guiding questions
 
-### When agents finish, verify:
-1. `npx tsc --noEmit`
-2. Login as rodriguez@school.edu (sped_teacher)
-3. GET /api/iep — list IEPs
-4. GET /api/compliance — check deadlines
-5. POST /api/iep/generate/present-levels — test AI generation
-6. All UI pages render 200
+## Phase 7 In Progress: District Intelligence
+Agents running:
+- district-api (a56d039): Admin API routes — overview, analytics, schools, teachers, students, AI insights
+- district-ui (a8a4049): Admin dashboard pages — analytics, schools, teachers, students
+- Creative Opus: AI-generated district narrative insights (POST /api/admin/insights)
 
-### Next: Phase 5 (Family Engagement), Phase 6 (Student AI Tutor), Phase 7 (District Intelligence), Phase 8 (Polish)
-
-### Creative Opus in Phase 4
-- tool_use for legally-compliant IEP structured output (all required IDEA fields)
-- Individualization enforcement: similarity detection flags cookie-cutter goals
-- Audit trail: every AI suggestion logged with model version for compliance
-- Progress narrative generation: AI analyzes trend data and generates parent-friendly reports
+### Still remaining: Phase 8 (Integration & Polish)
 
 ## Auth Session Testing
 Login flow verified via curl:
@@ -123,5 +125,5 @@ Then use -b /tmp/cookies2.txt for all subsequent API calls
 - admin@school.edu (admin)
 - sarah.chen@email.com (parent)
 - marcus.williams@email.com (parent)
-- aisha.torres@school.edu (student)
-- deshawn.williams@school.edu (student)
+- aisha@student.edu (student)
+- deshawn@student.edu (student)

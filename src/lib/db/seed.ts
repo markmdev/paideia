@@ -364,7 +364,7 @@ async function seed() {
       rubricId: rubricIds.essay,
       name: 'Thesis',
       description: 'Clarity and strength of the central argument or thesis statement.',
-      weight: 1.0,
+      weight: 0.25,
       standardId: standardIds['W.8.1'],
       descriptors: JSON.stringify({
         Beginning: 'No clear thesis or central claim. The essay lacks a discernible argument.',
@@ -378,7 +378,7 @@ async function seed() {
       rubricId: rubricIds.essay,
       name: 'Evidence Use',
       description: 'Selection and integration of textual evidence to support claims.',
-      weight: 1.0,
+      weight: 0.25,
       standardId: standardIds['RL.8.1'],
       descriptors: JSON.stringify({
         Beginning: 'No evidence cited, or evidence is irrelevant to the claim.',
@@ -392,7 +392,7 @@ async function seed() {
       rubricId: rubricIds.essay,
       name: 'Organization',
       description: 'Logical structure, paragraph development, and transitions.',
-      weight: 1.0,
+      weight: 0.25,
       standardId: standardIds['W.8.2'],
       descriptors: JSON.stringify({
         Beginning: 'No discernible organizational structure. Ideas are randomly arranged.',
@@ -406,7 +406,7 @@ async function seed() {
       rubricId: rubricIds.essay,
       name: 'Language',
       description: 'Grammar, mechanics, word choice, and sentence variety.',
-      weight: 1.0,
+      weight: 0.25,
       standardId: standardIds['L.8.1'],
       descriptors: JSON.stringify({
         Beginning: 'Frequent errors in grammar and mechanics that impede understanding. Limited vocabulary.',
@@ -423,7 +423,7 @@ async function seed() {
       rubricId: rubricIds.labReport,
       name: 'Hypothesis',
       description: 'Quality and testability of the stated hypothesis.',
-      weight: 1.0,
+      weight: 0.25,
       standardId: standardIds['HS-LS1-3'],
       descriptors: JSON.stringify({
         Beginning: 'No hypothesis stated, or hypothesis is not testable.',
@@ -437,7 +437,7 @@ async function seed() {
       rubricId: rubricIds.labReport,
       name: 'Methods',
       description: 'Completeness and reproducibility of experimental methods.',
-      weight: 1.0,
+      weight: 0.25,
       standardId: standardIds['HS-LS1-3'],
       descriptors: JSON.stringify({
         Beginning: 'Methods are missing or too vague to follow.',
@@ -451,7 +451,7 @@ async function seed() {
       rubricId: rubricIds.labReport,
       name: 'Data Analysis',
       description: 'Accuracy of data presentation and depth of analysis.',
-      weight: 1.0,
+      weight: 0.25,
       standardId: standardIds['HS-LS1-2'],
       descriptors: JSON.stringify({
         Beginning: 'Data is missing, disorganized, or inaccurately presented. No analysis.',
@@ -465,7 +465,7 @@ async function seed() {
       rubricId: rubricIds.labReport,
       name: 'Conclusion',
       description: 'Connection between results, hypothesis, and broader scientific understanding.',
-      weight: 1.0,
+      weight: 0.25,
       standardId: standardIds['HS-LS1-1'],
       descriptors: JSON.stringify({
         Beginning: 'No conclusion, or conclusion does not reference results.',
