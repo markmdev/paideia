@@ -362,6 +362,7 @@ export default async function StudentDetailPage({ params }: PageProps) {
             No mastery data available for this student.
           </p>
         ) : (
+          <div className="overflow-x-auto">
           <Table>
             <TableHeader>
               <TableRow className="bg-stone-50">
@@ -403,6 +404,7 @@ export default async function StudentDetailPage({ params }: PageProps) {
               ))}
             </TableBody>
           </Table>
+          </div>
         )}
       </div>
 
