@@ -203,29 +203,29 @@ export default async function DashboardPage() {
   const { role, name, id: userId } = session.user
   const TITLES = ['Ms.', 'Mr.', 'Mrs.', 'Dr.', 'Prof.']
   const nameParts = name?.split(' ') ?? []
-  const firstName = nameParts.length > 1 && TITLES.includes(nameParts[0])
-    ? nameParts[1]
+  const displayName = nameParts.length > 1 && TITLES.includes(nameParts[0])
+    ? `${nameParts[0]} ${nameParts[1]}`
     : nameParts[0] ?? 'there'
 
   switch (role) {
     case 'student': {
       const stats = await getStudentStats(userId)
-      return <StudentDashboard firstName={firstName} stats={stats} />
+      return <StudentDashboard firstName={displayName} stats={stats} />
     }
     case 'parent': {
       const stats = await getParentStats(userId)
-      return <ParentDashboard firstName={firstName} stats={stats} />
+      return <ParentDashboard firstName={displayName} stats={stats} />
     }
     case 'admin':
     case 'district_admin': {
       const stats = await getAdminStats()
-      return <AdminDashboard firstName={firstName} stats={stats} />
+      return <AdminDashboard firstName={displayName} stats={stats} />
     }
     case 'teacher':
     case 'sped_teacher':
     default: {
       const stats = await getTeacherStats(userId)
-      return <TeacherDashboard firstName={firstName} role={role} stats={stats} />
+      return <TeacherDashboard firstName={displayName} role={role} stats={stats} />
     }
   }
 }
