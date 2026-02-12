@@ -8,6 +8,8 @@ import {
   FileText,
   BookOpen,
   ClipboardList,
+  ClipboardCheck,
+  FileQuestion,
   BarChart3,
   Users,
   MessageSquare,
@@ -55,6 +57,8 @@ function getNavGroups(role: string): NavGroup[] {
         { title: 'Assignments', href: '/dashboard/assignments', icon: FileText },
         { title: 'Lesson Plans', href: '/dashboard/lesson-plans', icon: BookOpen },
         { title: 'Rubrics', href: '/dashboard/rubrics', icon: ClipboardList },
+        { title: 'Quizzes', href: '/dashboard/quizzes', icon: FileQuestion },
+        { title: 'Exit Tickets', href: '/dashboard/exit-tickets', icon: ClipboardCheck },
       ],
     },
     {
