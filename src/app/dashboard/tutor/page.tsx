@@ -14,6 +14,18 @@ interface TutorMessage {
   timestamp: string
 }
 
+function stripMarkdown(text: string): string {
+  return text
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')   // [text](url) → text
+    .replace(/```[\s\S]*?```/g, '')              // code blocks
+    .replace(/`([^`]+)`/g, '$1')                 // inline code
+    .replace(/(\*\*|__)(.*?)\1/g, '$2')          // bold
+    .replace(/(\*|_)(.*?)\1/g, '$2')             // italic
+    .replace(/^#{1,6}\s+/gm, '')                 // headings
+    .replace(/\n{2,}/g, ' ')                     // collapse newlines
+    .trim()
+}
+
 const subjects = [
   { name: 'Math', icon: Calculator, color: 'bg-blue-50 text-blue-600 hover:bg-blue-100' },
   { name: 'Science', icon: FlaskConical, color: 'bg-emerald-50 text-emerald-600 hover:bg-emerald-100' },
@@ -54,7 +66,7 @@ export default async function TutorHubPage() {
       messageCount: messages.length,
       lastMessage:
         messages.length > 0
-          ? messages[messages.length - 1].content.slice(0, 120)
+          ? stripMarkdown(messages[messages.length - 1].content).slice(0, 120)
           : null,
     }
   })
