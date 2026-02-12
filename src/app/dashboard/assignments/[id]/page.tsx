@@ -37,6 +37,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { RubricDisplay } from '@/components/assignments/rubric-display'
 import ReactMarkdown from 'react-markdown'
 import { DeleteAssignmentButton } from './delete-button'
+import { SubmitWorkForm } from '@/components/assignments/submit-work-form'
 import { formatGradeLevel } from '@/lib/format'
 
 const statusConfig: Record<string, { label: string; color: string }> = {
@@ -592,6 +593,10 @@ export default async function AssignmentDetailPage({
           </TabsContent>
         )}
       </Tabs>
+
+      {isStudent && !studentSubmission && (
+        <SubmitWorkForm assignmentId={assignment.id} />
+      )}
     </div>
   )
 }
