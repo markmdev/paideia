@@ -28,6 +28,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { ProgressNarrative } from '@/components/parent/progress-narrative'
+import { formatGradeLevel } from '@/lib/utils'
 
 export default async function ChildDetailPage({
   params,
@@ -244,7 +245,7 @@ export default async function ChildDetailPage({
               {child.name}
             </h1>
             {gradeLevel && (
-              <p className="text-muted-foreground text-sm">{gradeLevel}</p>
+              <p className="text-muted-foreground text-sm">{formatGradeLevel(gradeLevel)}</p>
             )}
           </div>
           <Button asChild variant="outline" size="sm" className="gap-2">

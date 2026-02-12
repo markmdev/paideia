@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { Users, TrendingUp, BookOpen, ChevronRight } from 'lucide-react'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
+import { formatGradeLevel } from '@/lib/utils'
 
 interface ChildStatusCardProps {
   child: {
@@ -66,7 +67,7 @@ export function ChildStatusCard({ child }: ChildStatusCardProps) {
                 </h3>
                 {child.gradeLevel && (
                   <p className="text-xs text-muted-foreground mt-0.5">
-                    {child.gradeLevel}
+                    {formatGradeLevel(child.gradeLevel)}
                   </p>
                 )}
               </div>

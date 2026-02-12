@@ -16,17 +16,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-
-function formatGradeLevel(gradeLevel: string): string {
-  const num = parseInt(gradeLevel, 10)
-  if (isNaN(num)) return gradeLevel
-  const suffix =
-    num === 1 ? 'st' :
-    num === 2 ? 'nd' :
-    num === 3 ? 'rd' :
-    'th'
-  return `${num}${suffix} Grade`
-}
+import { formatGradeLevel } from '@/lib/utils'
 
 function formatDuration(duration: string): string {
   const num = parseInt(duration, 10)
