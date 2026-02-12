@@ -371,7 +371,7 @@ export default async function StudentDetailPage({ params }: PageProps) {
                 <TableHead className="text-stone-600 text-center">
                   Score
                 </TableHead>
-                <TableHead className="text-stone-600 text-center">
+                <TableHead className="text-stone-600 text-center w-24">
                   Level
                 </TableHead>
               </TableRow>
@@ -379,12 +379,12 @@ export default async function StudentDetailPage({ params }: PageProps) {
             <TableBody>
               {uniqueMastery.map((m) => (
                 <TableRow key={m.standardCode}>
-                  <TableCell>
+                  <TableCell className="whitespace-normal">
                     <div>
                       <span className="font-medium text-stone-900">
                         {m.standardCode}
                       </span>
-                      <p className="text-xs text-stone-500 mt-0.5">
+                      <p className="text-xs text-stone-500 mt-0.5 line-clamp-2">
                         {m.standardDescription}
                       </p>
                     </div>
@@ -393,7 +393,7 @@ export default async function StudentDetailPage({ params }: PageProps) {
                   <TableCell className="text-center font-medium text-stone-900">
                     {Math.round(m.score)}%
                   </TableCell>
-                  <TableCell className="text-center">
+                  <TableCell className="text-center whitespace-nowrap">
                     <Badge
                       className={`text-[10px] px-1.5 py-0.5 border-0 capitalize ${masteryLevelColors[m.level] ?? 'bg-stone-100 text-stone-600'}`}
                     >
