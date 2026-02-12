@@ -149,7 +149,7 @@ Commits: f216d3d (API), ea2ac10 (UI)
 13. **Assessment-driven differentiation** — AI clusters students by performance and generates tiered follow-up activities
 
 ## Current State
-- 16 test files, 122 tests, ALL PASSING
+- 18 test files, 140 tests, ALL PASSING
 - Pebble epic TEAC-w25zza: 48/48 issues CLOSED
 - Production build: 100 routes, TypeScript clean
 - Schema pushed to Supabase
@@ -161,7 +161,7 @@ Commits: f216d3d (API), ea2ac10 (UI)
 - Login/register pages use design system tokens (consistent with dashboard)
 - Registration privilege escalation fixed (role hardcoded to 'teacher')
 - Quiz generation handles standards as array or comma-separated string
-- 90 git commits
+- 92 git commits
 
 ## Verified Endpoints (all working)
 - /api/health — 200
