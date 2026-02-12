@@ -395,13 +395,46 @@ User directive: Think as head of product. What's missing? What features would wi
 ### Dev Server
 Background task b7d8737 running `npm run dev` on localhost:3000.
 Chrome tab ID: 1135439413.
-Currently logged in as: Rodriguez (sped_teacher), on IEP detail page.
+Currently logged in as: Rodriguez (sped_teacher).
+Two subagents running: a0368c9 (class detail page), a3a9dc2 (school detail page).
 
-### Next Steps (Iteration 10+)
-- Remove unused ClaudeBadge import from iep/[iepId]/page.tsx (minor cleanup)
-- More mobile testing of new features (Claude badge, AI transparency panel)
-- Consider: student notifications, teacher class detail page improvements
-- Final round of polish before hackathon submission
+### High-Impact Focus (User Directive)
+User feedback: "Focus on high-impact things for the hackathon demo, not just polish."
+
+Key insight: Hackathon judges care about:
+1. **End-to-end demo flow** — Teacher→Grade→Student sees feedback→Parent sees insight (one smooth flow)
+2. **Live AI "wow" moments** — See Claude grading essays, generating IEPs, tutoring in real-time
+3. **No dead ends** — Every navigation click should lead somewhere useful
+
+### Dead Ends Identified & Being Fixed
+- **Teacher: My Classes → click a class** — NO class detail page existed. BUILDING NOW (subagent a0368c9)
+  - Will show: student roster, assignment list, class avg score, mastery rate, struggling standards
+  - Path: `/dashboard/classes/[classId]/page.tsx`
+- **Admin: Schools → click a school** — NO school detail page existed. BUILDING NOW (subagent a3a9dc2)
+  - Will show: teachers, classes, student count, average scores
+  - Path: `/dashboard/schools/[schoolId]/page.tsx`
+- ClaudeBadge unused import cleanup: DONE (commit 00dcd53)
+
+### Still Needed (Priority Order)
+1. **Verify class detail + school detail pages work** (after subagents finish)
+2. **Test the AI generation demo flow**: Grade All → see results → approve → student sees feedback
+3. **Ensure "Generate" buttons work end-to-end** (IEP, report cards, quiz, lesson plans)
+4. **Admin student detail page** — clicking a student from admin Students table
+5. **Mobile testing** of new pages
+
+### Commits This Session (Iteration 9)
+```
+00dcd53 Remove unused ClaudeBadge import from IEP page
+f9e769b Update workspace with iteration 9 progress
+91f9d61 Move Claude badge inside IEP present levels section
+66a3d43 Enhance student graded feedback view with grade card and colored borders
+0fc6ba3 Add Powered by Claude badge to AI-generated content areas
+767eb78 Parent AI transparency panel, student awaiting feedback notice
+102851e Update workspace with iteration 8 progress
+9850a70 Student dashboard: upcoming assignments section, fix teacher 5-card grid
+b28baee Add unread messages stat card to teacher dashboard
+539c87d Add student submission form and API endpoint
+```
 
 ## Verified Endpoints (all working)
 - /api/health — 200
