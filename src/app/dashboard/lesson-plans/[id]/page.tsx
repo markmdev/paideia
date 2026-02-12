@@ -1,10 +1,12 @@
 import { redirect, notFound } from 'next/navigation'
 import Link from 'next/link'
+import ReactMarkdown from 'react-markdown'
 import { auth } from '@/lib/auth'
 import { db } from '@/lib/db'
 import { lessonPlans } from '@/lib/db/schema'
 import { eq, and } from 'drizzle-orm'
 import { format } from 'date-fns'
+import { formatGradeLevel } from '@/lib/utils'
 import {
   ArrowLeft,
   BookOpen,
@@ -93,7 +95,7 @@ export default async function LessonPlanDetailPage({
         <div className="flex flex-wrap items-center gap-2">
           <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">
             <GraduationCap className="size-3 mr-1" />
-            {plan.gradeLevel}
+            {formatGradeLevel(plan.gradeLevel)}
           </Badge>
           <Badge variant="outline" className="bg-emerald-50 text-emerald-700 border-emerald-200">
             <BookOpen className="size-3 mr-1" />
@@ -302,9 +304,9 @@ export default async function LessonPlanDetailPage({
             </div>
           </CardHeader>
           <CardContent>
-            <p className="text-sm leading-relaxed whitespace-pre-wrap">
-              {plan.assessmentPlan}
-            </p>
+            <div className="text-sm leading-relaxed prose prose-sm max-w-none">
+              <ReactMarkdown>{plan.assessmentPlan}</ReactMarkdown>
+            </div>
           </CardContent>
         </Card>
       )}
@@ -347,7 +349,9 @@ function ReadOnlySection({
         </div>
       </CardHeader>
       <CardContent>
-        <p className="text-sm leading-relaxed whitespace-pre-wrap">{content}</p>
+        <div className="text-sm leading-relaxed prose prose-sm max-w-none">
+          <ReactMarkdown>{content}</ReactMarkdown>
+        </div>
       </CardContent>
     </Card>
   )
