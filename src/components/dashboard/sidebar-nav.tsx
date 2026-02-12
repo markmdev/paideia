@@ -62,6 +62,7 @@ function getNavGroups(role: string): NavGroup[] {
       items: [
         { title: 'Assessment & Grading', href: '/dashboard/grading', icon: BarChart3 },
         { title: 'Reports', href: '/dashboard/reports', icon: TrendingUp },
+        { title: 'Report Cards', href: '/dashboard/report-cards', icon: FileText },
       ],
     },
   ]
