@@ -183,44 +183,58 @@ Frontend-design skill installed at .claude/skills/frontend-design/SKILL.md.
 10. ✅ Registration page: removed misleading role dropdown (commit 20fd78b)
 11. ✅ Student assignments page: role-aware query, hide Create button for students (commit 11e2cdd)
 12. ✅ Landing page redesign: Instrument Serif headings, warm editorial aesthetic, colored module cards (commit 321131e)
+13. ✅ Font-serif heading consistency: added Instrument Serif to h1 headings across 15 dashboard pages (commit 4f90222)
+14. ✅ Tutor session preview: strip markdown from session card preview text (commit aae7746)
+15. ✅ Admin remaining "--" → "N/A" + grade level "8" → "8th Grade" on Students table (commit 19550e7)
+16. ✅ Seed data: remaining 15 generic student names (Student 6-20) replaced with diverse realistic names (commit 2efaf32)
 
 ### Pages Tested (all 5 roles)
 - ✅ Landing page (/) - redesigned with warm editorial aesthetic, Instrument Serif, colored module cards
 - ✅ Login page (/login) - demo buttons work, sign out redirects here cleanly
-- ✅ Registration page (/register) - role dropdown removed, clean form
+- ✅ Login page: invalid credentials shows red error banner "Invalid email or password"
+- ✅ Registration page (/register) - role dropdown removed, clean form, HTML5 validation
 - ✅ Teacher dashboard (Ms. Rivera) - greeting correct, all stats
 - ✅ Teacher: Assignments list, Create Assignment form (3-step wizard), Lesson Plans list
-- ✅ Teacher: Create Lesson Plan form, Rubrics, Quizzes list, Create Quiz form (3-step wizard)
+- ✅ Teacher: Create Lesson Plan form, Rubrics (1 template, 4 criteria, 4 levels)
+- ✅ Teacher: Quizzes list (empty state with CTA), Create Quiz form (3-step wizard)
 - ✅ Teacher: Exit Tickets (generator form), Assessment & Grading, Reports, Report Cards
 - ✅ Teacher: Early Warning dashboard (22 students, risk badges, indicator pills)
 - ✅ Teacher: My Classes (5 periods, student counts)
+- ✅ Teacher: Reports & Analytics - mastery bars, class cards, avg scores
+- ✅ Teacher: Report Cards - class cards with "Generate All" buttons
+- ✅ Teacher: Grading detail - stat cards, submission list with realistic names
 - ✅ Student dashboard (Aisha Torres) - greeting, stats correct
 - ✅ Student: Assignments - shows class assignments, no Create button (fixed)
 - ✅ Student: My Classes - "8th Grade ELA - Period 1", Ms. Rivera
 - ✅ Student: Progress page - 85% mastery, ELA skills with progress bars
 - ✅ Student: AI Tutor hub - colorful subject cards, personalized greeting
 - ✅ Student: AI Tutor chat - streaming Socratic response works, subject badge fixed
+- ✅ Student: Tutor session preview - markdown stripped, clean text (verified fix)
 - ✅ Parent dashboard (Sarah Chen) - greeting, children section
 - ✅ Parent: My Children - Aisha Torres card with "8th Grade", On Track badge
 - ✅ Parent: Child detail - stats cards, Skills Snapshot, progress summaries empty state
 - ✅ Parent: Progress page - 85% mastery, ELA skills with progress bars
 - ✅ Parent: Messages - clean empty state
 - ✅ Admin dashboard (Dr. Williams) - greeting, stats, analytics
-- ✅ Admin: Schools (pluralization fixed), Teachers, Students
+- ✅ Admin: Schools (pluralization fixed), Teachers, Students (grade level "8th Grade", N/A for nulls)
+- ✅ Admin: District Analytics - stat cards, mastery distribution badges, avg scores by subject (N/A fixed)
+- ✅ Admin: Teacher Engagement table - Mrs. Chen, Ms. Rivera, Mr. Okafor
 - ✅ SPED Teacher dashboard (Ms. Rodriguez) - greeting, Special Education section
 - ✅ SPED: IEP Management (caseload), IEP Detail, Create IEP form (5-step wizard)
-- ✅ SPED: Exit Tickets, Compliance Dashboard
+- ✅ SPED: Exit Tickets, Compliance Dashboard (color-coded deadlines, days left badges)
+- ✅ SPED: Early Warning - 1 student (DeShawn), On Track badge
 - ✅ Grading detail page (assignment submissions, scores)
 - ✅ User menu dropdown (name, email, role badge, sign out)
 - ✅ Sign out flow - redirects to /login cleanly (no unstyled NextAuth page)
+- ✅ Mobile (390x844): landing, login, dashboard, assignments, early warning, grading, tutor hub, progress
 
 ### Remaining Work
-- **Reports/mastery page** — not yet visually verified this iteration (was about to check)
-- **Rubrics list page** — visually verified earlier but could recheck
-- **Mobile responsiveness** — not yet tested on narrow viewport
-- **Form validation UX** — not yet tested (submit empty forms, check error states)
+- **Lesson Plans list page** — was navigating to it when compaction triggered
+- **Exit Tickets page** — recheck with teacher role
+- **Form validation UX** — quiz form doesn't show visible errors on empty submit (minor)
+- **Loading states** — skeletons exist on 9 pages but not visually verified
 - **Dark mode** — not tested (likely unsupported, low priority)
-- **Loading states** — skeletons exist on 9 pages but not visually verified this iteration
+- **Seed re-run needed** — student names updated in seed.ts but DB still has old generic names until reseed
 
 ## Verified Endpoints (all working)
 - /api/health — 200
