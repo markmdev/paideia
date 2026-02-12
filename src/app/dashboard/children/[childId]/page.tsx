@@ -23,6 +23,9 @@ import {
   AlertTriangle,
   Sparkles,
   MessageSquare,
+  ShieldCheck,
+  Eye,
+  Bot,
 } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -459,6 +462,59 @@ export default async function ChildDetailPage({
           </CardContent>
         </Card>
       )}
+
+      {/* AI Transparency Panel */}
+      <Card className="border-sky-200 bg-gradient-to-br from-sky-50 to-blue-50">
+        <CardHeader>
+          <CardTitle className="text-base font-serif flex items-center gap-2">
+            <ShieldCheck className="size-4 text-sky-600" />
+            How AI Is Used
+          </CardTitle>
+          <p className="text-xs text-muted-foreground">
+            We believe in transparency. Here is how AI assists in your child's education.
+          </p>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="grid gap-3 sm:grid-cols-3">
+            <div className="flex items-start gap-3 p-3 bg-white/60 rounded-lg">
+              <div className="rounded-full bg-sky-100 p-1.5 shrink-0">
+                <Eye className="size-3.5 text-sky-600" />
+              </div>
+              <div>
+                <h4 className="text-xs font-semibold mb-0.5">Feedback Drafting</h4>
+                <p className="text-[11px] text-muted-foreground leading-relaxed">
+                  AI drafts feedback on assignments. Teachers review, edit, and approve every comment before it reaches your child.
+                </p>
+              </div>
+            </div>
+            <div className="flex items-start gap-3 p-3 bg-white/60 rounded-lg">
+              <div className="rounded-full bg-emerald-100 p-1.5 shrink-0">
+                <Bot className="size-3.5 text-emerald-600" />
+              </div>
+              <div>
+                <h4 className="text-xs font-semibold mb-0.5">AI Tutoring</h4>
+                <p className="text-[11px] text-muted-foreground leading-relaxed">
+                  The AI Tutor asks guiding questions — it never gives answers directly. Sessions are logged for teacher and parent review.
+                </p>
+              </div>
+            </div>
+            <div className="flex items-start gap-3 p-3 bg-white/60 rounded-lg">
+              <div className="rounded-full bg-violet-100 p-1.5 shrink-0">
+                <ShieldCheck className="size-3.5 text-violet-600" />
+              </div>
+              <div>
+                <h4 className="text-xs font-semibold mb-0.5">Data Privacy</h4>
+                <p className="text-[11px] text-muted-foreground leading-relaxed">
+                  Student data is encrypted, never sold, and never used to train AI models. FERPA and COPPA compliant.
+                </p>
+              </div>
+            </div>
+          </div>
+          <p className="text-[10px] text-sky-700/70 text-center">
+            AI assists, humans decide. Every AI-generated output is reviewed by a teacher before reaching students or parents.
+          </p>
+        </CardContent>
+      </Card>
     </div>
   )
 }

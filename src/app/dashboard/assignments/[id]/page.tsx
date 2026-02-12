@@ -29,6 +29,7 @@ import {
   Star,
   TrendingUp,
   ArrowRight,
+  Clock,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -489,6 +490,25 @@ export default async function AssignmentDetailPage({
                 </div>
               </CardContent>
             </Card>
+
+            {/* Awaiting feedback notice */}
+            {!feedback && (
+              <Card className="border-amber-200 bg-gradient-to-r from-amber-50 to-orange-50">
+                <CardContent className="py-4 flex items-center gap-3">
+                  <div className="rounded-full bg-amber-100 p-2 shrink-0">
+                    <Clock className="size-4 text-amber-600" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-amber-900">
+                      Awaiting Teacher Feedback
+                    </p>
+                    <p className="text-xs text-amber-700/80">
+                      Your teacher is reviewing your work. Feedback will appear here once it is ready.
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            )}
           </TabsContent>
         )}
 
