@@ -201,11 +201,6 @@ export default async function IepDetailPage({ params }: PageProps) {
         </Button>
       </div>
 
-      {/* Present levels badge */}
-      {iep.presentLevels && (
-        <ClaudeBadge className="mt-2" />
-      )}
-
       {/* Tabbed content */}
       <IepDetailTabs
         iep={{

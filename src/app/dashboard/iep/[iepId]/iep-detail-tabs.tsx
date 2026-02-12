@@ -1,6 +1,7 @@
 'use client'
 
 import ReactMarkdown from 'react-markdown'
+import { ClaudeBadge } from '@/components/ui/claude-badge'
 
 interface Accommodation {
   type: string
@@ -95,6 +96,7 @@ export function IepDetailTabs({
         {iep.presentLevels ? (
           <div className="text-sm text-stone-600 prose prose-sm max-w-none">
             <ReactMarkdown>{iep.presentLevels}</ReactMarkdown>
+            <ClaudeBadge className="mt-3 justify-end" />
           </div>
         ) : (
           <p className="text-sm text-stone-400 italic">
