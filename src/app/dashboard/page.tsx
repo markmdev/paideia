@@ -12,7 +12,7 @@ import {
   tutorSessions,
   messages,
 } from '@/lib/db/schema'
-import { eq, and, sql, ne, inArray } from 'drizzle-orm'
+import { eq, and, sql, ne, inArray, desc } from 'drizzle-orm'
 import {
   TeacherDashboard,
   StudentDashboard,
@@ -130,11 +130,75 @@ async function getStudentStats(userId: string): Promise<StudentStats> {
     .from(tutorSessions)
     .where(eq(tutorSessions.studentId, userId))
 
+  // Get student's class IDs
+  const enrollments = await db
+    .select({ classId: classMembers.classId })
+    .from(classMembers)
+    .where(and(eq(classMembers.userId, userId), eq(classMembers.role, 'student')))
+
+  const enrolledClassIds = enrollments.map((e) => e.classId)
+
+  // Fetch recent assignments from enrolled classes (non-draft)
+  let upcomingAssignments: {
+    id: string
+    title: string
+    subject: string
+    dueDate: string | null
+    className: string | null
+    hasSubmission: boolean
+  }[] = []
+
+  if (enrolledClassIds.length > 0) {
+    const recentAssignments = await db
+      .select({
+        id: assignments.id,
+        title: assignments.title,
+        subject: assignments.subject,
+        dueDate: assignments.dueDate,
+        className: classes.name,
+      })
+      .from(assignments)
+      .leftJoin(classes, eq(assignments.classId, classes.id))
+      .where(
+        and(
+          inArray(assignments.classId, enrolledClassIds),
+          ne(assignments.status, 'draft')
+        )
+      )
+      .orderBy(desc(assignments.createdAt))
+      .limit(6)
+
+    // Check which ones have submissions
+    const assignmentIds = recentAssignments.map((a) => a.id)
+    const studentSubs = assignmentIds.length > 0
+      ? await db
+          .select({ assignmentId: submissions.assignmentId })
+          .from(submissions)
+          .where(
+            and(
+              inArray(submissions.assignmentId, assignmentIds),
+              eq(submissions.studentId, userId)
+            )
+          )
+      : []
+    const submittedSet = new Set(studentSubs.map((s) => s.assignmentId))
+
+    upcomingAssignments = recentAssignments.map((a) => ({
+      id: a.id,
+      title: a.title,
+      subject: a.subject,
+      dueDate: a.dueDate?.toISOString() ?? null,
+      className: a.className,
+      hasSubmission: submittedSet.has(a.id),
+    }))
+  }
+
   return {
     classes: Number(classCount.count),
     completedAssignments: Number(completedCount.count),
     averageScore,
     tutorSessions: Number(sessionCount.count),
+    upcomingAssignments,
   }
 }
 

@@ -14,6 +14,8 @@ import {
   Clock,
   CheckCircle2,
   MessageSquare,
+  Calendar,
+  ArrowRight,
 } from 'lucide-react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -49,7 +51,7 @@ export function TeacherDashboard({ firstName, role, stats }: TeacherDashboardPro
       </div>
 
       {/* Stats cards */}
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
         <StatCard
           title="My Classes"
           value={String(stats.classes)}
@@ -141,11 +143,21 @@ export function TeacherDashboard({ firstName, role, stats }: TeacherDashboardPro
 // Student Dashboard
 // ---------------------------------------------------------------------------
 
+export interface UpcomingAssignment {
+  id: string
+  title: string
+  subject: string
+  dueDate: string | null
+  className: string | null
+  hasSubmission: boolean
+}
+
 export interface StudentStats {
   classes: number
   completedAssignments: number
   averageScore: number | null
   tutorSessions: number
+  upcomingAssignments: UpcomingAssignment[]
 }
 
 interface StudentDashboardProps {
@@ -217,6 +229,51 @@ export function StudentDashboard({ firstName, stats }: StudentDashboardProps) {
           />
         </div>
       </div>
+
+      {/* Upcoming Assignments */}
+      {stats.upcomingAssignments.length > 0 && (
+        <div>
+          <h2 className="text-lg font-semibold mb-3 flex items-center gap-2">
+            <Calendar className="size-4 text-amber-500" />
+            Your Assignments
+          </h2>
+          <div className="grid gap-3 sm:grid-cols-2">
+            {stats.upcomingAssignments.map((a) => (
+              <Link key={a.id} href={`/dashboard/assignments/${a.id}`}>
+                <Card className="hover:bg-accent/50 transition-colors cursor-pointer">
+                  <CardContent className="p-4 space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="font-medium text-sm">{a.title}</span>
+                      {a.hasSubmission ? (
+                        <span className="text-xs bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full">
+                          Submitted
+                        </span>
+                      ) : (
+                        <span className="text-xs bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full">
+                          Not Submitted
+                        </span>
+                      )}
+                    </div>
+                    <div className="flex items-center gap-3 text-xs text-muted-foreground">
+                      <span>{a.subject}</span>
+                      {a.className && <span>{a.className}</span>}
+                      {a.dueDate && (
+                        <span className="flex items-center gap-1">
+                          <Calendar className="size-3" />
+                          Due {new Date(a.dueDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                        </span>
+                      )}
+                    </div>
+                    <span className="inline-flex items-center gap-1 text-xs font-medium text-amber-600">
+                      {a.hasSubmission ? 'View Submission' : 'Start Working'} <ArrowRight className="size-3" />
+                    </span>
+                  </CardContent>
+                </Card>
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   )
 }
