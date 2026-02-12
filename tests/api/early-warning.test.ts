@@ -24,7 +24,7 @@ vi.mock('@/lib/ai', () => ({
             input: {
               students: [
                 {
-                  firstName: 'Aisha',
+                  studentLabel: 'Student A',
                   recommendations: [
                     'Provide targeted practice on linear equations',
                     'Schedule a one-on-one check-in',
@@ -243,9 +243,11 @@ describe('Early Warning API', () => {
           { studentId: 'stu-1', standardId: 'std-2', score: 50, level: 'developing', assessedAt: now },
           { studentId: 'stu-1', standardId: 'std-3', score: 45, level: 'beginning', assessedAt: now },
         ],
-        // 5. recent assignments (3 assignments to check missing submissions)
-        [{ id: 'a1' }, { id: 'a2' }, { id: 'a3' }],
-        // 6. submissions (only 1 graded, low score -- missing 2 submissions + low average)
+        // 5. recent assignments with classId (3 assignments in class c1)
+        [{ id: 'a1', classId: 'c1' }, { id: 'a2', classId: 'c1' }, { id: 'a3', classId: 'c1' }],
+        // 6. student class memberships (student enrolled in c1)
+        [{ userId: 'stu-1', classId: 'c1' }],
+        // 7. submissions (only 1 graded, low score -- missing 2 submissions + low average)
         [
           {
             id: 'sub-1',
