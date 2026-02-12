@@ -28,6 +28,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { RubricDisplay } from '@/components/assignments/rubric-display'
+import ReactMarkdown from 'react-markdown'
 import { DeleteAssignmentButton } from './delete-button'
 import { formatGradeLevel } from '@/lib/format'
 
@@ -217,17 +218,17 @@ export default async function AssignmentDetailPage({
                 <h4 className="text-sm font-medium text-muted-foreground mb-1">
                   Description
                 </h4>
-                <p className="text-sm leading-relaxed whitespace-pre-wrap">
-                  {assignment.description}
-                </p>
+                <div className="text-sm leading-relaxed prose prose-sm max-w-none">
+                  <ReactMarkdown>{assignment.description}</ReactMarkdown>
+                </div>
               </div>
               {assignment.instructions && (
                 <div>
                   <h4 className="text-sm font-medium text-muted-foreground mb-1">
                     Instructions
                   </h4>
-                  <div className="text-sm leading-relaxed whitespace-pre-wrap bg-slate-50 rounded-lg p-4 border">
-                    {assignment.instructions}
+                  <div className="text-sm leading-relaxed prose prose-sm max-w-none bg-slate-50 rounded-lg p-4 border">
+                    <ReactMarkdown>{assignment.instructions}</ReactMarkdown>
                   </div>
                 </div>
               )}
@@ -301,8 +302,8 @@ export default async function AssignmentDetailPage({
                       </CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-3">
-                      <div className="text-sm leading-relaxed whitespace-pre-wrap">
-                        {version.content}
+                      <div className="text-sm leading-relaxed prose prose-sm max-w-none">
+                        <ReactMarkdown>{version.content}</ReactMarkdown>
                       </div>
                       {scaffolds.length > 0 && (
                         <div className="bg-slate-50 rounded-lg p-4 border">
