@@ -1,20 +1,3 @@
-| P1: Foundation | TEAC-xlssqq | DONE |
-| P2: Instructional Design | TEAC-nz1ote | DONE |
-| P3: Assessment Intelligence | TEAC-4bg5ia | DONE |
-| P4: SPED/Compliance | TEAC-275nqy | DONE |
-| P5: Family Engagement | TEAC-hc17it | DONE |
-| P6: Student AI Tutor | TEAC-2novwk | DONE |
-| P7: District Intelligence | TEAC-rnynnz | DONE |
-| P8: Integration & Polish | TEAC-y2fott | DONE |
-
-## Key Decisions
-- No Chrome extension - unified web platform
-- PostgreSQL via Supabase (deployment-ready)
-- Anthropic API key stored in .env (ANTHROPIC_API_KEY)
-- Creative Opus usage: tool_use for structured output, streaming for tutor, multi-step generation
-- All coding delegated to sub-agents; orchestrator only verifies
-- Frontend design skill applied: warm education-friendly aesthetics, no AI slop
-
 ## API Docs
 - [Anthropic API](./api-docs/anthropic-api.md) - DONE (SDK v0.74.0, claude-opus-4-6)
 - [Drizzle ORM](./api-docs/drizzle-orm.md) - DONE
@@ -475,13 +458,33 @@ Ran `npm run db:seed` after seed data double-dash fix (commit 5859fa8). All em d
 - ✅ SPED: Sidebar Special Education section — IEP Management, Progress Monitoring, Compliance all linked
 - ✅ Student (DeShawn): Dashboard — 2 classes, 0 completed, N/A avg, 1 tutor, 2 assignment cards with Submitted badges
 
-### Next Steps (Iteration 7+)
-- Test DeShawn's student-progress page (mastery gaps)
-- Test DeShawn's AI Tutor with suggested practice
-- Test teacher Okafor (10th Bio) or Chen (3rd grade) — different subjects/grades
-- Mobile testing on more pages
+### Bugs Found & Fixed (Iteration 7 — browser polish)
+59. ✅ All students showed "8th Grade" including 3rd graders — seed data had students[14..19] enrolled in both Rivera's 8th grade ELA and Chen's 3rd grade class. Fixed seed to make Chen's students exclusive. Re-seeded. (commit 1dd7b57)
+
+### Browser Testing (Iteration 7 — current session)
+- ✅ Teacher (Okafor): My Classes — 3 Biology classes (Period 1: 8 students, Period 2: 6, Period 3: 0). Properly scoped to Science only.
+- ✅ Teacher (Okafor): Class Detail (Bio Period 1) — 8 students with varied mastery (Advanced/Proficient/Developing/Beginning), 2 assignments, standards analysis (HS-LS science standards only, no ELA leakage)
+- ✅ Teacher (Okafor): Assignments — 3 Biology assignments (Cell Structure Lab Report, Genetics and Heredity Lab, Ecosystem Research Poster), all Science/10th Grade
+- ✅ Teacher (Okafor): Assessment & Grading — 1 assignment (Genetics, 6/6 graded, 84% avg)
+- ✅ Teacher (Chen): Dashboard — "Welcome back, Mrs. Chen", 1 class, 5 pending, 3 assignments, 6 students
+- ✅ Teacher (Chen): My Classes — "3rd Grade All Subjects", All Subjects, 6 students
+- ✅ Teacher (Chen): Reports & Analytics — 3rd Grade class, 72% avg, 54 data points, mastery distribution bar
+- ✅ Teacher (Chen): Early Warning — 6 students (1 High Risk: Yuki Tanaka 65%, 2 Moderate, 3 On Track). Properly scoped.
+- ✅ Teacher (Chen): Lesson Plans — 1 plan (Multiplying by Multiples of 10, 3rd Grade, Math, 40 min)
+- ✅ Teacher (Chen): Report Cards — 1 class, 0 report cards, "Generate All" button
+- ✅ Admin: Schools list — 2 schools with correct pluralization
+- ✅ Admin: Jefferson Elementary detail — 1 Teacher (Mrs. Chen), 6 Students, 1 Class, 83% Avg. Teachers/Classes tables, Top Subjects (Math 83%), Mastery Distribution (Adv 14, Pro 22, Dev 13, Beg 5)
+- ✅ Admin: Students — grade distribution now correct (16 at 8th Grade, 6 at 3rd Grade)
+- ✅ Mobile (390x844): Admin school detail — 2x2 stat grid, tables fit, mastery distribution clean
+- ✅ Mobile (390x844): Admin students — table readable but rightmost columns (Avg Score, Mastery) cut off (minor, acceptable)
+
+### Next Steps (Iteration 8+)
+- Verify 3rd Grade students visible in admin students table on mobile
+- Test Rivera's dashboard after reseed (16 students instead of 22)
+- Test Okafor's empty Period 3 class (0 students empty state)
+- Mobile: SPED progress monitoring charts, teacher grading detail
+- Consider testing compose/send message flow end-to-end
 - Minor: Early warning indicator badges truncate on mobile — cosmetic
-- Consider testing error states and edge cases
 
 ## Verified Endpoints (all working)
 - /api/health — 200
