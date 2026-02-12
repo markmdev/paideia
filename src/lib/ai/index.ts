@@ -66,3 +66,9 @@ export type {
   DistrictSnapshot,
   DistrictInsights,
 } from './district-insights'
+
+export { generateExitTicket } from './generate-exit-ticket'
+export type {
+  ExitTicketInput,
+  GeneratedExitTicket,
+} from './generate-exit-ticket'
