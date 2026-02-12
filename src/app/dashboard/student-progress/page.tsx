@@ -267,17 +267,17 @@ export default function StudentProgressPage() {
                     </div>
                     {sm.score >= 80 && (
                       <p className="text-xs text-emerald-600">
-                        Great job —keep it up!
+                        Great job — keep it up!
                       </p>
                     )}
                     {sm.score >= 60 && sm.score < 80 && (
                       <p className="text-xs text-amber-600">
-                        Getting there —a little more practice will help.
+                        Getting there — a little more practice will help.
                       </p>
                     )}
                     {sm.score < 60 && (
                       <p className="text-xs text-rose-600">
-                        This is a growing area —you can do it!
+                        This is a growing area — you can do it!
                       </p>
                     )}
                   </CardContent>
@@ -367,7 +367,7 @@ export default function StudentProgressPage() {
                   </div>
                 ) : (
                   <p className="text-sm text-muted-foreground">
-                    Keep working —your strengths will show up here soon!
+                    Keep working — your strengths will show up here soon!
                   </p>
                 )}
               </CardContent>
@@ -397,7 +397,7 @@ export default function StudentProgressPage() {
                   </div>
                 ) : (
                   <p className="text-sm text-muted-foreground">
-                    Nothing here right now —keep up the great work!
+                    Nothing here right now — keep up the great work!
                   </p>
                 )}
               </CardContent>
