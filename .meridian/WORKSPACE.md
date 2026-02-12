@@ -287,7 +287,7 @@ Database re-seeded with `npm run db:seed` — ALL data verified inserted:
 - 2 quizzes with 18 questions
 - 2 IEPs (DeShawn SLD + Ethan Nakamura ADHD) with 3 goals, 26 data points, 3 deadlines
 
-### AI LLM Testing — IN PROGRESS
+### AI LLM Testing — ALL 14 FEATURES PASSING
 | Feature | Status | Quality | Notes |
 |---------|--------|---------|-------|
 | Quiz Generation | ✅ PASS | Excellent | 10 questions, Bloom's levels, MLK speech example, great distractors |
@@ -296,16 +296,18 @@ Database re-seeded with `npm run db:seed` — ALL data verified inserted:
 | Smart Assignment Creator | ✅ PASS | Excellent | Complete package: assignment + 5-criterion rubric + 8 success criteria + 3 diff versions |
 | AI Grading (single) | ✅ PASS | Excellent | Rubric-aligned scores, specific feedback referencing student work, actionable next steps |
 | Socratic Tutor (streaming) | ✅ PASS | Excellent | Doesn't give answers, asks guiding questions, streaming works |
-| District AI Insights | ❌ FAIL | Unknown | Error — need to investigate server logs |
-| IEP Generation | ⬜ Not tested | | |
-| Report Card Batch | ⬜ Not tested | | |
-| Differentiation | ⬜ Not tested | | |
-| Batch Grading | ⬜ Not tested | | |
+| District AI Insights | ✅ PASS | Excellent | 5 findings, 3 concerns, 5 recommendations — all data-driven with exact numbers |
+| IEP Present Levels | ✅ PASS | Exceptional | Pulled real mastery data, synthesized PLAAFP with 6 strengths, 6 needs, 11 baselines, impact statement |
+| IEP Goals | ✅ PASS | Exceptional | 4 SMART goals with baselines, targets, measurement methods, frequency, similarity flags |
+| IEP Accommodations | ✅ PASS | Exceptional | 16 accommodations across 4 categories with clinical SLD-specific rationales |
+| IEP Progress Narrative | ✅ PASS | Excellent | Personalized parent-friendly narrative, trend analysis, specific recommendations |
+| Batch Grading | ✅ PASS | Good | 4/6 graded (2 had no content to grade), scores range from F to A |
+| Report Card Batch | ✅ PASS | Excellent | 7 individualized narratives referencing actual student performance data |
+| Differentiation | ✅ PASS | Excellent | Clustered students by tier, generated scaffolded activities per tier |
 
 ### Remaining Work (Priority Order)
-1. **IN PROGRESS: AI LLM testing** — District insights failing, IEP gen, report cards, differentiation, batch grading still to test
-2. **Minor: Form validation UX** — quiz form doesn't show visible errors on empty submit
-3. **Browser automation note** — Radix UI components don't respond to Chrome extension clicks (missing pointerdown events). NOT a real user bug.
+1. **Minor: Form validation UX** — quiz form doesn't show visible errors on empty submit
+2. **Continue browser testing** — look for more visual/UX polish opportunities
 
 ## Verified Endpoints (all working)
 - /api/health — 200
