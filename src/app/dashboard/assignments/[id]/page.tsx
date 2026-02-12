@@ -30,6 +30,7 @@ import {
   TrendingUp,
   ArrowRight,
   Clock,
+  Info,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -515,6 +516,31 @@ export default async function AssignmentDetailPage({
         {/* Student: Feedback Tab */}
         {isStudent && feedback && (
           <TabsContent value="feedback" className="mt-4 space-y-4">
+            {/* Your Grade card */}
+            {studentSubmission?.letterGrade && (
+              <Card className={`overflow-hidden border-0 shadow-md ${
+                studentSubmission.letterGrade.startsWith('A') || studentSubmission.letterGrade.startsWith('B')
+                  ? 'bg-gradient-to-br from-emerald-500 to-emerald-600'
+                  : studentSubmission.letterGrade.startsWith('C')
+                    ? 'bg-gradient-to-br from-amber-500 to-amber-600'
+                    : 'bg-gradient-to-br from-rose-500 to-rose-600'
+              }`}>
+                <CardContent className="py-6 flex items-center justify-between">
+                  <div>
+                    <p className="text-sm font-medium text-white/80">Your Grade</p>
+                    {studentSubmission.totalScore != null && studentSubmission.maxScore != null && (
+                      <p className="text-sm text-white/70 mt-0.5">
+                        {studentSubmission.totalScore} / {studentSubmission.maxScore} points
+                      </p>
+                    )}
+                  </div>
+                  <div className="text-5xl font-bold text-white tracking-tight">
+                    {studentSubmission.letterGrade}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+
             {/* Overall Feedback */}
             <Card>
               <CardHeader>
@@ -534,14 +560,14 @@ export default async function AssignmentDetailPage({
 
             {/* Strengths */}
             {feedbackStrengths.length > 0 && (
-              <Card>
-                <CardHeader className="bg-gradient-to-r from-emerald-50 to-green-50 border-b">
+              <Card className="border-l-4 border-l-emerald-500">
+                <CardHeader className="pb-3">
                   <CardTitle className="text-base flex items-center gap-2">
                     <Star className="size-4 text-emerald-600" />
                     Strengths
                   </CardTitle>
                 </CardHeader>
-                <CardContent className="p-6">
+                <CardContent>
                   <ul className="space-y-2">
                     {feedbackStrengths.map((item: string, index: number) => (
                       <li
@@ -559,14 +585,14 @@ export default async function AssignmentDetailPage({
 
             {/* Areas for Improvement */}
             {feedbackImprovements.length > 0 && (
-              <Card>
-                <CardHeader className="bg-gradient-to-r from-amber-50 to-orange-50 border-b">
+              <Card className="border-l-4 border-l-amber-500">
+                <CardHeader className="pb-3">
                   <CardTitle className="text-base flex items-center gap-2">
                     <TrendingUp className="size-4 text-amber-600" />
                     Areas for Improvement
                   </CardTitle>
                 </CardHeader>
-                <CardContent className="p-6">
+                <CardContent>
                   <ul className="space-y-2">
                     {feedbackImprovements.map((item: string, index: number) => (
                       <li
@@ -586,21 +612,21 @@ export default async function AssignmentDetailPage({
 
             {/* Next Steps */}
             {feedbackNextSteps.length > 0 && (
-              <Card>
-                <CardHeader className="bg-gradient-to-r from-sky-50 to-blue-50 border-b">
+              <Card className="border-l-4 border-l-blue-500">
+                <CardHeader className="pb-3">
                   <CardTitle className="text-base flex items-center gap-2">
-                    <ArrowRight className="size-4 text-sky-600" />
+                    <ArrowRight className="size-4 text-blue-600" />
                     Next Steps
                   </CardTitle>
                 </CardHeader>
-                <CardContent className="p-6">
+                <CardContent>
                   <ul className="space-y-2">
                     {feedbackNextSteps.map((item: string, index: number) => (
                       <li
                         key={index}
                         className="flex items-start gap-3 text-sm"
                       >
-                        <span className="size-4 rounded-full bg-sky-100 text-sky-600 flex items-center justify-center text-xs font-medium mt-0.5 shrink-0">
+                        <span className="size-4 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-xs font-medium mt-0.5 shrink-0">
                           {index + 1}
                         </span>
                         <span className="leading-relaxed">{item}</span>
@@ -610,6 +636,12 @@ export default async function AssignmentDetailPage({
                 </CardContent>
               </Card>
             )}
+
+            {/* AI disclosure footer */}
+            <div className="flex items-center gap-2 text-xs text-muted-foreground pt-1">
+              <Info className="size-3.5 shrink-0" />
+              <p>This feedback was drafted by AI and reviewed by your teacher.</p>
+            </div>
           </TabsContent>
         )}
       </Tabs>
