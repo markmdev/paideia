@@ -108,11 +108,24 @@ async function seed() {
     // Named students
     { id: userIds.aisha, name: 'Aisha Torres', email: 'aisha@student.edu', passwordHash, role: 'student' },
     { id: userIds.deshawn, name: 'DeShawn Williams', email: 'deshawn@student.edu', passwordHash, role: 'student' },
-    // 20 additional students
-    ...userIds.students.map((id, i) => ({
+    // 20 additional students (first 5 with realistic names, rest generic)
+    ...[
+      { name: 'Jayden Park', email: 'jayden.park@student.edu' },
+      { name: 'Sofia Martinez', email: 'sofia.martinez@student.edu' },
+      { name: 'Ethan Nakamura', email: 'ethan.nakamura@student.edu' },
+      { name: 'Zara Ahmed', email: 'zara.ahmed@student.edu' },
+      { name: 'Lucas Thompson', email: 'lucas.thompson@student.edu' },
+    ].map((s, i) => ({
+      id: userIds.students[i],
+      name: s.name,
+      email: s.email,
+      passwordHash,
+      role: 'student',
+    })),
+    ...userIds.students.slice(5).map((id, i) => ({
       id,
-      name: `Student ${i + 1}`,
-      email: `student${i + 1}@student.edu`,
+      name: `Student ${i + 6}`,
+      email: `student${i + 6}@student.edu`,
       passwordHash,
       role: 'student',
     })),
@@ -698,7 +711,7 @@ The American Dream is not dead. It just needs to be redefined -- not as endless 
       nextSteps: JSON.stringify(['Try incorporating a third text or outside source in your next essay', 'Practice writing conclusions that propose specific actions or visions']),
     },
     {
-      submissionId: submissionRecords[2].id, // Student 2 - proficient
+      submissionId: submissionRecords[2].id, // Sofia Martinez - proficient
       aiFeedback: 'This essay has a clear structure and uses evidence from both texts, which shows you understand the assignment requirements. Your thesis is straightforward and takes a position. Two areas to work on: First, you summarize the texts rather than analyzing them. When you write "This shows that the American Dream is about having a home," push yourself to explain why that matters and how it connects to your argument. Second, your counterargument paragraph is brief -- spend more time engaging with the opposing view. You have good ideas; the next step is going deeper with them.',
       strengths: JSON.stringify(['Clear thesis statement', 'Uses evidence from both required texts', 'Logical structure with introduction and conclusion', 'Personal connection in counterargument']),
       improvements: JSON.stringify(['Move from summary to analysis -- explain why evidence matters', 'Develop counterargument more fully', 'Add transitions between paragraphs', 'Include specific quotes rather than paraphrasing']),
@@ -900,13 +913,13 @@ DeShawn's specific learning disability in reading significantly impacts his abil
     { studentId: userIds.deshawn, standardCode: 'RL.8.1', level: 'beginning', score: 40 },
     { studentId: userIds.deshawn, standardCode: 'RL.8.2', level: 'developing', score: 50 },
     { studentId: userIds.deshawn, standardCode: 'L.8.1', level: 'beginning', score: 38 },
-    // Student 1 - proficient overall
+    // Jayden Park - proficient overall
     { studentId: userIds.students[0], standardCode: 'W.8.1', level: 'advanced', score: 90 },
     { studentId: userIds.students[0], standardCode: 'RL.8.1', level: 'advanced', score: 88 },
-    // Student 2 - developing
+    // Sofia Martinez - developing
     { studentId: userIds.students[1], standardCode: 'W.8.1', level: 'proficient', score: 75 },
     { studentId: userIds.students[1], standardCode: 'RL.8.1', level: 'proficient', score: 72 },
-    // Student 3 - developing
+    // Ethan Nakamura - developing
     { studentId: userIds.students[2], standardCode: 'W.8.1', level: 'developing', score: 55 },
     { studentId: userIds.students[2], standardCode: 'RL.8.1', level: 'developing', score: 58 },
   ]
