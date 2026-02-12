@@ -424,8 +424,8 @@ Installed `remark-gfm` and added `remarkPlugins={[remarkGfm]}` + table styling c
 ### Bugs Found & Fixed (Iteration 6 continued)
 53. ✅ Em dash spacing: "Great job —keep" → "Great job — keep" on student-progress page (5 instances, commit cfe78cd)
 54. ✅ Cross-class mastery leakage: ELA class detail showed science standards (HS-LS1-3) in strengths. Fixed by filtering mastery records via standards.subject join (commit e197160)
-55. 🔄 Double-dashes in seed data content (messages, essays, feedback) — fix delegated to background agent ac339e8
-56. ⚠️ Admin student detail: mastery level badges clipped on right edge ("Profici...", "Advanc...") — needs wider column or shorter text
+55. ✅ Double-dashes in seed data content (messages, essays, feedback) — fixed by background agent ac339e8, commit 5859fa8
+56. ✅ Admin student detail: mastery level badges clipped — fixed with w-24, whitespace-nowrap, commit ca85e16
 57. ⚠️ Duplicate "Symbols Speak Louder Than Words" draft assignments in DB (from AI testing) — data clutter, not code bug
 
 ### Browser Testing (Iteration 6 continued)
@@ -440,25 +440,52 @@ Installed `remark-gfm` and added `remarkPlugins={[remarkGfm]}` + table styling c
 
 ### Commits This Session (Iteration 6+)
 ```
-cfe78cd Fix em dash spacing on student progress page
+ca85e16 Fix mastery level badge clipping on admin student detail page
+80d958e Update workspace with iteration 6 continued progress
 e197160 Filter class detail mastery records by subject to prevent cross-class leakage
+5859fa8 Fix double-dashes to em dashes in seed data
+cfe78cd Fix em dash spacing on student progress page
 e900421 Fix double-dash to em dash on student progress page
 6aec5bf Add remark-gfm for markdown table rendering in AI content
 c1126f8 Fix early warning table overflow with whitespace-normal on wrapping cells
 e64dc73 Fix mastery table overflow on student detail page
 61a88a7 Add admin student detail page with clickable names in students table
 aeb2eb9 Add teacher class detail page with roster and performance
-f77d96b Add teacher class detail page with roster and performance
 a2aed86 Add admin school detail page with teachers and classes
 ```
 
+### Browser Testing (Iteration 6 session 2 — current)
+- ✅ Admin: Messages — empty state for admin (correct, messages are parent-teacher)
+- ✅ Teacher (Rivera): Messages — 7 messages with type badges (Message, Alert, Progress, Assignment, Weekly Digest), sparkle icons on AI-generated
+- ✅ Teacher: Message detail (Marcus reply) — full message body, em dashes correct, translation feature, reply section
+- ✅ Teacher: AI-generated message detail (Progress) — "AI Generated" badge, rich narrative, AI disclosure footer
+- ✅ Student (Aisha): Assignments — 2 cards, no Create button, "Grading" badges
+- ✅ Student: Assignment detail — 2 tabs only (Assignment, Your Submission), no teacher-only features
+- ✅ Student: Your Submission — full essay, "Submitted" badge, "Awaiting Teacher Feedback" amber card
+- ✅ Student: Dashboard — stat cards, Quick Actions, "Your Assignments" section with Submitted badges
+- ✅ Mobile (390x844): Student dashboard — cards stack, clean responsive layout
+- ✅ Mobile: Student dashboard scrolled — Quick Actions + Your Assignments section clean
+- ✅ Mobile: Teacher My Classes — 5 periods stacked vertically
+- ✅ Mobile: Teacher Class Detail (Period 1) — 2x2 stat grid, roster with avatars, assignments, standards analysis
+- ✅ Mobile: Teacher Early Warning — summary cards stack, table with risk badges (indicator text truncated but acceptable)
+- ✅ Mobile: Parent (Marcus) dashboard — Children, Unread Messages, Quick Actions
+- ✅ Mobile: Parent My Children — DeShawn card with On Track badge
+- ✅ Mobile: Parent Child Detail — stat cards, skills, AI Transparency panel beautiful on mobile
+- ✅ SPED: IEP Management — 2 students, correct pluralization, review dates with days-left badges
+- ✅ SPED: IEP Detail (DeShawn) — rich present levels, 2 SMART goals with data points/trends, 9 accommodations, related services, compliance deadlines
+- ✅ Landing page hero — stunning Instrument Serif, "Powered by Claude Opus" badge, CTAs, stats section
+
+### Database re-seeded this session
+Ran `npm run db:seed` after seed data double-dash fix (commit 5859fa8). All em dashes now correct in live DB.
+
 ### Next Steps (Iteration 7+)
-- Fix mastery badge clipping on admin student detail page
-- Test mobile responsive on class detail, student detail
-- Test message detail view (clicking a message)
-- Test remaining untested flows: student submit work form, quiz creation wizard
-- Continue testing as all 5 roles
-- Background agent ac339e8 fixing seed data double-dashes — check status
+- Landing page: scroll through module cards, How It Works, demo credentials, footer
+- Test quiz creation wizard (untested)
+- Test admin school detail page (re-verify after reseed)
+- Test SPED progress monitoring data entry
+- Minor: Early warning indicator badges truncate on mobile ("profici...") — cosmetic, not blocking
+- Minor: My Classes cards show raw grade level "8" in top-right corner — redundant with title
+- All roles thoroughly tested; primary focus now is edge cases and new feature testing
 
 ## Verified Endpoints (all working)
 - /api/health — 200
