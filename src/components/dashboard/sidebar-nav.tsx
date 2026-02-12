@@ -16,7 +16,6 @@ import {
   MessageSquare,
   TrendingUp,
   ShieldCheck,
-  School,
   UserCheck,
   Bot,
   Building2,
