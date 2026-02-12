@@ -105,7 +105,7 @@ async function seed() {
     { id: userIds.williams_admin, name: 'Dr. Williams', email: 'williams@school.edu', passwordHash, role: 'admin' },
     // Parents
     { id: userIds.sarah_chen, name: 'Sarah Chen', email: 'sarah.chen@email.com', passwordHash, role: 'parent' },
-    { id: userIds.marcus_williams, name: 'Marcus Williams', email: 'marcus.w@email.com', passwordHash, role: 'parent' },
+    { id: userIds.marcus_williams, name: 'Marcus Williams', email: 'marcus.williams@email.com', passwordHash, role: 'parent' },
     // Named students
     { id: userIds.aisha, name: 'Aisha Torres', email: 'aisha@student.edu', passwordHash, role: 'student' },
     { id: userIds.deshawn, name: 'DeShawn Williams', email: 'deshawn@student.edu', passwordHash, role: 'student' },
