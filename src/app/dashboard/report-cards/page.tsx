@@ -191,11 +191,13 @@ export default async function ReportCardsPage() {
                         )}
                       </div>
                     </div>
-                    <BatchGenerateDialog
-                      classId={cls.id}
-                      className={cls.name}
-                      studentCount={students}
-                    />
+                    {students > 0 && (
+                      <BatchGenerateDialog
+                        classId={cls.id}
+                        className={cls.name}
+                        studentCount={students}
+                      />
+                    )}
                   </CardContent>
                 </Card>
               </Link>
