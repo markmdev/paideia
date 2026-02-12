@@ -396,36 +396,39 @@ User directive: Think as head of product. What's missing? What features would wi
 Background task b7d8737 running `npm run dev` on localhost:3000.
 Chrome tab ID: 1135439413.
 
-### Class Detail Page — IN PROGRESS
-Building `/dashboard/classes/[classId]/page.tsx` — teacher class detail with:
-- Header (class name, subject/grade badges, back link)
-- 4 stat cards (students, assignments, avg score, mastery rate)
-- Student roster with avatar initials, avg score, mastery badge, submission count, links to mastery
-- Recent assignments (top 5) with status badge, due date, submission count, avg score, links to grading
-- Class performance summary (top 3 struggling standards, top 3 excelling standards)
+### New Detail Pages — COMPLETE (Iteration 6)
+Three new detail pages built by subagents, all verified in browser:
+1. `/dashboard/classes/[classId]/page.tsx` — Teacher class detail (roster, assignments, standards analysis)
+2. `/dashboard/schools/[schoolId]/page.tsx` — Admin school detail (teachers, classes tables)
+3. `/dashboard/students/[studentId]/page.tsx` — Admin student detail (enrollment, mastery, submissions)
 
-**Status**: Page file created at `src/app/dashboard/classes/[classId]/page.tsx`. Still need to:
-1. Update classes listing page to add Link imports and make cards clickable for teachers
-2. Run `npx tsc --noEmit` to verify
-3. Commit
+### Bugs Found & Fixed (Iteration 6)
+- ✅ Early warning table overflow: `whitespace-normal` on Indicators cell and expanded intervention cell (shadcn TableCell has `whitespace-nowrap` default). Commit c1126f8.
+- ✅ Student detail mastery table overflow: `overflow-x-auto` wrapper. Commit e64dc73.
+- ✅ Student table: names made clickable to student detail page. Commit 61a88a7.
 
-### Still Needed (Priority Order)
-1. **Make class cards clickable** on My Classes page (Link to /dashboard/classes/[classId])
-2. **TypeScript verification** of new class detail page
-3. **Commit** class detail page changes
+### Browser Testing (Iteration 6)
+- ✅ Teacher: Early Warning — 22 students, 6 High/6 Moderate/10 On Track, expandable AI interventions wrap properly
+- ✅ Teacher: Messages — type badges, compose dialog, message list with dates
+- ✅ Teacher: Lesson Plan detail — markdown renders (bold, italic), grade/subject/duration badges
+- ✅ Teacher: Class Detail (Period 1) — 7 students, 4 assignments, standards analysis, mobile responsive
+- ✅ Admin: District Analytics — 6 stat cards, mastery distribution, avg scores, teacher engagement, AI Insights button
+- ✅ Admin: Schools — 2 schools with avg scores, proper pluralization
+- ✅ Admin: School Detail (Washington MS) — 3 teachers, 9 classes, 71% avg, classes table with subjects
+- ✅ Admin: Student Detail (Aisha Torres) — stat cards, enrollment, mastery, submissions
+- ✅ Student (Aisha): Dashboard, assignments, tutor hub — all working
 
-### Commits This Session (Iteration 9)
+### Fixed: Markdown table rendering (commit 6aec5bf)
+Installed `remark-gfm` and added `remarkPlugins={[remarkGfm]}` + table styling components to all 8 files using ReactMarkdown. CER Framework table now renders as proper HTML table with borders and header styling.
+
+### Commits This Session (Iteration 6)
 ```
-00dcd53 Remove unused ClaudeBadge import from IEP page
-f9e769b Update workspace with iteration 9 progress
-91f9d61 Move Claude badge inside IEP present levels section
-66a3d43 Enhance student graded feedback view with grade card and colored borders
-0fc6ba3 Add Powered by Claude badge to AI-generated content areas
-767eb78 Parent AI transparency panel, student awaiting feedback notice
-102851e Update workspace with iteration 8 progress
-9850a70 Student dashboard: upcoming assignments section, fix teacher 5-card grid
-b28baee Add unread messages stat card to teacher dashboard
-539c87d Add student submission form and API endpoint
+c1126f8 Fix early warning table overflow with whitespace-normal on wrapping cells
+e64dc73 Fix mastery table overflow on student detail page
+61a88a7 Add admin student detail page with clickable names in students table
+aeb2eb9 Add teacher class detail page with roster and performance
+f77d96b Add teacher class detail page with roster and performance
+a2aed86 Add admin school detail page with teachers and classes
 ```
 
 ## Verified Endpoints (all working)
