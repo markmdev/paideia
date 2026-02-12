@@ -21,12 +21,18 @@ export async function POST(request: Request) {
     )
   }
 
+  const normalizedStandards = standards
+    ? Array.isArray(standards)
+      ? standards
+      : String(standards).split(',').map((s: string) => s.trim()).filter(Boolean)
+    : undefined
+
   const input: LessonPlanInput = {
     subject,
     gradeLevel,
     topic,
     duration: duration || undefined,
-    standards: standards || undefined,
+    standards: normalizedStandards,
     instructionalModel: instructionalModel || undefined,
   }
 
