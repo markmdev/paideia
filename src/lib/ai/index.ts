@@ -51,3 +51,6 @@ export type {
   TranslationInput,
   TranslatedContent,
 } from './parent-communication'
+
+export { streamTutorResponse } from './tutor'
+export type { TutorInput } from './tutor'
