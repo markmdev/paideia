@@ -45,3 +45,16 @@ export const verificationTokens = pgTable('verification_tokens', {
 }, (table) => [
   uniqueIndex('verification_token_idx').on(table.identifier, table.token),
 ])
+
+export const usersRelations = relations(users, ({ many }) => ({
+  accounts: many(accounts),
+  sessions: many(sessions),
+}))
+
+export const accountsRelations = relations(accounts, ({ one }) => ({
+  user: one(users, { fields: [accounts.userId], references: [users.id] }),
+}))
+
+export const sessionsRelations = relations(sessions, ({ one }) => ({
+  user: one(users, { fields: [sessions.userId], references: [users.id] }),
+}))
