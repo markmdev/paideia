@@ -13,6 +13,7 @@ import {
   Bot,
   Clock,
   CheckCircle2,
+  MessageSquare,
 } from 'lucide-react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -204,7 +205,7 @@ export function StudentDashboard({ firstName, stats }: StudentDashboardProps) {
           <QuickActionCard
             title="My Progress"
             description="Track your mastery across standards and subjects"
-            href="/dashboard/progress"
+            href="/dashboard/student-progress"
             icon={TrendingUp}
           />
         </div>
@@ -256,7 +257,7 @@ export function ParentDashboard({ firstName, stats }: ParentDashboardProps) {
           title="Unread Messages"
           value={String(stats.unreadMessages)}
           description="From teachers"
-          icon={BookOpen}
+          icon={MessageSquare}
         />
       </div>
 
@@ -279,7 +280,7 @@ export function ParentDashboard({ firstName, stats }: ParentDashboardProps) {
             title="Messages"
             description="Communicate with your children's teachers"
             href="/dashboard/messages"
-            icon={BookOpen}
+            icon={MessageSquare}
           />
         </div>
       </div>

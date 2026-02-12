@@ -73,13 +73,13 @@ export default function Home() {
             </p>
             <div className="mt-12 flex flex-wrap items-center justify-center gap-4">
               <Button asChild size="lg" className="h-12 bg-amber-700 px-8 text-base hover:bg-amber-800">
-                <Link href="/register">
-                  Get Started Free
+                <Link href="/login">
+                  Try the Demo
                   <ArrowRight className="ml-1 size-4" />
                 </Link>
               </Button>
               <Button asChild variant="outline" size="lg" className="h-12 border-stone-300 px-8 text-base">
-                <Link href="/login">Sign In</Link>
+                <Link href="/register">Get Started Free</Link>
               </Button>
             </div>
           </div>

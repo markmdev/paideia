@@ -70,6 +70,12 @@ function getNavGroups(role: string): NavGroup[] {
         { title: 'Early Warning', href: '/dashboard/early-warning', icon: AlertTriangle },
       ],
     },
+    {
+      label: 'Communication',
+      items: [
+        { title: 'Messages', href: '/dashboard/messages', icon: MessageSquare },
+      ],
+    },
   ]
 
   const spedTeacherGroups: NavGroup[] = [
