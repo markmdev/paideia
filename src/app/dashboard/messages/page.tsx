@@ -3,8 +3,8 @@ import { auth } from '@/lib/auth'
 import { db } from '@/lib/db'
 import { messages, users } from '@/lib/db/schema'
 import { eq, desc, or } from 'drizzle-orm'
-import { MessageSquare } from 'lucide-react'
 import { MessageList } from '@/components/messages/message-list'
+import { ComposeMessage } from '@/components/messages/compose-message'
 
 export default async function MessagesPage() {
   const session = await auth()
@@ -71,15 +71,18 @@ export default async function MessagesPage() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-serif font-bold tracking-tight">
-          Messages
-        </h1>
-        <p className="text-muted-foreground text-sm">
-          {session.user.role === 'parent'
-            ? "Stay connected with your children's teachers."
-            : 'Communicate with parents and colleagues.'}
-        </p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl font-serif font-bold tracking-tight">
+            Messages
+          </h1>
+          <p className="text-muted-foreground text-sm">
+            {session.user.role === 'parent'
+              ? "Stay connected with your children's teachers."
+              : 'Communicate with parents and colleagues.'}
+          </p>
+        </div>
+        <ComposeMessage />
       </div>
 
       <MessageList messages={messagesWithNames} />
