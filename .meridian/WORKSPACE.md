@@ -119,6 +119,10 @@ Commits: f216d3d (API), ea2ac10 (UI)
 - Build passes clean: 87 routes total (31 dynamic + 2 static + API)
 - TypeScript compiles clean
 - Authorization verified across all 5 roles: all endpoints properly enforce access control
+- Landing page enhanced with stats, demo credentials, "Powered by Claude" badge (commit pending)
+- Login page enhanced with quick demo login buttons for all 5 roles (commit pending)
+- AI generation verified end-to-end: rubric generation works (6 criteria), tutor streaming works (Socratic)
+- Lesson plan generation works but takes >90s for Opus (expected for complex tool_use)
 
 ## All 8 Creative Opus Usages
 1. tool_use for structured output — Rubrics, lesson plans, assignments, quizzes
