@@ -151,8 +151,13 @@ Commits: f216d3d (API), ea2ac10 (UI)
 ## Current State
 - 14 test files, 103 tests, ALL PASSING
 - Code review: 14 issues found, all 14 closed (13 fixed, 1 won't-fix P2)
-- Build: 98 routes, TypeScript clean
-- Schema note: quizzes table got `difficultyLevel` and `createdBy` columns — run `npx drizzle-kit push` on Supabase if deploying
+- Production build: 100 routes, TypeScript clean
+- Schema pushed to Supabase (quizzes table got `difficultyLevel` and `createdBy` columns)
+- All dashboard pages verified 200 for all 5 roles
+- All API endpoints verified with auth boundary checks (401/403)
+- Loading skeletons on 9 dashboard pages, error boundary at dashboard level
+- Favicon (SVG book icon on amber) + apple touch icon
+- Login/register pages use design system tokens (consistent with dashboard)
 
 ## Verified Endpoints (all working)
 - /api/health — 200
@@ -180,25 +185,6 @@ Commits: f216d3d (API), ea2ac10 (UI)
 - chen@school.edu (teacher, 3rd grade)
 - rodriguez@school.edu (sped_teacher)
 - williams@school.edu (admin)
-- sarah.chen@email.com (parent)
-- marcus.williams@email.com (parent)
-- aisha@student.edu (student)
-- deshawn@student.edu (student)
-
-## Auth Session Testing
-Login flow verified via curl:
-1. GET /api/auth/csrf → get CSRF token
-2. Store cookies in /tmp/cookies2.txt
-3. POST /api/auth/callback/credentials with email+password+csrfToken
-4. GET /api/auth/session → returns {user: {name, email, id, role}, expires}
-Then use -b /tmp/cookies2.txt for all subsequent API calls
-
-## Seed Users (password: password123)
-- rivera@school.edu (teacher, 8th ELA)
-- okafor@school.edu (teacher, 10th Bio)
-- chen@school.edu (teacher, 3rd grade)
-- rodriguez@school.edu (sped_teacher)
-- admin@school.edu (admin)
 - sarah.chen@email.com (parent)
 - marcus.williams@email.com (parent)
 - aisha@student.edu (student)
