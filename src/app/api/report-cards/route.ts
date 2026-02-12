@@ -82,12 +82,23 @@ export async function GET(req: Request) {
     .orderBy(desc(reportCards.generatedAt))
 
   return NextResponse.json(
-    results.map((r) => ({
-      ...r,
-      strengths: r.strengths ? JSON.parse(r.strengths) : [],
-      areasForGrowth: r.areasForGrowth ? JSON.parse(r.areasForGrowth) : [],
-      recommendations: r.recommendations ? JSON.parse(r.recommendations) : [],
-    }))
+    results.map((r) => {
+      const safeJsonParse = (value: string | null): string[] => {
+        if (!value) return []
+        try {
+          return JSON.parse(value) as string[]
+        } catch {
+          return []
+        }
+      }
+
+      return {
+        ...r,
+        strengths: safeJsonParse(r.strengths),
+        areasForGrowth: safeJsonParse(r.areasForGrowth),
+        recommendations: safeJsonParse(r.recommendations),
+      }
+    })
   )
 }
 

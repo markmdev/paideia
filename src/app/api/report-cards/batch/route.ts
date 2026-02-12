@@ -44,7 +44,7 @@ export async function POST(req: Request) {
         and(
           eq(classMembers.classId, classId),
           eq(classMembers.userId, session.user.id),
-          eq(classMembers.role, 'teacher')
+          inArray(classMembers.role, ['teacher', 'sped_teacher'])
         )
       )
       .limit(1)
@@ -80,6 +80,9 @@ export async function POST(req: Request) {
         )
       )
 
+    const MAX_BATCH_SIZE = 40
+    const PER_STUDENT_TIMEOUT_MS = 60_000
+
     const studentIds = studentMembers.map((m) => m.userId)
 
     if (studentIds.length === 0) {
@@ -89,6 +92,15 @@ export async function POST(req: Request) {
         total: 0,
         reportCards: [],
       })
+    }
+
+    if (studentIds.length > MAX_BATCH_SIZE) {
+      return NextResponse.json(
+        {
+          error: `Batch size exceeds limit. Maximum ${MAX_BATCH_SIZE} students per batch, but this class has ${studentIds.length}.`,
+        },
+        { status: 400 }
+      )
     }
 
     // Check which students already have report cards for this grading period
@@ -232,22 +244,30 @@ export async function POST(req: Request) {
           }
         }
 
-        // Generate the report card narrative with AI
-        const generatedCard = await generateReportCardNarrative({
-          studentName,
-          className: classInfo.name,
-          subject: classInfo.subject,
-          gradeLevel: classInfo.gradeLevel,
-          gradingPeriod,
-          submissions: studentSubmissions,
-          masteryData: masteryData.map((m) => ({
-            standardCode: m.standardCode,
-            standardDescription: m.standardDescription,
-            level: m.level,
-            score: m.score,
-          })),
-          feedbackHighlights,
-        })
+        // Generate the report card narrative with AI (with per-student timeout)
+        const generatedCard = await Promise.race([
+          generateReportCardNarrative({
+            studentName,
+            className: classInfo.name,
+            subject: classInfo.subject,
+            gradeLevel: classInfo.gradeLevel,
+            gradingPeriod,
+            submissions: studentSubmissions,
+            masteryData: masteryData.map((m) => ({
+              standardCode: m.standardCode,
+              standardDescription: m.standardDescription,
+              level: m.level,
+              score: m.score,
+            })),
+            feedbackHighlights,
+          }),
+          new Promise<never>((_, reject) =>
+            setTimeout(
+              () => reject(new Error('Report card generation timed out')),
+              PER_STUDENT_TIMEOUT_MS
+            )
+          ),
+        ])
 
         // Save to database
         await db.insert(reportCards).values({

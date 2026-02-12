@@ -63,6 +63,9 @@ export async function generateReportCardNarrative(
     ? input.feedbackHighlights.map((f) => `- ${f}`).join('\n')
     : 'No prior feedback highlights.'
 
+  // Use only the student's first name to minimize PII sent to the AI
+  const firstName = input.studentName.split(' ')[0] || 'Student'
+
   const response = await anthropic.messages.create({
     model: AI_MODEL,
     max_tokens: 4096,
@@ -127,7 +130,7 @@ export async function generateReportCardNarrative(
         role: 'user',
         content: `Generate a report card narrative for this student:
 
-Student: ${input.studentName}
+Student: ${firstName}
 Class: ${input.className}
 Subject: ${input.subject}
 Grade Level: ${input.gradeLevel}
