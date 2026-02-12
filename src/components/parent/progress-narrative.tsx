@@ -1,6 +1,7 @@
 'use client'
 
 import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 import { Sparkles, Home, TrendingUp, AlertTriangle, CheckCircle2, Clock } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -166,7 +167,14 @@ export function ProgressNarrative({ narrative }: ProgressNarrativeProps) {
           </>
         ) : (
           <div className="text-sm text-stone-700 leading-relaxed prose prose-sm max-w-none">
-            <ReactMarkdown>{narrative.content}</ReactMarkdown>
+            <ReactMarkdown
+              remarkPlugins={[remarkGfm]}
+              components={{
+                table: ({ children, ...props }) => <table className="w-full border-collapse my-4 text-sm" {...props}>{children}</table>,
+                th: ({ children, ...props }) => <th className="border border-stone-300 bg-stone-50 px-3 py-2 text-left font-medium" {...props}>{children}</th>,
+                td: ({ children, ...props }) => <td className="border border-stone-300 px-3 py-2" {...props}>{children}</td>,
+              }}
+            >{narrative.content}</ReactMarkdown>
           </div>
         )}
       </CardContent>

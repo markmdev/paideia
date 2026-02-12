@@ -2,6 +2,7 @@
 
 import { useState, useCallback } from 'react'
 import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 import {
   CheckCircle2,
   ArrowUpRight,
@@ -261,7 +262,14 @@ export function FeedbackPanel({
           </div>
         ) : (
           <div className="bg-white rounded-xl border border-stone-200 p-4 text-sm text-stone-700 leading-relaxed prose prose-sm max-w-none">
-            <ReactMarkdown>{displayFeedback}</ReactMarkdown>
+            <ReactMarkdown
+              remarkPlugins={[remarkGfm]}
+              components={{
+                table: ({ children, ...props }) => <table className="w-full border-collapse my-4 text-sm" {...props}>{children}</table>,
+                th: ({ children, ...props }) => <th className="border border-stone-300 bg-stone-50 px-3 py-2 text-left font-medium" {...props}>{children}</th>,
+                td: ({ children, ...props }) => <td className="border border-stone-300 px-3 py-2" {...props}>{children}</td>,
+              }}
+            >{displayFeedback}</ReactMarkdown>
           </div>
         )}
       </div>

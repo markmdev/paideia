@@ -2,6 +2,7 @@
 
 import { format } from 'date-fns'
 import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 import { Bot, User } from 'lucide-react'
 import { ClaudeBadge } from '@/components/ui/claude-badge'
 
@@ -41,7 +42,14 @@ export function ChatMessage({ role, content, timestamp, isStreaming }: ChatMessa
             <p className="whitespace-pre-wrap">{content}</p>
           ) : (
             <div className="prose prose-sm prose-stone max-w-none [&>p]:mb-2 [&>p:last-child]:mb-0 [&>ul]:mb-2 [&>ol]:mb-2">
-              <ReactMarkdown>{content}</ReactMarkdown>
+              <ReactMarkdown
+                remarkPlugins={[remarkGfm]}
+                components={{
+                  table: ({ children, ...props }) => <table className="w-full border-collapse my-4 text-sm" {...props}>{children}</table>,
+                  th: ({ children, ...props }) => <th className="border border-stone-300 bg-stone-50 px-3 py-2 text-left font-medium" {...props}>{children}</th>,
+                  td: ({ children, ...props }) => <td className="border border-stone-300 px-3 py-2" {...props}>{children}</td>,
+                }}
+              >{content}</ReactMarkdown>
             </div>
           )}
           {isStreaming && (

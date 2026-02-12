@@ -1,6 +1,7 @@
 import { redirect, notFound } from 'next/navigation'
 import Link from 'next/link'
 import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 import { auth } from '@/lib/auth'
 import { db } from '@/lib/db'
 import { lessonPlans } from '@/lib/db/schema'
@@ -305,7 +306,14 @@ export default async function LessonPlanDetailPage({
           </CardHeader>
           <CardContent>
             <div className="text-sm leading-relaxed prose prose-sm max-w-none">
-              <ReactMarkdown>{plan.assessmentPlan}</ReactMarkdown>
+              <ReactMarkdown
+                remarkPlugins={[remarkGfm]}
+                components={{
+                  table: ({ children, ...props }) => <table className="w-full border-collapse my-4 text-sm" {...props}>{children}</table>,
+                  th: ({ children, ...props }) => <th className="border border-stone-300 bg-stone-50 px-3 py-2 text-left font-medium" {...props}>{children}</th>,
+                  td: ({ children, ...props }) => <td className="border border-stone-300 px-3 py-2" {...props}>{children}</td>,
+                }}
+              >{plan.assessmentPlan}</ReactMarkdown>
             </div>
           </CardContent>
         </Card>
@@ -350,7 +358,14 @@ function ReadOnlySection({
       </CardHeader>
       <CardContent>
         <div className="text-sm leading-relaxed prose prose-sm max-w-none">
-          <ReactMarkdown>{content}</ReactMarkdown>
+          <ReactMarkdown
+            remarkPlugins={[remarkGfm]}
+            components={{
+              table: ({ children, ...props }) => <table className="w-full border-collapse my-4 text-sm" {...props}>{children}</table>,
+              th: ({ children, ...props }) => <th className="border border-stone-300 bg-stone-50 px-3 py-2 text-left font-medium" {...props}>{children}</th>,
+              td: ({ children, ...props }) => <td className="border border-stone-300 px-3 py-2" {...props}>{children}</td>,
+            }}
+          >{content}</ReactMarkdown>
         </div>
       </CardContent>
     </Card>

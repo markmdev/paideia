@@ -1,6 +1,7 @@
 'use client'
 
 import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 import { ClaudeBadge } from '@/components/ui/claude-badge'
 
 interface Accommodation {
@@ -95,7 +96,14 @@ export function IepDetailTabs({
         </h2>
         {iep.presentLevels ? (
           <div className="text-sm text-stone-600 prose prose-sm max-w-none">
-            <ReactMarkdown>{iep.presentLevels}</ReactMarkdown>
+            <ReactMarkdown
+              remarkPlugins={[remarkGfm]}
+              components={{
+                table: ({ children, ...props }) => <table className="w-full border-collapse my-4 text-sm" {...props}>{children}</table>,
+                th: ({ children, ...props }) => <th className="border border-stone-300 bg-stone-50 px-3 py-2 text-left font-medium" {...props}>{children}</th>,
+                td: ({ children, ...props }) => <td className="border border-stone-300 px-3 py-2" {...props}>{children}</td>,
+              }}
+            >{iep.presentLevels}</ReactMarkdown>
             <ClaudeBadge className="mt-3 justify-end" />
           </div>
         ) : (

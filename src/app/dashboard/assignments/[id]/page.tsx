@@ -38,6 +38,7 @@ import { Badge } from '@/components/ui/badge'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { RubricDisplay } from '@/components/assignments/rubric-display'
 import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 import { DeleteAssignmentButton } from './delete-button'
 import { SubmitWorkForm } from '@/components/assignments/submit-work-form'
 import { formatGradeLevel } from '@/lib/format'
@@ -342,7 +343,14 @@ export default async function AssignmentDetailPage({
                   Description
                 </h4>
                 <div className="text-sm leading-relaxed prose prose-sm max-w-none">
-                  <ReactMarkdown>{assignment.description}</ReactMarkdown>
+                  <ReactMarkdown
+                    remarkPlugins={[remarkGfm]}
+                    components={{
+                      table: ({ children, ...props }) => <table className="w-full border-collapse my-4 text-sm" {...props}>{children}</table>,
+                      th: ({ children, ...props }) => <th className="border border-stone-300 bg-stone-50 px-3 py-2 text-left font-medium" {...props}>{children}</th>,
+                      td: ({ children, ...props }) => <td className="border border-stone-300 px-3 py-2" {...props}>{children}</td>,
+                    }}
+                  >{assignment.description}</ReactMarkdown>
                 </div>
               </div>
               {assignment.instructions && (
@@ -351,7 +359,14 @@ export default async function AssignmentDetailPage({
                     Instructions
                   </h4>
                   <div className="text-sm leading-relaxed prose prose-sm max-w-none bg-slate-50 rounded-lg p-4 border">
-                    <ReactMarkdown>{assignment.instructions}</ReactMarkdown>
+                    <ReactMarkdown
+                      remarkPlugins={[remarkGfm]}
+                      components={{
+                        table: ({ children, ...props }) => <table className="w-full border-collapse my-4 text-sm" {...props}>{children}</table>,
+                        th: ({ children, ...props }) => <th className="border border-stone-300 bg-stone-50 px-3 py-2 text-left font-medium" {...props}>{children}</th>,
+                        td: ({ children, ...props }) => <td className="border border-stone-300 px-3 py-2" {...props}>{children}</td>,
+                      }}
+                    >{assignment.instructions}</ReactMarkdown>
                   </div>
                 </div>
               )}
@@ -418,7 +433,14 @@ export default async function AssignmentDetailPage({
                     </CardHeader>
                     <CardContent className="space-y-3">
                       <div className="text-sm leading-relaxed prose prose-sm max-w-none">
-                        <ReactMarkdown>{version.content}</ReactMarkdown>
+                        <ReactMarkdown
+                          remarkPlugins={[remarkGfm]}
+                          components={{
+                            table: ({ children, ...props }) => <table className="w-full border-collapse my-4 text-sm" {...props}>{children}</table>,
+                            th: ({ children, ...props }) => <th className="border border-stone-300 bg-stone-50 px-3 py-2 text-left font-medium" {...props}>{children}</th>,
+                            td: ({ children, ...props }) => <td className="border border-stone-300 px-3 py-2" {...props}>{children}</td>,
+                          }}
+                        >{version.content}</ReactMarkdown>
                       </div>
                       {scaffolds.length > 0 && (
                         <div className="bg-slate-50 rounded-lg p-4 border">
@@ -487,7 +509,14 @@ export default async function AssignmentDetailPage({
               </CardHeader>
               <CardContent>
                 <div className="text-sm leading-relaxed prose prose-sm max-w-none bg-slate-50 rounded-lg p-4 border">
-                  <ReactMarkdown>{studentSubmission.content}</ReactMarkdown>
+                  <ReactMarkdown
+                    remarkPlugins={[remarkGfm]}
+                    components={{
+                      table: ({ children, ...props }) => <table className="w-full border-collapse my-4 text-sm" {...props}>{children}</table>,
+                      th: ({ children, ...props }) => <th className="border border-stone-300 bg-stone-50 px-3 py-2 text-left font-medium" {...props}>{children}</th>,
+                      td: ({ children, ...props }) => <td className="border border-stone-300 px-3 py-2" {...props}>{children}</td>,
+                    }}
+                  >{studentSubmission.content}</ReactMarkdown>
                 </div>
               </CardContent>
             </Card>
@@ -551,7 +580,14 @@ export default async function AssignmentDetailPage({
               </CardHeader>
               <CardContent>
                 <div className="text-sm leading-relaxed prose prose-sm max-w-none">
-                  <ReactMarkdown>
+                  <ReactMarkdown
+                    remarkPlugins={[remarkGfm]}
+                    components={{
+                      table: ({ children, ...props }) => <table className="w-full border-collapse my-4 text-sm" {...props}>{children}</table>,
+                      th: ({ children, ...props }) => <th className="border border-stone-300 bg-stone-50 px-3 py-2 text-left font-medium" {...props}>{children}</th>,
+                      td: ({ children, ...props }) => <td className="border border-stone-300 px-3 py-2" {...props}>{children}</td>,
+                    }}
+                  >
                     {feedback.finalFeedback ?? feedback.teacherEdits ?? feedback.aiFeedback}
                   </ReactMarkdown>
                 </div>
