@@ -1,23 +1,33 @@
 import Link from 'next/link'
-import { BookOpen, BarChart3, ShieldCheck, Users, Brain, Sparkles } from 'lucide-react'
+import { BookOpen, BarChart3, ShieldCheck, Users, Brain, Sparkles, ArrowRight, ChevronRight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
+
+const MODULE_ACCENTS = {
+  amber: { border: 'border-t-amber-500', icon: 'text-amber-700', bg: 'bg-amber-50', badge: 'bg-amber-100 text-amber-800' },
+  terracotta: { border: 'border-t-orange-600', icon: 'text-orange-700', bg: 'bg-orange-50', badge: 'bg-orange-100 text-orange-800' },
+  sage: { border: 'border-t-emerald-600', icon: 'text-emerald-700', bg: 'bg-emerald-50', badge: 'bg-emerald-100 text-emerald-800' },
+  sky: { border: 'border-t-sky-500', icon: 'text-sky-700', bg: 'bg-sky-50', badge: 'bg-sky-100 text-sky-800' },
+  slate: { border: 'border-t-stone-600', icon: 'text-stone-700', bg: 'bg-stone-50', badge: 'bg-stone-100 text-stone-800' },
+  rose: { border: 'border-t-rose-500', icon: 'text-rose-700', bg: 'bg-rose-50', badge: 'bg-rose-100 text-rose-800' },
+} as const
 
 export default function Home() {
   return (
     <div className="flex min-h-screen flex-col">
       {/* Header */}
-      <header className="border-b">
+      <header className="border-b bg-white/80 backdrop-blur-sm sticky top-0 z-50">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
-          <div className="flex items-center gap-2">
-            <BookOpen className="size-6 text-primary" />
-            <span className="text-lg font-bold">AI Teaching OS</span>
+          <div className="flex items-center gap-2.5">
+            <div className="flex size-8 items-center justify-center rounded-lg bg-amber-600 text-white">
+              <BookOpen className="size-4" />
+            </div>
+            <span className="text-lg font-bold tracking-tight">AI Teaching OS</span>
           </div>
           <div className="flex items-center gap-3">
             <Button asChild variant="ghost" size="sm">
               <Link href="/login">Sign In</Link>
             </Button>
-            <Button asChild size="sm">
+            <Button asChild size="sm" className="bg-amber-700 hover:bg-amber-800">
               <Link href="/register">Get Started</Link>
             </Button>
           </div>
@@ -26,27 +36,49 @@ export default function Home() {
 
       {/* Hero */}
       <main className="flex-1">
-        <section className="bg-gradient-to-b from-amber-50/60 via-orange-50/30 to-background">
-          <div className="mx-auto flex max-w-6xl flex-col items-center px-4 py-24 text-center">
-            <h1 className="max-w-3xl text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
-              The Operating System for <span className="whitespace-nowrap">K&#x2011;12</span> Teaching
+        <section className="relative overflow-hidden">
+          {/* Background: warm gradient with subtle geometric texture */}
+          <div className="absolute inset-0 bg-gradient-to-br from-amber-50 via-orange-50/80 to-stone-50" />
+          <div
+            className="absolute inset-0 opacity-[0.04]"
+            style={{
+              backgroundImage: `radial-gradient(circle at 1px 1px, currentColor 1px, transparent 0)`,
+              backgroundSize: '24px 24px',
+            }}
+          />
+          {/* Decorative warm shapes */}
+          <div className="absolute -top-24 -right-24 size-96 rounded-full bg-amber-200/30 blur-3xl" />
+          <div className="absolute -bottom-32 -left-32 size-[500px] rounded-full bg-orange-100/40 blur-3xl" />
+
+          <div className="relative mx-auto flex max-w-6xl flex-col items-center px-4 pt-20 pb-24 text-center sm:pt-28 sm:pb-32">
+            {/* Powered by Claude badge - prominent placement */}
+            <div className="mb-10 flex items-center gap-2 rounded-full border border-amber-200 bg-white/70 px-4 py-2 shadow-sm backdrop-blur-sm">
+              <svg className="size-5 text-amber-600" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2L9 9H2l6 5-2.5 8L12 17l6.5 5L16 14l6-5h-7L12 2z" fill="currentColor" opacity="0.9" />
+              </svg>
+              <span className="text-sm font-medium text-stone-700">Powered by</span>
+              <span className="text-sm font-bold text-stone-900">Claude Opus</span>
+              <span className="text-xs text-stone-500">&mdash; Anthropic</span>
+            </div>
+
+            <h1 className="font-heading max-w-4xl text-5xl leading-[1.1] tracking-tight text-stone-900 sm:text-6xl md:text-7xl lg:text-[5rem]">
+              The Operating System for{' '}
+              <span className="whitespace-nowrap">K&#x2011;12</span>{' '}
+              <span className="italic text-amber-800">Teaching</span>
             </h1>
-            <p className="mt-6 max-w-2xl text-lg text-muted-foreground">
+            <p className="mt-8 max-w-2xl text-lg leading-relaxed text-stone-600 sm:text-xl">
               Plan lessons, grade with AI-assisted feedback, track student mastery,
               manage IEPs, and communicate with families — all in one platform.
               Reclaim hours every week so you can focus on what matters: your students.
             </p>
-            <Badge variant="outline" className="mt-6 gap-1.5 border-amber-300 bg-amber-50 px-3 py-1 text-sm text-amber-800">
-              <svg className="size-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 2L9 9H2l6 5-2.5 8L12 17l6.5 5L16 14l6-5h-7L12 2z" fill="currentColor" opacity="0.9" />
-              </svg>
-              Powered by Claude Opus
-            </Badge>
-            <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-              <Button asChild size="lg">
-                <Link href="/register">Get Started Free</Link>
+            <div className="mt-12 flex flex-wrap items-center justify-center gap-4">
+              <Button asChild size="lg" className="h-12 bg-amber-700 px-8 text-base hover:bg-amber-800">
+                <Link href="/register">
+                  Get Started Free
+                  <ArrowRight className="ml-1 size-4" />
+                </Link>
               </Button>
-              <Button asChild variant="outline" size="lg">
+              <Button asChild variant="outline" size="lg" className="h-12 border-stone-300 px-8 text-base">
                 <Link href="/login">Sign In</Link>
               </Button>
             </div>
@@ -54,8 +86,8 @@ export default function Home() {
         </section>
 
         {/* Stats */}
-        <section className="border-y bg-muted/30 py-12">
-          <div className="mx-auto grid max-w-4xl grid-cols-2 gap-6 px-4 sm:grid-cols-4">
+        <section className="relative border-y border-stone-200 bg-white py-0">
+          <div className="mx-auto grid max-w-5xl grid-cols-2 divide-x divide-stone-200 sm:grid-cols-4">
             <StatCard value="5+" label="Hours saved per week" />
             <StatCard value="13" label="AI-powered features" />
             <StatCard value="100+" label="Standards aligned" />
@@ -64,113 +96,144 @@ export default function Home() {
         </section>
 
         {/* Feature highlights */}
-        <section className="border-b bg-muted/40 py-20">
-          <div className="mx-auto max-w-6xl px-4">
-            <h2 className="text-center text-2xl font-bold tracking-tight sm:text-3xl">
-              Five Modules. One Platform.
-            </h2>
-            <p className="mx-auto mt-3 max-w-2xl text-center text-muted-foreground">
-              Every module delivers standalone value. Together, they create an
-              intelligence layer that gets smarter with every interaction.
-            </p>
-            <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <section className="relative overflow-hidden bg-stone-50 py-24">
+          {/* Subtle background texture */}
+          <div
+            className="absolute inset-0 opacity-[0.025]"
+            style={{
+              backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000000'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+            }}
+          />
+          <div className="relative mx-auto max-w-6xl px-4">
+            <div className="mx-auto max-w-2xl text-center">
+              <h2 className="font-heading text-3xl tracking-tight text-stone-900 sm:text-4xl md:text-[2.75rem]">
+                Five Modules. One Platform.
+              </h2>
+              <p className="mt-4 text-lg leading-relaxed text-stone-600">
+                Every module delivers standalone value. Together, they create an
+                intelligence layer that gets smarter with every interaction.
+              </p>
+            </div>
+            <div className="mt-16 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
               <FeatureCard
                 icon={BookOpen}
                 title="Instructional Design"
                 description="Smart assignments, lesson plans, rubrics, quizzes, and differentiation — all standards-aligned and curriculum-grounded."
+                accent="amber"
               />
               <FeatureCard
                 icon={BarChart3}
                 title="Assessment Intelligence"
                 description="AI-drafted feedback on student work, longitudinal mastery tracking, standards gap analysis, and formative assessment tools."
+                accent="terracotta"
               />
               <FeatureCard
                 icon={ShieldCheck}
                 title="SPED & Compliance"
                 description="AI-assisted IEP development, progress monitoring, compliance tracking, and meeting coordination with full audit trails."
+                accent="sage"
               />
               <FeatureCard
                 icon={Users}
                 title="Family Engagement"
                 description="Plain-language progress narratives, proactive communication, multilingual support, and AI transparency for parents."
+                accent="sky"
               />
               <FeatureCard
                 icon={Brain}
                 title="District Intelligence"
                 description="Curriculum fidelity dashboards, cross-school analytics, SPED compliance oversight, and student outcome patterns."
+                accent="slate"
               />
               <FeatureCard
                 icon={Sparkles}
                 title="Student AI Tutor"
                 description="Socratic, pedagogically designed tutoring grounded in evidence. Guides students to understanding without giving answers."
+                accent="rose"
               />
             </div>
           </div>
         </section>
 
         {/* How It Works */}
-        <section className="py-20">
+        <section className="bg-white py-24">
           <div className="mx-auto max-w-6xl px-4">
-            <h2 className="text-center text-2xl font-bold tracking-tight sm:text-3xl">
-              How It Works
-            </h2>
-            <p className="mx-auto mt-3 max-w-2xl text-center text-muted-foreground">
-              From lesson creation to longitudinal insight in three steps.
-            </p>
-            <div className="mt-12 grid gap-8 sm:grid-cols-3">
-              <StepCard
-                step="1"
-                title="Create"
-                description="Teachers create assignments, lesson plans, and rubrics with AI assistance. Standards-aligned, curriculum-grounded, and differentiated from the start."
-              />
-              <StepCard
-                step="2"
-                title="Assess"
-                description="AI drafts individualized feedback on student work, scored against rubrics. Teachers review, edit, and approve before anything reaches a student."
-              />
-              <StepCard
-                step="3"
-                title="Grow"
-                description="Longitudinal mastery tracking powers differentiation, parent insights, SPED compliance, and Socratic tutoring — all from the same data."
-              />
+            <div className="mx-auto max-w-2xl text-center">
+              <h2 className="font-heading text-3xl tracking-tight text-stone-900 sm:text-4xl md:text-[2.75rem]">
+                How It Works
+              </h2>
+              <p className="mt-4 text-lg leading-relaxed text-stone-600">
+                From lesson creation to longitudinal insight in three steps.
+              </p>
+            </div>
+            <div className="relative mt-16">
+              {/* Connector line (visible on sm+) */}
+              <div className="absolute top-7 right-[calc(16.67%+1rem)] left-[calc(16.67%+1rem)] hidden h-px bg-gradient-to-r from-amber-300 via-amber-400 to-amber-300 sm:block" />
+              <div className="grid gap-12 sm:grid-cols-3 sm:gap-8">
+                <StepCard
+                  step="1"
+                  title="Create"
+                  description="Teachers create assignments, lesson plans, and rubrics with AI assistance. Standards-aligned, curriculum-grounded, and differentiated from the start."
+                />
+                <StepCard
+                  step="2"
+                  title="Assess"
+                  description="AI drafts individualized feedback on student work, scored against rubrics. Teachers review, edit, and approve before anything reaches a student."
+                />
+                <StepCard
+                  step="3"
+                  title="Grow"
+                  description="Longitudinal mastery tracking powers differentiation, parent insights, SPED compliance, and Socratic tutoring — all from the same data."
+                />
+              </div>
             </div>
           </div>
         </section>
 
         {/* CTA */}
-        <section className="border-t bg-muted/40 py-20">
-          <div className="mx-auto flex max-w-3xl flex-col items-center px-4 text-center">
-            <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
+        <section className="relative overflow-hidden border-t border-stone-200">
+          <div className="absolute inset-0 bg-gradient-to-br from-amber-50 via-orange-50/60 to-stone-50" />
+          <div className="absolute -top-24 right-0 size-72 rounded-full bg-amber-100/50 blur-3xl" />
+          <div className="absolute -bottom-24 -left-24 size-96 rounded-full bg-orange-100/30 blur-3xl" />
+          <div className="relative mx-auto flex max-w-3xl flex-col items-center px-4 py-24 text-center">
+            <h2 className="font-heading text-3xl tracking-tight text-stone-900 sm:text-4xl md:text-[2.75rem]">
               Teachers save 5+ hours every week
             </h2>
-            <p className="mt-4 text-muted-foreground">
+            <p className="mt-5 text-lg leading-relaxed text-stone-600">
               See how AI Teaching OS reduces administrative burden so teachers
               can focus on meaningful instruction.
             </p>
-            <div className="mt-8">
-              <Button asChild size="lg">
-                <Link href="/register">Start for Free</Link>
+            <div className="mt-10">
+              <Button asChild size="lg" className="h-12 bg-amber-700 px-8 text-base hover:bg-amber-800">
+                <Link href="/register">
+                  Start for Free
+                  <ChevronRight className="ml-1 size-4" />
+                </Link>
               </Button>
             </div>
           </div>
         </section>
 
         {/* Demo Credentials */}
-        <section className="py-16">
+        <section className="bg-white py-20">
           <div className="mx-auto max-w-2xl px-4">
-            <div className="rounded-lg border-2 border-dashed border-muted-foreground/25 bg-muted/20 p-6">
-              <h3 className="text-center text-sm font-semibold uppercase tracking-wider text-muted-foreground">
-                Demo Credentials
-              </h3>
-              <p className="mt-1 text-center text-xs text-muted-foreground">
-                All accounts use password: <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">password123</code>
+            <div className="rounded-xl border border-stone-200 bg-stone-50/50 p-8 shadow-sm">
+              <div className="flex items-center justify-center gap-2">
+                <div className="h-px flex-1 bg-stone-200" />
+                <h3 className="text-xs font-semibold uppercase tracking-widest text-stone-500">
+                  Demo Credentials
+                </h3>
+                <div className="h-px flex-1 bg-stone-200" />
+              </div>
+              <p className="mt-3 text-center text-sm text-stone-500">
+                All accounts use password: <code className="rounded-md border border-stone-200 bg-white px-2 py-0.5 font-mono text-xs text-stone-700">password123</code>
               </p>
-              <div className="mt-4 grid gap-2 text-sm sm:grid-cols-2">
-                <CredentialRow role="Teacher" email="rivera@school.edu" />
-                <CredentialRow role="Admin" email="williams@school.edu" />
-                <CredentialRow role="Parent" email="sarah.chen@email.com" />
-                <CredentialRow role="Student" email="aisha@student.edu" />
-                <CredentialRow role="SPED Teacher" email="rodriguez@school.edu" />
+              <div className="mt-6 grid gap-2 text-sm sm:grid-cols-2">
+                <CredentialRow role="Teacher" email="rivera@school.edu" color="amber" />
+                <CredentialRow role="Admin" email="williams@school.edu" color="stone" />
+                <CredentialRow role="Parent" email="sarah.chen@email.com" color="sky" />
+                <CredentialRow role="Student" email="aisha@student.edu" color="rose" />
+                <CredentialRow role="SPED Teacher" email="rodriguez@school.edu" color="emerald" />
               </div>
             </div>
           </div>
@@ -178,9 +241,14 @@ export default function Home() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t py-8">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-4 text-sm text-muted-foreground">
-          <span>AI Teaching OS</span>
+      <footer className="border-t border-stone-200 bg-stone-50">
+        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-4 py-8 text-sm text-stone-500 sm:flex-row">
+          <div className="flex items-center gap-2.5">
+            <div className="flex size-6 items-center justify-center rounded bg-amber-600 text-white">
+              <BookOpen className="size-3" />
+            </div>
+            <span className="font-semibold text-stone-700">AI Teaching OS</span>
+          </div>
           <span>FERPA &middot; COPPA &middot; IDEA &middot; SOC 2 Compliant</span>
         </div>
       </footer>
@@ -190,9 +258,9 @@ export default function Home() {
 
 function StatCard({ value, label }: { value: string; label: string }) {
   return (
-    <div className="text-center">
-      <div className="text-3xl font-bold tracking-tight">{value}</div>
-      <div className="mt-1 text-sm text-muted-foreground">{label}</div>
+    <div className="flex flex-col items-center justify-center px-4 py-8 sm:py-10">
+      <div className="font-heading text-4xl tracking-tight text-stone-900 sm:text-5xl">{value}</div>
+      <div className="mt-2 text-sm font-medium text-stone-500">{label}</div>
     </div>
   )
 }
@@ -201,16 +269,21 @@ function FeatureCard({
   icon: Icon,
   title,
   description,
+  accent,
 }: {
   icon: React.ComponentType<{ className?: string }>
   title: string
   description: string
+  accent: keyof typeof MODULE_ACCENTS
 }) {
+  const colors = MODULE_ACCENTS[accent]
   return (
-    <div className="rounded-lg border bg-card p-6">
-      <Icon className="size-8 text-primary" />
-      <h3 className="mt-4 font-semibold">{title}</h3>
-      <p className="mt-2 text-sm text-muted-foreground">{description}</p>
+    <div className={`rounded-xl border-t-[3px] ${colors.border} border border-stone-200 bg-white p-6 shadow-sm`}>
+      <div className={`inline-flex size-10 items-center justify-center rounded-lg ${colors.bg}`}>
+        <Icon className={`size-5 ${colors.icon}`} />
+      </div>
+      <h3 className="font-heading mt-4 text-xl text-stone-900">{title}</h3>
+      <p className="mt-2 text-[0.9375rem] leading-relaxed text-stone-600">{description}</p>
     </div>
   )
 }
@@ -225,21 +298,31 @@ function StepCard({
   description: string
 }) {
   return (
-    <div className="text-center">
-      <div className="mx-auto flex size-10 items-center justify-center rounded-full bg-primary text-sm font-bold text-primary-foreground">
+    <div className="relative text-center">
+      <div className="relative z-10 mx-auto flex size-14 items-center justify-center rounded-full border-2 border-amber-300 bg-amber-50 text-lg font-bold text-amber-800">
         {step}
       </div>
-      <h3 className="mt-4 text-lg font-semibold">{title}</h3>
-      <p className="mt-2 text-sm text-muted-foreground">{description}</p>
+      <h3 className="font-heading mt-5 text-2xl text-stone-900">{title}</h3>
+      <p className="mt-3 text-[0.9375rem] leading-relaxed text-stone-600">{description}</p>
     </div>
   )
 }
 
-function CredentialRow({ role, email }: { role: string; email: string }) {
+function CredentialRow({ role, email, color }: { role: string; email: string; color: string }) {
+  const dotColors: Record<string, string> = {
+    amber: 'bg-amber-400',
+    stone: 'bg-stone-400',
+    sky: 'bg-sky-400',
+    rose: 'bg-rose-400',
+    emerald: 'bg-emerald-400',
+  }
   return (
-    <div className="flex items-center justify-between rounded-md bg-background px-3 py-2">
-      <span className="font-medium text-muted-foreground">{role}</span>
-      <code className="font-mono text-xs">{email}</code>
+    <div className="flex items-center justify-between rounded-lg border border-stone-200 bg-white px-4 py-2.5">
+      <div className="flex items-center gap-2">
+        <div className={`size-2 rounded-full ${dotColors[color] || 'bg-stone-400'}`} />
+        <span className="font-medium text-stone-700">{role}</span>
+      </div>
+      <code className="font-mono text-xs text-stone-500">{email}</code>
     </div>
   )
 }
