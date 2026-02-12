@@ -25,8 +25,8 @@ Building a K-12 education platform for Anthropic hackathon. Five modules + Stude
 | P4: SPED/Compliance | TEAC-275nqy | DONE |
 | P5: Family Engagement | TEAC-hc17it | DONE |
 | P6: Student AI Tutor | TEAC-2novwk | DONE |
-| P7: District Intelligence | TEAC-rnynnz | In Progress |
-| P8: Integration & Polish | TEAC-y2fott | Blocked by P7 |
+| P7: District Intelligence | TEAC-rnynnz | DONE |
+| P8: Integration & Polish | TEAC-y2fott | DONE |
 
 ## Key Decisions
 - No Chrome extension - unified web platform
@@ -110,21 +110,45 @@ Commits: f216d3d (API), ea2ac10 (UI)
 - Verified: Login as williams@school.edu (admin), overview returns real data (2 schools, 5 teachers, 22 students), analytics returns mastery distribution, teachers returns engagement metrics, students returns performance data
 - BUG: /api/admin/schools returns 500 — needs investigation and fix
 
-## Phase 8 In Progress: Integration & Polish
-- Rubric weights fix: DONE (commit 60ca4d0, weights now 0.25 each)
-- Report card narratives: DONE (commit 57f7bbf) — AI service + API + UI + schema
-- Vitest tests: Agent a0f6d03 still running — 7 test files created (health, assignments, rubrics, grading, mastery, parent, tutor)
-- Schools API fix: NEEDED (500 error)
-- Sidebar nav: Need to add Report Cards link for teachers
-- Final build verification: NEEDED
-- End-to-end demo: NEEDED
+## Phase 8 Complete: Integration & Polish
+- Rubric weights fix: commit 60ca4d0 (weights now 0.25 each, sum to 1.0)
+- Report card narrative generator: commit 57f7bbf — AI service + API + UI + schema
+- Schools API fix: commit 584fb4f (inArray instead of raw SQL any())
+- Vitest tests: commit a39974a — 7 test files, 44 tests, ALL PASSING
+- Build passes clean: 31 dynamic routes + 2 static pages
+- TypeScript compiles clean
 
-## Seed Users (CORRECTED)
+## All 8 Creative Opus Usages
+1. tool_use for structured output — Rubrics, lesson plans, assignments, quizzes
+2. Multi-step generation — Assignment + rubric + criteria + 3 differentiated versions
+3. Streaming — Real-time Socratic tutor responses
+4. Prompt caching — Rubric context cached across batch grading
+5. Batch grading — Grade entire class with AI
+6. IEP individualization — Similarity detection flags cookie-cutter IEPs
+7. Multilingual translation — Native LLM translation for parent communication
+8. District AI analyst — Opus synthesizes aggregate data into narrative insights
+
+## Verified Endpoints (all working)
+- /api/health — 200
+- /api/auth/csrf, /api/auth/callback/credentials, /api/auth/session — auth flow
+- /api/assignments (GET/POST) — CRUD
+- /api/rubrics (GET/POST) — CRUD
+- /api/lesson-plans (GET/POST) — CRUD
+- /api/grading (GET/POST), /api/grading/[id] (GET/PUT), /api/grading/batch, /api/grading/analytics
+- /api/mastery (GET), /api/mastery/[studentId], /api/mastery/gaps
+- /api/iep (GET/POST), /api/iep/[id] (GET/PUT/DELETE), goals, progress, compliance
+- /api/parent/dashboard, /api/parent/children/[childId]
+- /api/messages (GET/POST)
+- /api/tutor (POST streaming), /api/tutor/sessions
+- /api/admin/overview, analytics, schools, teachers, students, insights
+- /api/report-cards (GET/POST)
+
+## Seed Users (password: password123)
 - rivera@school.edu (teacher, 8th ELA)
 - okafor@school.edu (teacher, 10th Bio)
 - chen@school.edu (teacher, 3rd grade)
 - rodriguez@school.edu (sped_teacher)
-- williams@school.edu (admin) — NOT admin@school.edu
+- williams@school.edu (admin)
 - sarah.chen@email.com (parent)
 - marcus.williams@email.com (parent)
 - aisha@student.edu (student)
