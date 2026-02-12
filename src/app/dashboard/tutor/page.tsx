@@ -1,10 +1,10 @@
 import { redirect } from 'next/navigation'
 import { auth } from '@/lib/auth'
 import { db } from '@/lib/db'
-import { tutorSessions } from '@/lib/db/schema'
-import { eq, desc } from 'drizzle-orm'
+import { tutorSessions, masteryRecords, standards } from '@/lib/db/schema'
+import { eq, desc, and, lt } from 'drizzle-orm'
 import Link from 'next/link'
-import { Bot, Sparkles, BookOpen, FlaskConical, Calculator, Globe, Palette, Code } from 'lucide-react'
+import { Bot, Sparkles, BookOpen, FlaskConical, Calculator, Globe, Palette, Code, Target } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
 import { SessionCard } from '@/components/tutor/session-card'
 
@@ -55,6 +55,47 @@ export default async function TutorHubPage() {
     .orderBy(desc(tutorSessions.startedAt))
     .limit(6)
 
+  // Fetch mastery gaps: standards where the student scores below 70
+  const weakMasteryData = await db
+    .select({
+      standardId: masteryRecords.standardId,
+      score: masteryRecords.score,
+      level: masteryRecords.level,
+      assessedAt: masteryRecords.assessedAt,
+      subject: standards.subject,
+      standardDescription: standards.description,
+    })
+    .from(masteryRecords)
+    .innerJoin(standards, eq(masteryRecords.standardId, standards.id))
+    .where(
+      and(
+        eq(masteryRecords.studentId, session.user.id),
+        lt(masteryRecords.score, 70)
+      )
+    )
+    .orderBy(desc(masteryRecords.assessedAt))
+
+  // Deduplicate by standardId (keep latest assessment per standard)
+  const latestByStandard = new Map<
+    string,
+    { subject: string; description: string; score: number; level: string }
+  >()
+  for (const m of weakMasteryData) {
+    if (!latestByStandard.has(m.standardId)) {
+      latestByStandard.set(m.standardId, {
+        subject: m.subject,
+        description: m.standardDescription,
+        score: Math.round(m.score),
+        level: m.level,
+      })
+    }
+  }
+
+  // Sort by score ascending (weakest first), limit to 4
+  const suggestedPractice = Array.from(latestByStandard.values())
+    .sort((a, b) => a.score - b.score)
+    .slice(0, 4)
+
   const formattedSessions = recentSessions.map((s) => {
     const messages = JSON.parse(s.messages) as TutorMessage[]
     return {
@@ -86,6 +127,46 @@ export default async function TutorHubPage() {
           together. I will ask questions to help you think, not just give answers.
         </p>
       </div>
+
+      {/* Suggested Practice — based on mastery gaps */}
+      {suggestedPractice.length > 0 && (
+        <div>
+          <h2 className="font-serif text-lg font-semibold text-stone-800 mb-3 flex items-center gap-2">
+            <Target className="size-4 text-amber-500" />
+            Suggested Practice
+          </h2>
+          <p className="text-stone-500 text-xs mb-3">
+            Areas where extra practice could help you level up
+          </p>
+          <div className="grid gap-3 sm:grid-cols-2">
+            {suggestedPractice.map((sp, i) => (
+              <Link
+                key={i}
+                href={`/dashboard/tutor/new?subject=${encodeURIComponent(sp.subject)}&topic=${encodeURIComponent(sp.description)}`}
+              >
+                <Card className="cursor-pointer transition-all hover:shadow-md rounded-xl border border-amber-200 bg-gradient-to-br from-amber-50 to-orange-50 hover:from-amber-100 hover:to-orange-100">
+                  <CardContent className="p-4 space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-medium text-amber-700 bg-amber-100 px-2 py-0.5 rounded-full">
+                        {sp.subject}
+                      </span>
+                      <span className="text-xs font-medium text-stone-500">
+                        {sp.score}% mastery
+                      </span>
+                    </div>
+                    <p className="text-sm text-stone-700 leading-snug line-clamp-2">
+                      {sp.description}
+                    </p>
+                    <span className="inline-flex items-center gap-1 text-xs font-medium text-amber-600">
+                      Practice This &rarr;
+                    </span>
+                  </CardContent>
+                </Card>
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Subject quick-start */}
       <div>
