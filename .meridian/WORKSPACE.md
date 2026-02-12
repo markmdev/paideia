@@ -376,19 +376,32 @@ User directive: Think as head of product. What's missing? What features would wi
 - ✅ DeShawn: My Classes — 2 classes (ELA Period 1 + SPED Resource Room)
 - ✅ Mobile (390x844): Student dashboard responsive — cards stack, assignments section clean
 
-### In Progress — Next Product Improvements
-- Parent AI transparency section on child detail page (was editing when compaction warning hit)
-  - File: src/app/dashboard/children/[childId]/page.tsx
-  - Need to add ShieldCheck, Eye, Bot icons and AI transparency card at bottom
-- More planned improvements:
-  - "Powered by Claude" badge on AI-generated content (feedback, report cards, IEP docs)
-  - Student "waiting for feedback" message on submission tab
-  - Assignment list cards already clickable (confirmed — Link wrapper exists)
+### Product Improvements Implemented (Iteration 9)
+49. ✅ Parent AI transparency panel: "How AI Is Used" card on child detail page with 3 info cards (Feedback Drafting, AI Tutoring, Data Privacy) + footer text (commit 767eb78)
+50. ✅ Student "Awaiting Teacher Feedback" notice: amber gradient card with Clock icon on submission tab when no approved feedback (commit 767eb78)
+51. ✅ "Powered by Claude" badge: reusable ClaudeBadge component (sparkle + text), added to grading feedback panel, report card narratives, IEP present levels, parent AI transparency card, tutor assistant messages (commit 0fc6ba3, 91f9d61)
+52. ✅ Student graded feedback enhancement: prominent grade card with color-coded gradient (emerald A/B, amber C, rose D/F), colored left borders on strengths/improvements/next steps cards, AI disclosure footer (commit 66a3d43)
+
+### Browser Testing (Iteration 9)
+- ✅ Parent (Sarah Chen): Child detail — AI Transparency panel at bottom with 3 cards (Feedback Drafting, AI Tutoring, Data Privacy) + "Powered by Claude" badge
+- ✅ Student (Aisha): Assignment detail — "Awaiting Teacher Feedback" amber card shows below essay when no approved feedback
+- ✅ Teacher (Rivera): Messages — message list with type badges, "New Message" button, compose dialog with parent contacts dropdown
+- ✅ Teacher: Grading detail (American Dream Essay) — 7 submissions, stat cards, "Grade All Ungraded" button
+- ✅ Teacher: Submission feedback — Jayden Park 92%, rubric scores with justifications, strengths/improvements sections, action buttons (Approve & Return, Edit Feedback, Regenerate), "Powered by Claude" badge at bottom
+- ✅ Teacher: Report Card detail — Lucas Thompson B, rich AI narrative, "Powered by Claude" badge after narrative
+- ✅ SPED: IEP Management — 2 students (DeShawn SLD, Ethan ADHD), stat cards, review dates
+- ✅ SPED: IEP Detail (DeShawn) — "Powered by Claude" badge (moved inside present levels section)
 
 ### Dev Server
 Background task b7d8737 running `npm run dev` on localhost:3000.
 Chrome tab ID: 1135439413.
-Currently logged in as: DeShawn Williams (student), on classes page.
+Currently logged in as: Rodriguez (sped_teacher), on IEP detail page.
+
+### Next Steps (Iteration 10+)
+- Remove unused ClaudeBadge import from iep/[iepId]/page.tsx (minor cleanup)
+- More mobile testing of new features (Claude badge, AI transparency panel)
+- Consider: student notifications, teacher class detail page improvements
+- Final round of polish before hackathon submission
 
 ## Verified Endpoints (all working)
 - /api/health — 200
