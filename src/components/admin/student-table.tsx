@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
 import { Search } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
@@ -86,7 +87,12 @@ export function StudentTable({ students }: StudentTableProps) {
               filtered.map((student) => (
                 <TableRow key={student.id}>
                   <TableCell className="font-medium text-stone-900">
-                    {student.name || 'Unknown'}
+                    <Link
+                      href={`/dashboard/students/${student.id}`}
+                      className="hover:text-amber-700 transition-colors"
+                    >
+                      {student.name || 'Unknown'}
+                    </Link>
                   </TableCell>
                   <TableCell className="text-stone-600">{student.email}</TableCell>
                   <TableCell className="text-stone-600">
