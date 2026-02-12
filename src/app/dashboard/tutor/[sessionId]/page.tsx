@@ -43,7 +43,9 @@ export default function TutorSessionPage() {
   const [isEnding, setIsEnding] = useState(false)
 
   const messagesEndRef = useRef<HTMLDivElement>(null)
-  const subject = searchParams.get('subject') ?? session?.subject ?? 'General'
+  const initialSubject = searchParams.get('subject')
+  const [subjectState] = useState(initialSubject ?? 'General')
+  const subject = session?.subject ?? subjectState
   const [startTime] = useState(new Date())
 
   // Scroll to bottom when messages change
