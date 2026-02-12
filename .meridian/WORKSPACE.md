@@ -228,13 +228,26 @@ Frontend-design skill installed at .claude/skills/frontend-design/SKILL.md.
 - ✅ Sign out flow - redirects to /login cleanly (no unstyled NextAuth page)
 - ✅ Mobile (390x844): landing, login, dashboard, assignments, early warning, grading, tutor hub, progress
 
+### Bugs Found & Fixed (Iteration 2 — this session)
+17. ✅ Assignment detail tabs not clickable — added activationMode="automatic" to Tabs (also on generation-form.tsx). NOTE: real user clicks work fine; browser automation tool doesn't send pointerdown events which Radix needs.
+18. ✅ Assignment detail "Grade 8" → "8th Grade" — added formatGradeLevel helper to assignment-card.tsx and [id]/page.tsx (commit a664134)
+
+### Pages Tested (Iteration 2 — this session)
+- ✅ Landing page: full scroll — hero, stats, modules (6 colored cards), How It Works (3 steps), CTA section, demo credentials, footer (FERPA/COPPA/IDEA/SOC 2)
+- ✅ Teacher: Assignments list — card with link, grade badge shows "8" (fixed to "8th Grade")
+- ✅ Teacher: Assignment detail — tabs (Assignment/Rubric/Success Criteria), "8th Grade" badge, rubric grid with 4 criteria × 4 levels, weights
+- ✅ Teacher: Create Assignment wizard — 3-step stepper, form fields, "Generate with AI" button
+- ✅ SPED: IEP Management — 1 student caseload, stat cards, DeShawn Williams card
+- ✅ SPED: IEP Detail — Present Levels (rich narrative), Goals (2 SMART goals with baselines/trends), Accommodations (6 items categorized), Related Services, Compliance Deadlines (185d/550d remaining)
+- ✅ Parent: My Children — Aisha Torres, "8th Grade", On Track, recent grades
+- ✅ Parent: Child Detail — stat cards, Skills Snapshot (ELA with mastery badges), empty progress summaries state
+
 ### Remaining Work
-- **Lesson Plans list page** — was navigating to it when compaction triggered
-- **Exit Tickets page** — recheck with teacher role
 - **Form validation UX** — quiz form doesn't show visible errors on empty submit (minor)
 - **Loading states** — skeletons exist on 9 pages but not visually verified
 - **Dark mode** — not tested (likely unsupported, low priority)
 - **Seed re-run needed** — student names updated in seed.ts but DB still has old generic names until reseed
+- **Browser automation note** — Radix UI components (Tabs, Links) don't respond to Chrome extension clicks (missing pointerdown events). Work around by using JS navigation or pointer event dispatch. NOT a real user bug.
 
 ## Verified Endpoints (all working)
 - /api/health — 200
