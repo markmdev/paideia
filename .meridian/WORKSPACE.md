@@ -1,24 +1,3 @@
-- Next.js 16 app scaffold with TypeScript
-- Drizzle ORM with 31 tables pushed to Supabase
-- NextAuth.js with credentials auth + JWT
-- shadcn/ui (19 components)
-- Dashboard shell with role-aware sidebar navigation
-- Landing page with feature grid
-- Comprehensive seed script (29 users, schools, classes, standards, assignments, IEP data)
-- Health endpoint verified, registration tested, build passes
-
-## Phase 2 Complete: Instructional Design Engine
-All 4 features built and verified (commits f72fce7 through 970ef9c):
-1. AI service layer (`src/lib/ai/`) — 6 files, tool_use structured generation
-2. Smart Assignment Creator — API (3 routes) + UI (4 pages + 3 components)
-3. Lesson Plan Generator — API (3 routes) + UI (5 pages)
-4. Rubric Builder — API (3 routes) + UI (4 pages + reusable grid)
-All CRUD endpoints verified via curl. TypeScript clean.
-
-## Phase 3 Complete: Assessment Intelligence
-All verified end-to-end (commits 4039ca7, 3be8a26, bfa286d, d09ad94):
-1. AI grading engine — prompt caching + multi-step criterion analysis (tested: essay scored 92/100)
-2. Grading API (4 routes) — single grade, batch grade (3/6 graded, 3 had seed data conflicts), approve, analytics
 3. Grading UI (3 pages + 3 components) — feedback review, approve/edit/regenerate
 4. Mastery tracking (3 API routes + 2 UI pages + 2 components) — heatmap, gap analysis
 5. Seed rubric weights sum to 1.0 per rubric (0.25 per criterion).
@@ -480,12 +459,27 @@ Ran `npm run db:seed` after seed data double-dash fix (commit 5859fa8). All em d
 ### Bugs Found & Fixed (Iteration 7 continued)
 60. ✅ Report Cards: "Generate All" button shown for classes with 0 students — hidden when studentCount is 0. Commit 87a3c11.
 
+### Browser Testing (Iteration 7 session 3 — this session)
+- ✅ **Parent → Teacher message flow: END-TO-END VERIFIED** — Sarah Chen sent "Question About Aisha's Reading Progress" to Ms. Rivera via API, appeared in both parent and teacher inboxes
+- ✅ Parent compose dialog: To dropdown shows "Ms. Rivera (Teacher)" — correctly role-filtered contacts
+- ✅ Admin: Students table — 22 students, varied scores, mastery distribution badges, clickable names
+- ✅ Admin: Student Detail (Ethan Nakamura) — 3 classes (ELA, Bio, SPED Resource), 3 submissions, 62% avg, 9 mastery standards (all Developing/Beginning), IEP Status with "Active" ADHD badge and "View IEP" link
+- ✅ Admin: Messages — clean empty state "No messages yet" (correct, admin has no parent-teacher messages)
+- ✅ Mobile (390x844): Admin messages empty state — clean envelope icon, proper responsive
+- ✅ Mobile: Teacher (Rivera) messages — 8 messages stacked cleanly, type badges, sender names, previews
+- ✅ Mobile: Teacher compose dialog — To/Subject/Message fields fit mobile viewport, Send button accessible
+- ✅ Teacher: Class Detail (Period 4, 0 students) — clean empty state: 0/0/N/A/N/A stat cards, "No students enrolled" and "No assignments created" empty state messages
+- ✅ Teacher: Report Cards — Periods 4-5 (0 students) no "Generate All" button (fix confirmed), Period 1 shows 5 cards (1 draft, 4 approved)
+- ✅ Teacher: Report Card Detail (DeShawn Williams C+) — rich narrative mentioning verbal comprehension, SPED connection, Strengths/Growth/Recommendations sections, AI disclosure footer, "Powered by Claude" badge
+- ✅ Landing page full scroll: Hero → Stats → 6 Module Cards → How It Works (3-step) → CTA section — all polished
+
 ### Next Steps (Iteration 8+)
-- Test DeShawn's AI Tutor "Suggested Practice" section (mastery gaps → practice links)
-- Test parent compose message flow (parent → teacher)
-- Test admin student detail page after reseed
-- Mobile: message compose dialog
-- Consider: verify empty states on pages with no data
+- Scroll rest of landing page (CTA section, demo creds, footer)
+- Test message detail view on mobile
+- Test student assignment submission flow (SubmitWorkForm)
+- Test teacher grading approval flow (Approve & Return button)
+- Consider: IEP creation wizard end-to-end
+- Consider: admin "Generate AI District Insights" button flow
 
 ## Verified Endpoints (all working)
 - /api/health — 200
