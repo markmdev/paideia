@@ -7,7 +7,7 @@ import { db } from '@/lib/db'
 import { lessonPlans } from '@/lib/db/schema'
 import { eq, and } from 'drizzle-orm'
 import { format } from 'date-fns'
-import { formatGradeLevel } from '@/lib/utils'
+import { formatGradeLevel } from '@/lib/format'
 import {
   ArrowLeft,
   BookOpen,
@@ -252,7 +252,7 @@ export default async function LessonPlanDetailPage({
       )}
 
       {/* Differentiation */}
-      {differentiation && (
+      {differentiation && (differentiation.belowGrade || differentiation.onGrade || differentiation.aboveGrade) && (
         <Card>
           <CardHeader className="pb-3">
             <div className="flex items-center gap-2">
@@ -264,30 +264,57 @@ export default async function LessonPlanDetailPage({
           </CardHeader>
           <CardContent>
             <div className="grid gap-4 sm:grid-cols-3">
-              <div className="rounded-lg border border-amber-200 bg-amber-50/50 p-3">
-                <span className="inline-block text-xs font-semibold px-2 py-0.5 rounded-full mb-2 text-amber-700 bg-amber-100">
-                  Below Grade Level
-                </span>
-                <p className="text-sm leading-relaxed text-muted-foreground">
-                  {differentiation.belowGrade}
-                </p>
-              </div>
-              <div className="rounded-lg border border-emerald-200 bg-emerald-50/50 p-3">
-                <span className="inline-block text-xs font-semibold px-2 py-0.5 rounded-full mb-2 text-emerald-700 bg-emerald-100">
-                  On Grade Level
-                </span>
-                <p className="text-sm leading-relaxed text-muted-foreground">
-                  {differentiation.onGrade}
-                </p>
-              </div>
-              <div className="rounded-lg border border-blue-200 bg-blue-50/50 p-3">
-                <span className="inline-block text-xs font-semibold px-2 py-0.5 rounded-full mb-2 text-blue-700 bg-blue-100">
-                  Above Grade Level
-                </span>
-                <p className="text-sm leading-relaxed text-muted-foreground">
-                  {differentiation.aboveGrade}
-                </p>
-              </div>
+              {differentiation.belowGrade && (
+                <div className="rounded-lg border border-amber-200 bg-amber-50/50 p-3">
+                  <span className="inline-block text-xs font-semibold px-2 py-0.5 rounded-full mb-2 text-amber-700 bg-amber-100">
+                    Below Grade Level
+                  </span>
+                  <div className="text-sm leading-relaxed text-muted-foreground prose prose-sm max-w-none">
+                    <ReactMarkdown
+                      remarkPlugins={[remarkGfm]}
+                      components={{
+                        table: ({ children, ...props }) => <table className="w-full border-collapse my-4 text-sm" {...props}>{children}</table>,
+                        th: ({ children, ...props }) => <th className="border border-stone-300 bg-stone-50 px-3 py-2 text-left font-medium" {...props}>{children}</th>,
+                        td: ({ children, ...props }) => <td className="border border-stone-300 px-3 py-2" {...props}>{children}</td>,
+                      }}
+                    >{differentiation.belowGrade}</ReactMarkdown>
+                  </div>
+                </div>
+              )}
+              {differentiation.onGrade && (
+                <div className="rounded-lg border border-emerald-200 bg-emerald-50/50 p-3">
+                  <span className="inline-block text-xs font-semibold px-2 py-0.5 rounded-full mb-2 text-emerald-700 bg-emerald-100">
+                    On Grade Level
+                  </span>
+                  <div className="text-sm leading-relaxed text-muted-foreground prose prose-sm max-w-none">
+                    <ReactMarkdown
+                      remarkPlugins={[remarkGfm]}
+                      components={{
+                        table: ({ children, ...props }) => <table className="w-full border-collapse my-4 text-sm" {...props}>{children}</table>,
+                        th: ({ children, ...props }) => <th className="border border-stone-300 bg-stone-50 px-3 py-2 text-left font-medium" {...props}>{children}</th>,
+                        td: ({ children, ...props }) => <td className="border border-stone-300 px-3 py-2" {...props}>{children}</td>,
+                      }}
+                    >{differentiation.onGrade}</ReactMarkdown>
+                  </div>
+                </div>
+              )}
+              {differentiation.aboveGrade && (
+                <div className="rounded-lg border border-blue-200 bg-blue-50/50 p-3">
+                  <span className="inline-block text-xs font-semibold px-2 py-0.5 rounded-full mb-2 text-blue-700 bg-blue-100">
+                    Above Grade Level
+                  </span>
+                  <div className="text-sm leading-relaxed text-muted-foreground prose prose-sm max-w-none">
+                    <ReactMarkdown
+                      remarkPlugins={[remarkGfm]}
+                      components={{
+                        table: ({ children, ...props }) => <table className="w-full border-collapse my-4 text-sm" {...props}>{children}</table>,
+                        th: ({ children, ...props }) => <th className="border border-stone-300 bg-stone-50 px-3 py-2 text-left font-medium" {...props}>{children}</th>,
+                        td: ({ children, ...props }) => <td className="border border-stone-300 px-3 py-2" {...props}>{children}</td>,
+                      }}
+                    >{differentiation.aboveGrade}</ReactMarkdown>
+                  </div>
+                </div>
+              )}
             </div>
           </CardContent>
         </Card>

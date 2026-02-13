@@ -14,6 +14,8 @@ import {
   Layers,
   ClipboardList,
 } from 'lucide-react'
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -507,17 +509,21 @@ export function GenerationForm({ classes }: GenerationFormProps) {
                     <h4 className="text-sm font-medium text-muted-foreground mb-1">
                       Description
                     </h4>
-                    <p className="text-sm leading-relaxed whitespace-pre-wrap">
-                      {generated.assignment.description}
-                    </p>
+                    <div className="text-sm leading-relaxed prose prose-sm max-w-none">
+                      <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                        {generated.assignment.description}
+                      </ReactMarkdown>
+                    </div>
                   </div>
                   {generated.assignment.instructions && (
                     <div>
                       <h4 className="text-sm font-medium text-muted-foreground mb-1">
                         Instructions
                       </h4>
-                      <div className="text-sm leading-relaxed whitespace-pre-wrap bg-slate-50 rounded-lg p-4 border">
-                        {generated.assignment.instructions}
+                      <div className="text-sm leading-relaxed prose prose-sm max-w-none bg-slate-50 rounded-lg p-4 border">
+                        <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                          {generated.assignment.instructions}
+                        </ReactMarkdown>
                       </div>
                     </div>
                   )}
@@ -593,8 +599,10 @@ export function GenerationForm({ classes }: GenerationFormProps) {
                         </CardTitle>
                       </CardHeader>
                       <CardContent className="space-y-3">
-                        <div className="text-sm leading-relaxed whitespace-pre-wrap">
-                          {version.content}
+                        <div className="text-sm leading-relaxed prose prose-sm max-w-none">
+                          <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                            {version.content}
+                          </ReactMarkdown>
                         </div>
                         {scaffolds.length > 0 && (
                           <div className="bg-slate-50 rounded-lg p-4 border">
