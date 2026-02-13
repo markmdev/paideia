@@ -453,15 +453,22 @@ export default function NewLessonPlanPage() {
               <CardContent>
                 <ul className="space-y-2">
                   {activePlan.standards.map((standard, i) => {
-                    const dashIdx = standard.indexOf(' — ')
-                    const hasDescription = dashIdx > -1
-                    const code = hasDescription ? standard.slice(0, dashIdx) : standard
-                    const description = hasDescription ? standard.slice(dashIdx + 3) : null
+                    // Split standard code from description on dash separators
+                    let code = standard
+                    let description: string | null = null
+                    for (const sep of [' — ', ' – ', ' - ']) {
+                      const idx = standard.indexOf(sep)
+                      if (idx > -1) {
+                        code = standard.slice(0, idx)
+                        description = standard.slice(idx + sep.length)
+                        break
+                      }
+                    }
                     return (
                       <li key={i} className="flex items-start gap-2">
                         <Badge
                           variant="outline"
-                          className="text-xs font-mono bg-sky-50 text-sky-700 border-sky-200 shrink-0"
+                          className="text-xs font-mono bg-sky-50 text-sky-700 border-sky-200 shrink-0 whitespace-nowrap"
                         >
                           {code}
                         </Badge>
