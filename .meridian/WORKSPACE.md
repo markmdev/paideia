@@ -460,11 +460,41 @@ Chrome tab ID: 1135439413. Currently desktop viewport (1280x900). Signed in as s
 - TEAC-a9yi7q (lesson plan diff null safety)
 - TEAC-lbhhi5 (assignment preview raw text)
 
-### Next Steps (Iteration 24+)
-- Close Pebble issues for completed fixes
-- Check agent a6a9f5b results when done
-- Continue browser testing remaining Pebble fixes
-- Test suite: 192/192, TypeScript: zero errors
+### Code Health Fixes (Iteration 24-26 — via subagents)
+78. ✅ Report card narrative: replaced split/map with ReactMarkdown (commit dfab0b3)
+79. ✅ Student submission: rendered as plain text instead of ReactMarkdown (commit 874ab9f)
+80. ✅ Prose class standardization: ordered to `prose prose-stone prose-sm max-w-none` everywhere (commit 3c3a6d9, e3266d4)
+81. ✅ Grading helpers: extracted buildRubricInput + persistGradingResult into src/lib/grading-helpers.ts (commit 18e2c37)
+82. ✅ AI service extraction: moved inline tool schemas from early-warning, mastery/gaps, grading/differentiate into src/lib/ai/ modules (commit f96aba1)
+
+### Pebble Issues Fixed (Iteration 24-26)
+- TEAC-byx28z (report card narrative ReactMarkdown)
+- TEAC-0mjsh0 (submission plain text)
+- TEAC-xq5d7g (SQL count coercion)
+- TEAC-3intag (prose class consistency)
+- TEAC-x7rmk0 (grading helpers extraction)
+- TEAC-jh1v8i (inline AI tool schemas)
+
+### Browser Testing (Iteration 26)
+- ✅ Teacher: Grading list — 3 assignments with correct counts and percentages
+- ✅ Teacher: Submission detail (Amara Osei 88%) — student work as plain text (fix verified), rubric scores, Overall Feedback with approved badge, Strengths/Improvements/Next Steps, feedback tone dropdown, action buttons, "Powered by Claude"
+- ✅ Teacher: Report Cards — "1 draft" (singular fix holding), "4 approved", Periods 4-5 no Generate All button
+- ✅ Teacher: Report Card detail (Ethan Draft) — Draft badge, narrative via ReactMarkdown, Powered by Claude, 3 Strengths, 3 Growth Areas, 3 Recommendations, "Approve Report Card" button
+- ✅ Student (Aisha): Assignments — 2 cards, student sidebar with Learning section
+- ✅ Student: Assignment detail — 3 tabs (Assignment, Your Submission, Feedback), content correct
+- ✅ Admin: Dashboard — "Welcome back, Dr. Williams", stats, Quick Actions
+- ✅ Admin: District Analytics — 6 stat cards, mastery distribution, avg scores by subject (Math 83%, Science 84%, ELA 76%), teacher engagement, AI Insights button
+- ✅ Mobile (390x844): Admin Students — 22 students with search, grades, mastery badges, clickable names
+- ✅ Teacher: Lesson Plan detail — differentiation section has all 3 tiers with prose classes applied (9 prose elements total)
+- ✅ Landing page: full scroll verified — Hero, Stats, 6 Modules, How It Works, CTA, Demo Credentials, Footer
+- ✅ Test suite: 192/192 passing, TypeScript: zero errors
+
+### Remaining Pebble Issues (1)
+- TEAC-6zuv8p: Two message compose components with overlapping functionality (P2, minor refactoring — not a bug)
+
+### Dev Server
+Background task b7d8737 running `npm run dev` on localhost:3000.
+Chrome tab ID: 1135439413. Currently desktop viewport (1280x900), on landing page.
 
 ## Verified Endpoints (all working)
 - /api/health — 200
