@@ -33,6 +33,7 @@ import { Button } from '@/components/ui/button'
 import { ProgressNarrative } from '@/components/parent/progress-narrative'
 import { ClaudeBadge } from '@/components/ui/claude-badge'
 import { formatGradeLevel } from '@/lib/utils'
+import ReactMarkdown from 'react-markdown'
 
 export default async function ChildDetailPage({
   params,
@@ -384,9 +385,9 @@ export default async function ChildDetailPage({
                           {strengths.map((str, i) => (
                             <li
                               key={i}
-                              className="text-[11px] text-stone-600 pl-3"
+                              className="text-[11px] text-stone-600 pl-3 prose prose-sm prose-stone max-w-none [&>p]:m-0 [&>p]:inline"
                             >
-                              {str}
+                              <ReactMarkdown>{str}</ReactMarkdown>
                             </li>
                           ))}
                         </ul>
@@ -404,18 +405,18 @@ export default async function ChildDetailPage({
                           {improvements.map((imp, i) => (
                             <li
                               key={i}
-                              className="text-[11px] text-stone-600 pl-3"
+                              className="text-[11px] text-stone-600 pl-3 prose prose-sm prose-stone max-w-none [&>p]:m-0 [&>p]:inline"
                             >
-                              {imp}
+                              <ReactMarkdown>{imp}</ReactMarkdown>
                             </li>
                           ))}
                         </ul>
                       </div>
                     )}
                     {fb.finalFeedback && (
-                      <p className="text-[11px] text-stone-500 italic border-t pt-2">
-                        {fb.finalFeedback}
-                      </p>
+                      <div className="text-[11px] text-stone-500 italic border-t pt-2 prose prose-sm prose-stone max-w-none [&>p]:m-0">
+                        <ReactMarkdown>{fb.finalFeedback}</ReactMarkdown>
+                      </div>
                     )}
                   </div>
                 )
