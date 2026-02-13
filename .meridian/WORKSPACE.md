@@ -1,33 +1,3 @@
-- ✅ SPED: IEP Detail (DeShawn) — rich present levels, 2 goals with progress, accommodations, services, deadlines
-- ✅ SPED: Progress Monitoring — DeShawn (2 goals: Reading Fluency On Track 99wpm, Written Expression Flat 2.5/4), Ethan (1 goal: Organization On Track 65%)
-- ✅ SPED: Dashboard — role badge, SPED nav section, correct stats
-- ✅ Admin: Analytics — all data correct, "Generate AI District Insights" button present
-- ✅ Student: Dashboard — stats correct (1 class, 2 tutor sessions)
-- ✅ Student: Assignments — shows only non-draft assignments (fixed)
-- ✅ Marcus (parent): Dashboard — 1 child (DeShawn), 2 unread messages
-- ✅ Mobile (390x844): Admin analytics, quizzes list, quiz detail — all responsive, no overflow
-
-### Product Enhancement Phase — IN PROGRESS
-User directive: Think as head of product. What's missing? What features would win hackathon?
-
-### Product Improvements Implemented (Iteration 7)
-36. ✅ Landing page hero: "Try the Demo" is now primary CTA → /login (commit 04d348c)
-37. ✅ Student Quick Action nav fix: /dashboard/progress → /dashboard/student-progress (commit 04d348c)
-38. ✅ Parent dashboard icon: BookOpen → MessageSquare for Unread Messages (commit 04d348c)
-39. ✅ Parent Messages Quick Action: BookOpen → MessageSquare icon (commit 04d348c)
-40. ✅ Teacher sidebar: added "Communication > Messages" nav section (commit 04d348c)
-41. ✅ Student assignment detail: students can view assignments, see their submission content, score/grade, and approved AI feedback with strengths/improvements/next steps. Teacher-only features (rubric, differentiation, delete) hidden. (commit 60c19e0)
-42. ✅ Compose message dialog: "New Message" button on Messages page opens dialog with role-aware contacts dropdown, subject, content. Parents see teachers, teachers see parents. POST to /api/messages. New /api/messages/contacts endpoint. (commit a5bf4ac)
-43. ✅ AI tutor connected to mastery gaps: Tutor hub shows "Suggested Practice" section with student's weak areas (score < 70) from mastery data, with "Practice This" links that pre-fill tutor topic. (commit cad0ace)
-
-### Browser Testing (Iteration 7)
-- ✅ Landing page: "Try the Demo" primary CTA, "Get Started Free" secondary — confirmed
-- ✅ Try Demo button navigates to /login → auto-detected existing session, went to dashboard
-- ✅ Parent (Marcus) dashboard: MessageSquare icon on Unread Messages card — confirmed
-- ✅ Student (Aisha) dashboard: sidebar has "Progress" linking to /dashboard/student-progress — confirmed
-- ✅ Student: Assignments page — 2 assignments (American Dream Essay, Narrative Writing)
-- ✅ Student: Assignment detail (American Dream) — "Assignment" + "Your Submission" tabs, no delete button, no rubric/differentiation tabs
-- ✅ Student: Your Submission tab — full essay text, "Submitted" badge, submission date. (This submission hasn't been graded yet so no feedback section — correct behavior)
 
 ### Product Improvements Implemented (Iteration 8)
 44. ✅ Student submission API: POST /api/submissions with upsert logic, enrollment validation, role check (commit 539c87d)
@@ -489,12 +459,34 @@ Chrome tab ID: 1135439413. Currently desktop viewport (1280x900). Signed in as s
 - ✅ Landing page: full scroll verified — Hero, Stats, 6 Modules, How It Works, CTA, Demo Credentials, Footer
 - ✅ Test suite: 192/192 passing, TypeScript: zero errors
 
+### Bugs Found & Fixed (Iteration 28)
+83. ✅ Early warning page showed raw "Forbidden" text when accessed by unauthorized roles — added friendly 403 error message. Commit 91b5a28.
+
+### Browser Testing (Iteration 28)
+- ✅ Teacher (Rivera): Quiz detail (ELA Vocabulary Unit 3) — 10 questions with Bloom's badges (Remember/Understand/Apply/Analyze), correct answers highlighted green, explanations, point values, standards tags
+- ✅ **Route guard testing (student accessing teacher pages):**
+  - `/dashboard/grading` → renders page with empty state (data-level filtering, no data leak)
+  - `/dashboard/admin` → custom 404 page (proper role guard)
+  - `/dashboard/report-cards` → redirects to student dashboard (proper guard)
+  - `/dashboard/early-warning` → friendly "You do not have permission" error card (fix verified)
+  - `/dashboard/iep` → empty state "No IEPs on your caseload" (data-level filtering)
+  - `/dashboard/reports` → empty state "No classes yet" (data-level filtering)
+- ✅ Student (Aisha): Progress — 84% ELA (proficient), "What I'm Good At" with 5 standards, encouraging messages
+- ✅ Admin: District Analytics — 6 stat cards, mastery distribution, avg scores, teacher engagement, "Generate AI District Insights" button
+- ✅ Admin: Compliance on mobile — 4 stat cards, 3 deadlines (Ethan 89d, DeShawn 184d/549d), "across your district"
+- ✅ Admin: Dashboard on mobile — 4 stat cards stacking, 3 Quick Actions
+- ✅ SPED: Progress Monitoring on mobile — student list, Quick Data Entry form, DeShawn's 2 goals with charts (Reading Fluency 12pts, Written Expression 6pts), trend badges
+- ✅ Parent (Marcus): Dashboard — 1 child, 2 unread messages, 3 Quick Actions
+- ✅ Parent: My Children — DeShawn "Falling Behind" rose badge, 2 N/A recent grades
+- ✅ Parent: Child Detail (DeShawn) — N/A avg, 2 classes, 0 graded, 8 ELA skills (mostly Beginning), AI Transparency panel with 3 cards, "Powered by Claude"
+- ✅ Test suite: 192/192 passing, TypeScript: zero errors
+
 ### Remaining Pebble Issues (1)
 - TEAC-6zuv8p: Two message compose components with overlapping functionality (P2, minor refactoring — not a bug)
 
 ### Dev Server
 Background task b7d8737 running `npm run dev` on localhost:3000.
-Chrome tab ID: 1135439413. Currently desktop viewport (1280x900), on landing page.
+Chrome tab ID: 1135439413. Currently desktop viewport (1280x900).
 
 ## Verified Endpoints (all working)
 - /api/health — 200
