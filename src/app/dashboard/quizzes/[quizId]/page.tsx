@@ -109,9 +109,15 @@ export default async function QuizDetailPage({
       {/* Questions */}
       <div className="space-y-4">
         {questions.map((question, idx) => {
-          const options: string[] = question.options
-            ? JSON.parse(question.options)
-            : []
+          let options: string[] = []
+          if (question.options) {
+            try {
+              const parsed = JSON.parse(question.options)
+              options = Array.isArray(parsed) ? parsed : []
+            } catch {
+              options = []
+            }
+          }
 
           return (
             <Card key={question.id}>
