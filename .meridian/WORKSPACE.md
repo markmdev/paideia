@@ -1,26 +1,7 @@
-- Student Mastery Self-View: student progress dashboard with strengths/growth areas
-- Vitest tests: 12 files, 88 tests, ALL PASSING
-- Build: 98 routes, TypeScript clean
-- All endpoints verified across all 5 roles
-
-## All 13 Creative Opus Usages
-1. **tool_use for structured output** — Rubrics, lesson plans, assignments, quizzes (forced tool_choice)
-2. **Multi-step generation** — Assignment + rubric + criteria + 3 differentiated versions in one call
-3. **Streaming** — Real-time Socratic tutor responses (Phase 6)
-4. **Prompt caching** — Rubrics reused across student grading (Phase 3)
-5. **Batch grading** — Grade entire class at once with AI (Phase 3)
-6. **IEP individualization** — Similarity detection flags cookie-cutter IEPs (Phase 4)
-7. **Multilingual translation** — Native LLM translation for parent communication (Phase 5)
-8. **District AI analyst** — Opus synthesizes aggregate data into narrative insights (Phase 7)
-9. **Adaptive thinking** — District insights use extended thinking for complex multi-metric reasoning
-10. **Exit ticket generation** — Formative assessment tool generates targeted quick-checks
-11. **Early warning interventions** — AI generates per-student intervention recommendations
-12. **Batch report card narratives** — AI generates individualized narratives for entire classes
-13. **Assessment-driven differentiation** — AI clusters students by performance and generates tiered follow-up activities
 
 ## Current State
 - 24 test files, 192 tests, ALL PASSING
-- Pebble epic TEAC-w25zza: 48/48 issues CLOSED
+- Pebble epic TEAC-w25zza: 47/53 issues CLOSED (6 open)
 - Production build: 100 routes, TypeScript clean
 - Schema pushed to Supabase
 - All dashboard pages verified 200 for all 5 roles
@@ -28,13 +9,10 @@
 - AI features verified with real Opus API: quiz gen, exit tickets, streaming tutor
 - Loading skeletons on 9 dashboard pages, error boundary at dashboard level
 - Favicon (SVG book icon on amber) + apple touch icon
-- Login/register pages use design system tokens (consistent with dashboard)
-- Registration privilege escalation fixed (role hardcoded to 'teacher')
-- Quiz generation handles standards as array or comma-separated string
-- ~100 git commits
-- **Database re-seeded** with updated student names (Jayden Park, Sofia Martinez, Ethan Nakamura, Zara Ahmed, Lucas Thompson instead of Student 1-5)
+- ~120 git commits
+- **Database re-seeded** multiple times with rich demo data
 
-## Polish Loop (Iteration 1 of 30)
+## Polish Loop (Iteration 11 of 30)
 Work-until loop active: browser testing + visual/UX polish.
 Dev server running as background task b7d8737.
 Chrome browser tab ID: 1135439413.
@@ -479,11 +457,38 @@ Chrome tab ID: 1135439413. **Currently mobile viewport (390x844), on landing pag
 - Approved feedback via PUT /api/grading/[id] action=approve
 - Student now sees Feedback tab with full AI-generated feedback
 
-### Next Steps (Iteration 12+)
-- Test student dashboard stats after grading
-- Test mobile student feedback view
-- Test parent view of graded child
-- Broader sweep: remaining untested edge cases
+### Bugs Found & Fixed (Iteration 12)
+67. ✅ Student dashboard: "0 Completed Assignments" despite having graded+approved work — dashboard filtered `eq(status, 'graded')` but approval changes status to `'returned'`. Fixed with `inArray(status, ['graded', 'returned'])`. Commit 43702dc.
+68. ✅ Parent child detail: raw markdown in feedback items (*why*, *should* showing asterisks) — wrapped strengths, improvements, finalFeedback in ReactMarkdown. Commit 4b8fe8b.
+
+### Browser Testing (Iteration 12)
+- ✅ Mobile (390x844): Student feedback view — grade card (emerald A), strengths/improvements/next steps all render perfectly with colored borders
+- ✅ Mobile: Student feedback markdown rendered (*should* italic, *opposite* italic)
+- ✅ Parent (Sarah Chen): My Children — Aisha 92% avg, "The American Dream Essay: A" in Recent Grades
+- ✅ Parent: Child detail — 92% avg, 1 class, 1 graded assignment, Skills Snapshot (8 ELA), Recent Feedback with markdown fixed, AI Transparency panel
+- ✅ Parent: Progress — 84% ELA mastery, On Track, 8 skills with progress bars
+- ✅ Student (DeShawn): Assignments — 2 cards (Narrative Writing, American Dream), both "Grading" status
+- ✅ Teacher (Rivera): Reports & Analytics — 5 class cards with mastery bars, Periods 4-5 "No mastery data yet"
+- ✅ Teacher: Report detail (Period 1 heatmap) — 7 students x 8 ELA standards, color-coded cells, "Find Gaps" button
+- ✅ Teacher: Assessment & Grading — 3 assignments (Poetry 5/5 100%, Narrative 0/6 0%, American Dream 1/7 14% 92% avg)
+- ✅ Teacher: Grading detail (Narrative Writing) — 6 submissions, "Grade All Ungraded (6)" button
+- ✅ Teacher: Submission feedback panel — split view (student work left, AI feedback right), Draft badge, Overall Feedback narrative, Strengths/Improvements/Next Steps, feedback tone dropdown, Approve & Return/Edit/Regenerate buttons, "Powered by Claude" badge
+- ✅ Teacher: Lesson Plans — 3 cards with badges
+- ✅ Teacher: Lesson Plan detail — Standards Alignment, Learning Objectives, Warm-Up, Closure, Materials, Differentiation 3 tiers
+- ✅ Admin: District Analytics — 6 stat cards, mastery distribution, avg scores, teacher engagement, AI insights button
+- ✅ Mobile (390x844): Admin analytics — stat cards 2x3 grid, tables fit (AI Feedback column truncated, minor)
+- ✅ Hydration errors on pages are from Claude-in-Chrome browser extension, not app bugs
+
+### Dev Server
+Background task b7d8737 running `npm run dev` on localhost:3000.
+Chrome tab ID: 1135439413. Currently desktop viewport, admin analytics page.
+
+### Next Steps (Iteration 13+)
+- Test teacher early warning expandable interventions (key demo feature)
+- Test admin school detail on mobile
+- Test SPED progress monitoring data entry
+- Check for any remaining raw markdown, N/A, or formatting issues
+- Broader sweep: message compose on mobile, tutor chat on desktop
 
 ## Verified Endpoints (all working)
 - /api/health — 200
