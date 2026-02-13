@@ -1,3 +1,36 @@
+## Current Task: Lesson Plan Creation Page UX Fixes
+
+User reported UI/UX issues on `/dashboard/lesson-plans/new` page:
+1. **Raw markdown showing in preview** — `**bold**`, `- lists` displayed as literal text instead of rendered
+2. **Standards badges overflow** — long standard descriptions extend past card boundary
+3. **Section heights too small** — content truncated and unreadable
+4. **Assessment Plan appears empty** — empty dashed box when no content
+
+### Fixes Applied (commits on main)
+- Subagent a8f9416 added ReactMarkdown preview/edit toggle to all LessonSection and DifferentiationTier components
+- Standards changed from inline badges to stacked list with code badge + wrapping description
+- I then fixed textarea heights (auto-size based on content line count, min-h-40)
+- Added empty state messages for Assessment Plan and lesson sections
+- Commit: 7b93c5d "Fix lesson plan creation preview: render markdown, auto-size textareas, handle empty sections"
+
+### Current State
+- Signed in as rivera@school.edu on Chrome tab 1135439413
+- On `/dashboard/lesson-plans/new`, clicked "Generate with AI" (Math, 8th Grade, linear equations, 60 min)
+- **WAITING** for AI generation to complete (~30-60s), need to verify the preview renders correctly
+- Need to scroll through all sections and verify: markdown renders, sections full height, standards wrap, differentiation tiers readable
+
+### What to Do Next
+1. Read the page to check if generation completed
+2. Take screenshots of each section to verify rendering
+3. If issues remain, fix them
+4. Also need to check: the user mentioned `/dashboard/mastery/[id]` returns 404 — this route doesn't exist (never built)
+
+### Dev Server
+Background task b7d8737 running `npm run dev` on localhost:3000.
+Chrome tab ID: 1135439413.
+
+---
+
 Three new detail pages built by subagents, all verified in browser:
 1. `/dashboard/classes/[classId]/page.tsx` — Teacher class detail (roster, assignments, standards analysis)
 2. `/dashboard/schools/[schoolId]/page.tsx` — Admin school detail (teachers, classes tables)
