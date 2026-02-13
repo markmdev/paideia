@@ -468,14 +468,22 @@ Ran `npm run db:seed` after seed data double-dash fix (commit 5859fa8). All em d
 - ✅ Teacher: Submission feedback (Amara Osei 88%) — rubric scores (Thesis 23/25 Adv, Evidence 22/25 Pro, Organization 23/25 Adv, Language 20/25 Pro), Overall Feedback with "Approved" badge, Strengths/Improvements/Next Steps, Feedback tone dropdown, Approve & Return / Edit / Regenerate buttons, "Powered by Claude" badge
 - ✅ Admin: District Analytics — 6 stat cards, Standards Mastery Distribution, Avg Scores by Subject, Teacher Engagement table, "Generate AI District Insights" button
 
+- ✅ Mobile (390x844): DeShawn tutor hub — Suggested Practice cards stack, subject 2-col grid, Recent Sessions below
+- ✅ Mobile: Tutor chat — ELA badge + timer + End Session fit one row, pre-filled input visible with send button
+
 ### Bugs Found & Fixed (Iteration 8-9)
 61. ✅ Tutor chat input empty when arriving from "Suggested Practice" — added initialValue prop to ChatInput, pre-fills with "I need help with: [topic]" from URL param. Commit c538595.
 
+### Dev Server
+Background task b7d8737 running `npm run dev` on localhost:3000.
+Chrome tab ID: 1135439413. **Currently mobile viewport (390x844).**
+
 ### Next Steps (Iteration 10+)
-- Test admin "Generate AI District Insights" button (currently viewing)
+- Resize back to desktop (1440x900)
+- Test mobile: grading feedback panel (sign in as Rivera, navigate to graded submission)
 - Test IEP creation wizard end-to-end
 - Test student assignment submission (SubmitWorkForm for unsubmitted assignment)
-- Test mobile: grading feedback panel, tutor chat
+- Test admin "Generate AI District Insights" button
 - Broader sweep: any remaining untested pages or flows
 
 ## Verified Endpoints (all working)
