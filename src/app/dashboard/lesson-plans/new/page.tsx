@@ -37,6 +37,7 @@ import {
 import { Badge } from '@/components/ui/badge'
 import { Skeleton } from '@/components/ui/skeleton'
 import { toast } from 'sonner'
+import { formatGradeLevel } from '@/lib/format'
 
 interface LessonPlanData {
   id: string
@@ -409,7 +410,7 @@ export default function NewLessonPlanPage() {
                 <div className="flex flex-wrap gap-2">
                   <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">
                     <GraduationCap className="size-3 mr-1" />
-                    {activePlan.gradeLevel}
+                    {formatGradeLevel(activePlan.gradeLevel)}
                   </Badge>
                   <Badge variant="outline" className="bg-emerald-50 text-emerald-700 border-emerald-200">
                     <BookOpen className="size-3 mr-1" />
