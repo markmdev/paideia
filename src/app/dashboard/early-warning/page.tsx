@@ -75,6 +75,9 @@ export default function EarlyWarningPage() {
       try {
         const res = await fetch('/api/early-warning')
         if (!res.ok) {
+          if (res.status === 403) {
+            throw new Error('You do not have permission to view this page.')
+          }
           const body = await res.json().catch(() => ({}))
           throw new Error(body.error || 'Failed to fetch early warning data')
         }
