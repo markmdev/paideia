@@ -145,9 +145,9 @@ export default async function ReportCardsPage() {
           {teacherClasses.map((cls) => {
             const students = studentCountMap.get(cls.id) ?? 0
             const stats = rcStatsMap.get(cls.id)
-            const total = stats?.totalCount ?? 0
-            const drafts = stats?.draftCount ?? 0
-            const approved = stats?.approvedCount ?? 0
+            const total = Number(stats?.totalCount ?? 0)
+            const drafts = Number(stats?.draftCount ?? 0)
+            const approved = Number(stats?.approvedCount ?? 0)
 
             return (
               <Link key={cls.id} href={`/dashboard/report-cards?classId=${cls.id}`}>
