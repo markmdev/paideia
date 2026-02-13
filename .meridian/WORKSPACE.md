@@ -1,18 +1,3 @@
-23. ✅ Assignment generation: `differentiatedVersions.belowGrade` undefined — max_tokens too low (4096→8192), added null safety. (commit 6fe0511)
-24. ✅ Re-grading fails with duplicate key constraint — existing feedback_draft not deleted before insert. Added delete-before-insert. (commit by subagent)
-
-### Pages Tested (Iteration 4 — rich data verification)
-- ✅ Admin: Dashboard — 2 schools, 4 teachers, 22 students, 18 ungraded
-- ✅ Admin: Analytics — mastery distribution (37 Adv, 60 Pro, 45 Dev, 28 Beg), avg scores by subject (Math 83%, Science 84%, ELA 72%)
-- ✅ Admin: Teacher Engagement — Okafor (3 assign, 6 sub, 6 graded), Rivera (3/18/5), Chen (3/10/5)
-- ✅ Admin: Schools — Washington MS (78% avg, 3 teachers, 22 students), Jefferson ES (83% avg, 1 teacher, 6 students)
-- ✅ Admin: Students — 22 students with varied avg scores (48%-95%), diverse mastery distributions
-- ✅ Admin: Early Warning — 4 High Risk, 7 Moderate, 11 On Track with specific indicators
-- ✅ Admin: SPED Compliance — 3 deadlines (Ethan 90d, DeShawn 185d/550d), all on track
-- ✅ Marcus Williams (parent): Dashboard — "Welcome back, Marcus", 1 child (DeShawn), 2 unread messages
-- ✅ Marcus: My Children — DeShawn Williams, 8th Grade, On Track, ELA + SPED
-- ✅ Marcus: Messages — 5 messages with varied types (alert, progress, weekly digest, replies)
-
 ### Rich Seed Data — COMPLETE (commits c6b68a8, cb107c1, 72ea25a)
 Database re-seeded with `npm run db:seed` — ALL data verified inserted:
 - 9 assignments across 3 teachers (Rivera ELA, Okafor Bio, Chen 3rd grade)
@@ -458,7 +443,7 @@ Chrome tab ID: 1135439413. Currently desktop viewport (1280x900), on teacher das
 
 ### Dev Server
 Background task b7d8737 running `npm run dev` on localhost:3000.
-Chrome tab ID: 1135439413. Currently desktop viewport (1280x900). Signed out (on landing page).
+Chrome tab ID: 1135439413. Currently desktop viewport (1280x900). Signed in as sarah.chen@email.com (parent).
 
 ### Browser Testing (Iteration 21)
 - ✅ Admin: Dashboard quick actions — Analytics, SPED Compliance, Schools links all navigate correctly
@@ -476,10 +461,37 @@ Chrome tab ID: 1135439413. Currently desktop viewport (1280x900). Signed out (on
 - ✅ Login page (signed out) — Email/Password, Sign in, 5 demo buttons, Register link
 - ✅ Landing page full scroll — Hero → Stats → Modules → How It Works → CTA → Demo Credentials → Footer, all polished
 
-### Next Steps (Iteration 22+)
-- Run full test suite (192 tests expected passing)
-- Code health review agent ab5c88c — check when notified
-- Any remaining edge cases or final polish
+### Browser Testing (Iteration 22)
+- ✅ Production build: all ~100 routes compiled clean (`npx next build` succeeded)
+- ✅ TypeScript: zero type errors (`npx tsc --noEmit` clean)
+- ✅ Registration page: Name, Email, Password, Confirm Password, "You will be registered as a Teacher" note, Create account, Sign in link
+- ✅ Registration validation: empty submit blocked by HTML5 validation, mismatched passwords shows "Passwords do not match" error
+- ✅ Login invalid credentials: "Invalid email or password" error message shown correctly
+- ✅ Login page: 5 demo buttons (Teacher, Admin, Parent, Student, SPED Teacher), Email/Password form, Register link
+- ✅ SPED (Rodriguez): Dashboard — "Welcome back, Ms. Rodriguez", SPED Teacher badge, 1 class, 0 pending, 0 assignments, 2 students, 1 unread
+- ✅ SPED: Dashboard — Special Education quick actions (IEP Management, Progress Monitoring, Compliance) below standard actions
+- ✅ SPED: Sidebar — full nav with Special Education section (IEP Management, Progress Monitoring, Compliance)
+- ✅ SPED: IEP creation wizard validation — Next button blocked without required Student/Disability fields
+- ✅ SPED: Messages — 3+ messages with Marcus Williams, type badges (Message, Progress, Weekly Digest)
+- ✅ Student (DeShawn): Dashboard — 2 classes, 0 completed, N/A avg, 1 tutor, 2 assignments with Submitted badges
+- ✅ Student (DeShawn): Progress — 42% ELA (Beginning), encouraging messaging, 5 specific standards to improve
+- ✅ Student (DeShawn): Tutor hub — 4 weak ELA areas (31-38%) with "Practice This" links, subject cards, 1 recent session
+- ✅ Admin: Teacher Engagement — 4 teachers (Rivera 5/3/6/11, Okafor 3/3/6/6, Chen 1/3/5/2, Rodriguez SPED 1/0/0/0)
+- ✅ Admin: District Analytics — 6 stat cards, mastery distribution, avg scores, teacher engagement, AI Insights button
+- ✅ Admin: Compliance — 3 deadlines (Ethan 89d, DeShawn 184d/549d), role-aware subtitle "across your district"
+- ✅ Parent (Sarah Chen): Messages on mobile — 7+ messages stacked, compose dialog with "Ms. Rivera (Teacher)" in recipient dropdown
+- ✅ Parent: My Children — Aisha "On Track" 92%, American Dream A
+- ✅ Parent: Child Detail — 92% avg, 1 class, 1 graded, Skills Snapshot (8 ELA), Recent Feedback (rich AI feedback), AI Transparency panel
+- ✅ Mobile (390x844): Admin teacher engagement table — 4 teachers with columns, standard mobile scroll
+- ✅ Mobile: Compliance dashboard — 4 stat cards, 3 deadlines table
+- ✅ Mobile: Parent compose dialog — recipient dropdown, subject, message all fit 390px viewport
+- ✅ Test suite: 192/192 passing across 24 files (confirmed iteration 22)
+
+### Summary: No bugs found in iteration 22. App is thoroughly polished.
+
+### Next Steps (Iteration 23+)
+- Continue edge case testing or declare completion
+- All major flows verified across all 5 roles on desktop + mobile
 
 ## Verified Endpoints (all working)
 - /api/health — 200
