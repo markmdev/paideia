@@ -704,15 +704,17 @@ export default function NewLessonPlanPage() {
                 <Textarea
                   value={activePlan.assessmentPlan ?? ''}
                   onChange={(e) => updatePlanField('assessmentPlan', e.target.value)}
-                  className="min-h-24 resize-none border-dashed"
-                  rows={4}
+                  className="min-h-40 border-dashed text-sm leading-relaxed"
+                  rows={Math.max(8, (activePlan.assessmentPlan ?? '').split('\n').length + 2)}
                 />
-              ) : (
+              ) : activePlan.assessmentPlan ? (
                 <div className="prose prose-stone prose-sm max-w-none">
                   <ReactMarkdown remarkPlugins={[remarkGfm]} components={markdownComponents}>
-                    {activePlan.assessmentPlan ?? ''}
+                    {activePlan.assessmentPlan}
                   </ReactMarkdown>
                 </div>
+              ) : (
+                <p className="text-sm text-muted-foreground italic">No assessment plan generated. Click Edit to add one.</p>
               )}
             </CardContent>
           </Card>
@@ -820,15 +822,17 @@ function LessonSection({
           <Textarea
             value={value}
             onChange={(e) => onChange(e.target.value)}
-            className="min-h-24 resize-none border-dashed text-sm leading-relaxed"
-            rows={5}
+            className="min-h-40 border-dashed text-sm leading-relaxed"
+            rows={Math.max(8, value.split('\n').length + 2)}
           />
-        ) : (
+        ) : value ? (
           <div className="prose prose-stone prose-sm max-w-none">
             <ReactMarkdown remarkPlugins={[remarkGfm]} components={markdownComponents}>
               {value}
             </ReactMarkdown>
           </div>
+        ) : (
+          <p className="text-sm text-muted-foreground italic">Click Edit to add content.</p>
         )}
       </CardContent>
     </Card>
@@ -878,8 +882,8 @@ function DifferentiationTier({
         <Textarea
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          className="min-h-20 resize-none border-none bg-transparent p-0 shadow-none focus-visible:ring-0 text-sm leading-relaxed"
-          rows={4}
+          className="min-h-28 border-none bg-transparent p-0 shadow-none focus-visible:ring-0 text-sm leading-relaxed"
+          rows={Math.max(6, value.split('\n').length + 2)}
         />
       ) : (
         <div className="text-sm leading-relaxed text-muted-foreground prose prose-stone prose-sm max-w-none">
