@@ -491,6 +491,14 @@ Chrome tab ID: 1135439413. Currently desktop viewport (1280x900). Signed in as s
 - ✅ Test suite: 192/192 passing, TypeScript: zero errors
 - **No new bugs found this iteration.**
 
+### Bugs Found & Fixed (Iteration 30)
+84. ⚠️ QuizDetailPage JSON.parse error: quiz standards field stored as plain string "CCSS.ELA-L..." instead of JSON array — needs safe parse. Error in console: `SyntaxError: Unexpected token 'C', "CCSS.ELA-L"... is not valid JSON`. File: `src/app/dashboard/quizzes/[id]/page.tsx` around line 186. FIX NEEDED.
+
+### Console Error Audit (Iteration 30)
+- Hydration mismatches: all caused by Claude-in-Chrome browser extension (confirmed by React error message), NOT app bugs
+- QuizDetailPage JSON.parse: REAL BUG — standards field not valid JSON (see bug #84)
+- StudentDetailPage parse error (1:57 PM): historical compile error, already resolved
+
 ### Remaining Pebble Issues (1)
 - TEAC-6zuv8p: Two message compose components with overlapping functionality (P2, minor refactoring — not a bug)
 
