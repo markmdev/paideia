@@ -3,6 +3,8 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 import {
   Sparkles,
   ArrowLeft,
@@ -21,6 +23,8 @@ import {
   GraduationCap,
   Save,
   CheckCircle2,
+  Pencil,
+  Eye,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
@@ -38,6 +42,12 @@ import { Badge } from '@/components/ui/badge'
 import { Skeleton } from '@/components/ui/skeleton'
 import { toast } from 'sonner'
 import { formatGradeLevel } from '@/lib/format'
+
+const markdownComponents = {
+  table: ({ children, ...props }: React.ComponentProps<'table'>) => <table className="w-full border-collapse my-4 text-sm" {...props}>{children}</table>,
+  th: ({ children, ...props }: React.ComponentProps<'th'>) => <th className="border border-stone-300 bg-stone-50 px-3 py-2 text-left font-medium" {...props}>{children}</th>,
+  td: ({ children, ...props }: React.ComponentProps<'td'>) => <td className="border border-stone-300 px-3 py-2" {...props}>{children}</td>,
+}
 
 interface LessonPlanData {
   id: string
@@ -117,6 +127,8 @@ export default function NewLessonPlanPage() {
 
   // Editable plan sections
   const [editedPlan, setEditedPlan] = useState<LessonPlanData | null>(null)
+  const [editingSection, setEditingSection] = useState<string | null>(null)
+  const [editingAssessment, setEditingAssessment] = useState(false)
 
   const activePlan = editedPlan ?? generatedPlan
 
@@ -439,17 +451,29 @@ export default function NewLessonPlanPage() {
                 </div>
               </CardHeader>
               <CardContent>
-                <div className="flex flex-wrap gap-2">
-                  {activePlan.standards.map((standard, i) => (
-                    <Badge
-                      key={i}
-                      variant="outline"
-                      className="text-xs font-mono bg-sky-50 text-sky-700 border-sky-200"
-                    >
-                      {standard}
-                    </Badge>
-                  ))}
-                </div>
+                <ul className="space-y-2">
+                  {activePlan.standards.map((standard, i) => {
+                    const dashIdx = standard.indexOf(' — ')
+                    const hasDescription = dashIdx > -1
+                    const code = hasDescription ? standard.slice(0, dashIdx) : standard
+                    const description = hasDescription ? standard.slice(dashIdx + 3) : null
+                    return (
+                      <li key={i} className="flex items-start gap-2">
+                        <Badge
+                          variant="outline"
+                          className="text-xs font-mono bg-sky-50 text-sky-700 border-sky-200 shrink-0"
+                        >
+                          {code}
+                        </Badge>
+                        {description && (
+                          <span className="text-sm text-muted-foreground leading-relaxed">
+                            {description}
+                          </span>
+                        )}
+                      </li>
+                    )
+                  })}
+                </ul>
               </CardContent>
             </Card>
           )}
@@ -490,6 +514,7 @@ export default function NewLessonPlanPage() {
           {/* Lesson Sections */}
           <div className="space-y-4">
             <LessonSection
+              sectionKey="warmUp"
               icon={Flame}
               iconBg="bg-orange-100"
               iconColor="text-orange-600"
@@ -497,9 +522,12 @@ export default function NewLessonPlanPage() {
               subtitle="Activate prior knowledge"
               value={activePlan.warmUp ?? ''}
               onChange={(v) => updatePlanField('warmUp', v)}
+              isEditing={editingSection === 'warmUp'}
+              onToggleEdit={() => setEditingSection(editingSection === 'warmUp' ? null : 'warmUp')}
             />
 
             <LessonSection
+              sectionKey="directInstruction"
               icon={Presentation}
               iconBg="bg-indigo-100"
               iconColor="text-indigo-600"
@@ -507,9 +535,12 @@ export default function NewLessonPlanPage() {
               subtitle="Teacher-led instruction"
               value={activePlan.directInstruction ?? ''}
               onChange={(v) => updatePlanField('directInstruction', v)}
+              isEditing={editingSection === 'directInstruction'}
+              onToggleEdit={() => setEditingSection(editingSection === 'directInstruction' ? null : 'directInstruction')}
             />
 
             <LessonSection
+              sectionKey="guidedPractice"
               icon={Users}
               iconBg="bg-teal-100"
               iconColor="text-teal-600"
@@ -517,9 +548,12 @@ export default function NewLessonPlanPage() {
               subtitle="Structured practice with support"
               value={activePlan.guidedPractice ?? ''}
               onChange={(v) => updatePlanField('guidedPractice', v)}
+              isEditing={editingSection === 'guidedPractice'}
+              onToggleEdit={() => setEditingSection(editingSection === 'guidedPractice' ? null : 'guidedPractice')}
             />
 
             <LessonSection
+              sectionKey="independentPractice"
               icon={UserCheck}
               iconBg="bg-green-100"
               iconColor="text-green-600"
@@ -527,9 +561,12 @@ export default function NewLessonPlanPage() {
               subtitle="Student-driven practice"
               value={activePlan.independentPractice ?? ''}
               onChange={(v) => updatePlanField('independentPractice', v)}
+              isEditing={editingSection === 'independentPractice'}
+              onToggleEdit={() => setEditingSection(editingSection === 'independentPractice' ? null : 'independentPractice')}
             />
 
             <LessonSection
+              sectionKey="closure"
               icon={Flag}
               iconBg="bg-rose-100"
               iconColor="text-rose-600"
@@ -537,6 +574,8 @@ export default function NewLessonPlanPage() {
               subtitle="Synthesize learning"
               value={activePlan.closure ?? ''}
               onChange={(v) => updatePlanField('closure', v)}
+              isEditing={editingSection === 'closure'}
+              onToggleEdit={() => setEditingSection(editingSection === 'closure' ? null : 'closure')}
             />
           </div>
 
@@ -581,6 +620,7 @@ export default function NewLessonPlanPage() {
               <CardContent>
                 <div className="grid gap-4 sm:grid-cols-3">
                   <DifferentiationTier
+                    tierKey="belowGrade"
                     label="Below Grade Level"
                     color="border-amber-200 bg-amber-50/50"
                     labelColor="text-amber-700 bg-amber-100"
@@ -591,8 +631,11 @@ export default function NewLessonPlanPage() {
                         belowGrade: v,
                       })
                     }
+                    isEditing={editingSection === 'diff-belowGrade'}
+                    onToggleEdit={() => setEditingSection(editingSection === 'diff-belowGrade' ? null : 'diff-belowGrade')}
                   />
                   <DifferentiationTier
+                    tierKey="onGrade"
                     label="On Grade Level"
                     color="border-emerald-200 bg-emerald-50/50"
                     labelColor="text-emerald-700 bg-emerald-100"
@@ -603,8 +646,11 @@ export default function NewLessonPlanPage() {
                         onGrade: v,
                       })
                     }
+                    isEditing={editingSection === 'diff-onGrade'}
+                    onToggleEdit={() => setEditingSection(editingSection === 'diff-onGrade' ? null : 'diff-onGrade')}
                   />
                   <DifferentiationTier
+                    tierKey="aboveGrade"
                     label="Above Grade Level"
                     color="border-blue-200 bg-blue-50/50"
                     labelColor="text-blue-700 bg-blue-100"
@@ -615,6 +661,8 @@ export default function NewLessonPlanPage() {
                         aboveGrade: v,
                       })
                     }
+                    isEditing={editingSection === 'diff-aboveGrade'}
+                    onToggleEdit={() => setEditingSection(editingSection === 'diff-aboveGrade' ? null : 'diff-aboveGrade')}
                   />
                 </div>
               </CardContent>
@@ -624,20 +672,48 @@ export default function NewLessonPlanPage() {
           {/* Assessment Plan */}
           <Card>
             <CardHeader className="pb-3">
-              <div className="flex items-center gap-2">
-                <div className="rounded-md bg-cyan-100 p-1.5">
-                  <ClipboardCheck className="size-4 text-cyan-600" />
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <div className="rounded-md bg-cyan-100 p-1.5">
+                    <ClipboardCheck className="size-4 text-cyan-600" />
+                  </div>
+                  <CardTitle className="text-base">Assessment Plan</CardTitle>
                 </div>
-                <CardTitle className="text-base">Assessment Plan</CardTitle>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-7 px-2 text-xs text-muted-foreground"
+                  onClick={() => setEditingAssessment(!editingAssessment)}
+                >
+                  {editingAssessment ? (
+                    <>
+                      <Eye className="size-3 mr-1" />
+                      Preview
+                    </>
+                  ) : (
+                    <>
+                      <Pencil className="size-3 mr-1" />
+                      Edit
+                    </>
+                  )}
+                </Button>
               </div>
             </CardHeader>
             <CardContent>
-              <Textarea
-                value={activePlan.assessmentPlan ?? ''}
-                onChange={(e) => updatePlanField('assessmentPlan', e.target.value)}
-                className="min-h-24 resize-none border-dashed"
-                rows={4}
-              />
+              {editingAssessment ? (
+                <Textarea
+                  value={activePlan.assessmentPlan ?? ''}
+                  onChange={(e) => updatePlanField('assessmentPlan', e.target.value)}
+                  className="min-h-24 resize-none border-dashed"
+                  rows={4}
+                />
+              ) : (
+                <div className="prose prose-stone prose-sm max-w-none">
+                  <ReactMarkdown remarkPlugins={[remarkGfm]} components={markdownComponents}>
+                    {activePlan.assessmentPlan ?? ''}
+                  </ReactMarkdown>
+                </div>
+              )}
             </CardContent>
           </Card>
 
@@ -683,6 +759,7 @@ export default function NewLessonPlanPage() {
 // ---------------------------------------------------------------------------
 
 interface LessonSectionProps {
+  sectionKey: string
   icon: React.ComponentType<{ className?: string }>
   iconBg: string
   iconColor: string
@@ -690,6 +767,8 @@ interface LessonSectionProps {
   subtitle: string
   value: string
   onChange: (value: string) => void
+  isEditing: boolean
+  onToggleEdit: () => void
 }
 
 function LessonSection({
@@ -700,38 +779,71 @@ function LessonSection({
   subtitle,
   value,
   onChange,
+  isEditing,
+  onToggleEdit,
 }: LessonSectionProps) {
   return (
     <Card>
       <CardHeader className="pb-3">
-        <div className="flex items-center gap-2">
-          <div className={`rounded-md p-1.5 ${iconBg}`}>
-            <Icon className={`size-4 ${iconColor}`} />
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className={`rounded-md p-1.5 ${iconBg}`}>
+              <Icon className={`size-4 ${iconColor}`} />
+            </div>
+            <div>
+              <CardTitle className="text-base">{title}</CardTitle>
+              <CardDescription className="text-xs">{subtitle}</CardDescription>
+            </div>
           </div>
-          <div>
-            <CardTitle className="text-base">{title}</CardTitle>
-            <CardDescription className="text-xs">{subtitle}</CardDescription>
-          </div>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="h-7 px-2 text-xs text-muted-foreground"
+            onClick={onToggleEdit}
+          >
+            {isEditing ? (
+              <>
+                <Eye className="size-3 mr-1" />
+                Preview
+              </>
+            ) : (
+              <>
+                <Pencil className="size-3 mr-1" />
+                Edit
+              </>
+            )}
+          </Button>
         </div>
       </CardHeader>
       <CardContent>
-        <Textarea
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          className="min-h-24 resize-none border-dashed text-sm leading-relaxed"
-          rows={5}
-        />
+        {isEditing ? (
+          <Textarea
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+            className="min-h-24 resize-none border-dashed text-sm leading-relaxed"
+            rows={5}
+          />
+        ) : (
+          <div className="prose prose-stone prose-sm max-w-none">
+            <ReactMarkdown remarkPlugins={[remarkGfm]} components={markdownComponents}>
+              {value}
+            </ReactMarkdown>
+          </div>
+        )}
       </CardContent>
     </Card>
   )
 }
 
 interface DifferentiationTierProps {
+  tierKey: string
   label: string
   color: string
   labelColor: string
   value: string
   onChange: (value: string) => void
+  isEditing: boolean
+  onToggleEdit: () => void
 }
 
 function DifferentiationTier({
@@ -740,18 +852,42 @@ function DifferentiationTier({
   labelColor,
   value,
   onChange,
+  isEditing,
+  onToggleEdit,
 }: DifferentiationTierProps) {
   return (
     <div className={`rounded-lg border p-3 ${color}`}>
-      <span className={`inline-block text-xs font-semibold px-2 py-0.5 rounded-full mb-2 ${labelColor}`}>
-        {label}
-      </span>
-      <Textarea
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        className="min-h-20 resize-none border-none bg-transparent p-0 shadow-none focus-visible:ring-0 text-sm leading-relaxed"
-        rows={4}
-      />
+      <div className="flex items-center justify-between mb-2">
+        <span className={`inline-block text-xs font-semibold px-2 py-0.5 rounded-full ${labelColor}`}>
+          {label}
+        </span>
+        <Button
+          variant="ghost"
+          size="sm"
+          className="h-6 px-1.5 text-xs text-muted-foreground"
+          onClick={onToggleEdit}
+        >
+          {isEditing ? (
+            <Eye className="size-3" />
+          ) : (
+            <Pencil className="size-3" />
+          )}
+        </Button>
+      </div>
+      {isEditing ? (
+        <Textarea
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          className="min-h-20 resize-none border-none bg-transparent p-0 shadow-none focus-visible:ring-0 text-sm leading-relaxed"
+          rows={4}
+        />
+      ) : (
+        <div className="text-sm leading-relaxed text-muted-foreground prose prose-stone prose-sm max-w-none">
+          <ReactMarkdown remarkPlugins={[remarkGfm]} components={markdownComponents}>
+            {value}
+          </ReactMarkdown>
+        </div>
+      )}
     </div>
   )
 }
