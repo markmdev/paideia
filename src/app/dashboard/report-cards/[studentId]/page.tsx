@@ -8,6 +8,8 @@ import { formatGradeLevel } from '@/lib/format'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { ClaudeBadge } from '@/components/ui/claude-badge'
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 import { ReportCardActions } from './report-card-actions'
 
 export default async function ReportCardDetailPage({
@@ -145,9 +147,14 @@ export default async function ReportCardDetailPage({
         </CardHeader>
         <CardContent>
           <div className="prose prose-stone prose-sm max-w-none">
-            {reportCard.narrative.split('\n').map((paragraph, i) => (
-              <p key={i}>{paragraph}</p>
-            ))}
+            <ReactMarkdown
+              remarkPlugins={[remarkGfm]}
+              components={{
+                table: ({ children, ...props }) => <table className="w-full border-collapse my-4 text-sm" {...props}>{children}</table>,
+                th: ({ children, ...props }) => <th className="border border-stone-300 bg-stone-50 px-3 py-2 text-left font-medium" {...props}>{children}</th>,
+                td: ({ children, ...props }) => <td className="border border-stone-300 px-3 py-2" {...props}>{children}</td>,
+              }}
+            >{reportCard.narrative}</ReactMarkdown>
           </div>
           <ClaudeBadge className="mt-2" />
         </CardContent>
