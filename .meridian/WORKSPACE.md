@@ -487,11 +487,36 @@ Chrome tab ID: 1135439413. Currently desktop viewport (1280x900). Signed in as s
 - ✅ Mobile: Parent compose dialog — recipient dropdown, subject, message all fit 390px viewport
 - ✅ Test suite: 192/192 passing across 24 files (confirmed iteration 22)
 
-### Summary: No bugs found in iteration 22. App is thoroughly polished.
+### Browser Testing (Iteration 23)
+- ✅ Invalid route params: /children/nonexistent → custom 404, /iep/nonexistent → 404, /classes/nonexistent → 404, /assignments/fake-id → 404
+- ✅ Message translation: 10 languages (Spanish, Mandarin, Vietnamese, Arabic, French, Korean, Portuguese, Tagalog, Russian, Haitian Creole)
+- ✅ Registration validation: empty submit blocked, mismatched passwords shows "Passwords do not match"
+- ✅ Login invalid credentials: "Invalid email or password" error
+- ✅ SPED IEP wizard validation: Next blocked without Student/Disability fields
+- ✅ Parent compose: recipient dropdown correctly shows "Ms. Rivera (Teacher)" only
 
-### Next Steps (Iteration 23+)
-- Continue edge case testing or declare completion
-- All major flows verified across all 5 roles on desktop + mobile
+### Code Health Fixes (Iteration 23 — via subagents)
+72. ✅ children/[childId]/page.tsx: added remarkGfm to 3 ReactMarkdown usages (commit 973c61b)
+73. ✅ formatGradeLevel: consolidated from 2 locations to 1 canonical @/lib/format (commit 973c61b)
+74. ✅ assignments/generate/route.ts: replaced inline Anthropic client with singleton, hardcoded model with AI_MODEL (commit aba5c99)
+75. ✅ Lesson plan differentiation: added markdown rendering + null safety for 3 tiers (commit 8ef76e1)
+76. ✅ Assignment generation preview: added ReactMarkdown for description/instructions/diff versions (commit 8ef76e1)
+77. ✅ SQL count coercion and report card rendering fixes (commit 9815fee)
+- Agent a6a9f5b still running (SQL count + submission rendering + report card narrative)
+
+### Pebble Issues Fixed This Iteration
+- TEAC-tbwx7g (remarkGfm missing)
+- TEAC-w14gs9 (inline Anthropic client)
+- TEAC-35nhut (formatGradeLevel dual location)
+- TEAC-9o17yn (lesson plan diff rendering)
+- TEAC-a9yi7q (lesson plan diff null safety)
+- TEAC-lbhhi5 (assignment preview raw text)
+
+### Next Steps (Iteration 24+)
+- Close Pebble issues for completed fixes
+- Check agent a6a9f5b results when done
+- Continue browser testing remaining Pebble fixes
+- Test suite: 192/192, TypeScript: zero errors
 
 ## Verified Endpoints (all working)
 - /api/health — 200
