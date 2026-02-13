@@ -474,12 +474,23 @@ Chrome tab ID: 1135439413. Currently desktop viewport (1280x900), on teacher das
 - ✅ Mobile: IEP creation wizard step 1 — 5-step icon stepper (person/doc/target/shield/check), Student Info form, Back/Next nav
 - ✅ SPED: IEP creation stepper icons (zoomed) — clear and legible on mobile
 
-### Next Steps (Iteration 17+)
-- Test reports detail heatmap page (click through from reports list)
+### Browser Testing (Iteration 17-18)
+- ✅ Teacher: Reports detail heatmap (Period 1) — 7 students × 8 ELA standards, color-coded cells (pink/amber/green/blue/gray), "Find Gaps" button, Sort dropdown, averages column
+- ✅ User menu dropdown — "Ms. Rivera", rivera@school.edu, "Teacher" badge, "Sign out" button (Radix DropdownMenu works with pointerdown events, not programmatic click — automation limitation, not code bug)
+- ✅ Test suite: 192/192 passing across 24 files (confirmed iteration 17)
+- ⏳ Code health review: background agent ab5c88c running
+
+### Dev Server
+Background task b7d8737 running `npm run dev` on localhost:3000.
+Chrome tab ID: 1135439413. Currently desktop viewport (1280x900), on teacher dashboard. Signed in as rivera@school.edu.
+
+### Next Steps (Iteration 19+)
+- Check code health review results from agent ab5c88c
 - Test teacher assignment edit page
-- Run full test suite to confirm no regressions
-- Consider running code health review after polish iterations
-- Test remaining edge cases and empty states
+- Test empty class detail (Period 4/5 with 0 students)
+- Test "Find Gaps" button on reports heatmap
+- Test sidebar toggle on desktop
+- Final sweep of any remaining untested interactions
 
 ## Verified Endpoints (all working)
 - /api/health — 200
