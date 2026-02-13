@@ -1,29 +1,3 @@
-- ✅ SPED: IEP Management (caseload), IEP Detail, Create IEP form (5-step wizard)
-- ✅ SPED: Exit Tickets, Compliance Dashboard (color-coded deadlines, days left badges)
-- ✅ SPED: Early Warning - 1 student (DeShawn), On Track badge
-- ✅ Grading detail page (assignment submissions, scores)
-- ✅ User menu dropdown (name, email, role badge, sign out)
-- ✅ Sign out flow - redirects to /login cleanly (no unstyled NextAuth page)
-- ✅ Mobile (390x844): landing, login, dashboard, assignments, early warning, grading, tutor hub, progress
-
-### Bugs Found & Fixed (Iteration 2)
-17. ✅ Assignment detail tabs not clickable — added activationMode="automatic" to Tabs (commit a664134)
-18. ✅ Assignment detail "Grade 8" → "8th Grade" — added formatGradeLevel helper (commit a664134)
-19. ✅ Admin compliance page empty for admin — admin now sees all IEPs district-wide (commit b992ba7)
-20. ✅ "Grade X" → "Xth Grade" in 12 files — shared formatGradeLevel in src/lib/format.ts (commit 268e36c)
-
-### Pages Tested (Iteration 3 — in progress)
-- ✅ Teacher: Report Cards — "ELA | 8th Grade | 7 students" (grade format fix confirmed)
-- ✅ Teacher: Reports & Analytics — "8th Grade" on all 5 class cards (format fix confirmed)
-- ✅ Teacher: Rubrics — 1 template (Essay Writing Rubric), 4 criteria, 4 levels
-- ✅ Teacher: Rubric detail — full 4x4 grid (Thesis, Evidence Use, Organization, Language), 25% weights
-- ✅ Teacher: Assignments list — "8th Grade" badge confirmed
-- ✅ Teacher: Assignment detail — tabs (Assignment, Rubric, Success Criteria), description + instructions
-- ✅ Teacher: Grading detail — 7 submissions with all real student names, "Grade All" button
-- ✅ Teacher: My Classes — 5 periods with correct student counts
-- ✅ Teacher: Create Assignment wizard — 3-step form, all fields
-- ✅ Teacher: Create Lesson Plan — clean form with Subject, Grade, Topic, Duration, Model
-- ✅ SPED: IEP Management — 1 student caseload, stat cards, DeShawn Williams with SLD
 - ✅ SPED: IEP Detail — Present Levels, 2 Goals (Reading Fluency 12pts, Written Expression 6pts), 9 Accommodations, Related Services, Compliance Deadlines
 - ✅ SPED: Progress Monitoring — Quick Data Entry form, charts with baseline/goal lines, "On Track" + "Flat" trends
 - ✅ SPED: Create IEP — 5-step wizard (Student Info, Present Levels, Goals, Accommodations, Review)
@@ -480,17 +454,31 @@ Chrome tab ID: 1135439413. Currently desktop viewport (1280x900), on teacher das
 - ✅ Test suite: 192/192 passing across 24 files (confirmed iteration 17)
 - ⏳ Code health review: background agent ab5c88c running
 
+### Browser Testing (Iteration 20)
+- ✅ Teacher: Assignment detail (Poetry Analysis) — Assignment tab with description + instructions, Completed badge, 8th Grade, ELA badges, Delete button (no Edit page exists — not in scope)
+- ✅ Teacher: Reports & Analytics — 5 class cards, Period 4-5 "No mastery data yet" with 0 students
+- ✅ Teacher: Reports heatmap (Period 1) — 7 students × 8 ELA standards, color-coded cells, "Find Gaps" dialog opens via JS click
+- ✅ Teacher: Find Gaps dialog — "Standards Gap Analysis" with "No major gaps found" message (correct — most students above proficient)
+- ✅ Teacher: Heatmap Sort button — cycles from "Name A-Z" to "Highest Avg", students reorder correctly (Jayden 88% → DeShawn 42%)
+- ✅ Teacher: Sidebar toggle — collapses to icon-only mode, expands back to full labels, clean transitions
+- ✅ Teacher: Class Detail (Period 4, 0 students) — clean empty state: 0/0/N/A/N/A stat cards, "No students enrolled" and "No assignments created" messages, no Standards Analysis section (conditionally hidden)
+- ✅ Teacher: Dashboard — 5 stat cards (5 classes, 13 pending, 3 assignments, 16 students, 1 unread), 3 Quick Actions
+- ✅ Parent (Marcus): Progress — 42% ELA "Needs Help" badge, 8 ELA skills (mostly Beginning)
+- ✅ Parent (Marcus): My Children — DeShawn now shows "Falling Behind" (rose badge) correctly reflecting 42% mastery (was "On Track" before fix)
+- ✅ Parent (Sarah): My Children — Aisha Torres "On Track" with 92% avg, American Dream Essay A grade (correct)
+
+### Bugs Found & Fixed (Iteration 20)
+71. ✅ Parent child status defaulted to "On Track" when no graded submissions, ignoring mastery data — added mastery-based fallback (commit 7d63954)
+
 ### Dev Server
 Background task b7d8737 running `npm run dev` on localhost:3000.
 Chrome tab ID: 1135439413. Currently desktop viewport (1280x900), on teacher dashboard. Signed in as rivera@school.edu.
 
-### Next Steps (Iteration 19+)
-- Check code health review results from agent ab5c88c
-- Test teacher assignment edit page
-- Test empty class detail (Period 4/5 with 0 students)
-- Test "Find Gaps" button on reports heatmap
-- Test sidebar toggle on desktop
-- Final sweep of any remaining untested interactions
+### Next Steps (Iteration 21+)
+- Code health review agent ab5c88c still running — check results when done
+- Mobile test of parent child status fix (Marcus "Falling Behind" badge)
+- Test remaining edge cases: teacher message reply, admin quick actions navigation
+- Final sweep and workspace update
 
 ## Verified Endpoints (all working)
 - /api/health — 200
