@@ -9,9 +9,7 @@ import {
 } from '@/lib/db/schema'
 import { eq, and } from 'drizzle-orm'
 import { NextResponse } from 'next/server'
-import Anthropic from '@anthropic-ai/sdk'
-
-const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
+import { anthropic, AI_MODEL } from '@/lib/ai'
 
 export async function POST(req: Request) {
   const session = await auth()
@@ -73,7 +71,7 @@ Generate a comprehensive assignment package that includes:
 Make the assignment engaging, age-appropriate, and pedagogically sound. Ensure all rubric criteria are specific, measurable, and directly aligned to the learning objective.`
 
     const response = await anthropic.messages.create({
-      model: 'claude-opus-4-6',
+      model: AI_MODEL,
       max_tokens: 8192,
       tool_choice: { type: 'tool', name: 'create_smart_assignment' },
       tools: [
@@ -268,7 +266,7 @@ Make the assignment engaging, age-appropriate, and pedagogically sound. Ensure a
         successCriteria: JSON.stringify(generated.successCriteria),
         aiMetadata: JSON.stringify({
           generatedAt: new Date().toISOString(),
-          model: 'claude-opus-4-6',
+          model: AI_MODEL,
           objective,
           standards: standards || null,
         }),
