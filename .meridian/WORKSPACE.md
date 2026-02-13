@@ -1,18 +1,3 @@
-3. Grading UI (3 pages + 3 components) — feedback review, approve/edit/regenerate
-4. Mastery tracking (3 API routes + 2 UI pages + 2 components) — heatmap, gap analysis
-5. Seed rubric weights sum to 1.0 per rubric (0.25 per criterion).
-
-## Phase 4 Complete: SPED & Compliance Module
-Commits: a800b69, f8512b6, a5a6c11, 88a5dd5, 2ea17df
-- IEP AI service: generatePresentLevels, generateIEPGoals (similarity detection), generateAccommodations, generateProgressNarrative
-- IEP API: 11 routes (CRUD + AI generation + progress + compliance)
-- IEP UI: caseload overview, detail with tabs, new/edit forms, components
-- Compliance API: deadlines with color-coding
-- Verified: Login as rodriguez, GET /api/iep returns DeShawn's IEP, all pages 200
-
-## Phase 5 Complete: Family Engagement
-Commits: 13bb5c6, 7b948b0, 1de83b1, 23a210f
-- AI service: parent-communication.ts (progress narratives, weekly digests, multilingual translation)
 - API: /api/parent/dashboard, /api/parent/children/[childId], /api/messages
 - UI: /dashboard/children, /dashboard/progress, /dashboard/messages
 - Creative Opus: native LLM multilingual translation
@@ -473,13 +458,25 @@ Ran `npm run db:seed` after seed data double-dash fix (commit 5859fa8). All em d
 - ✅ Teacher: Report Card Detail (DeShawn Williams C+) — rich narrative mentioning verbal comprehension, SPED connection, Strengths/Growth/Recommendations sections, AI disclosure footer, "Powered by Claude" badge
 - ✅ Landing page full scroll: Hero → Stats → 6 Module Cards → How It Works (3-step) → CTA section — all polished
 
-### Next Steps (Iteration 8+)
-- Scroll rest of landing page (CTA section, demo creds, footer)
-- Test message detail view on mobile
-- Test student assignment submission flow (SubmitWorkForm)
-- Test teacher grading approval flow (Approve & Return button)
-- Consider: IEP creation wizard end-to-end
-- Consider: admin "Generate AI District Insights" button flow
+### Browser Testing (Iteration 8-9 — this session)
+- ✅ Student (Aisha): Assignment detail "Your Submission" tab — full essay text, "Submitted" badge, "Awaiting Teacher Feedback" amber card (Narrative Writing)
+- ✅ Student (Aisha): American Dream Essay submission — full essay, "Awaiting Teacher Feedback" card (no approved feedback yet, correct)
+- ✅ Student (DeShawn): AI Tutor hub — "Suggested Practice" section shows 4 weak ELA areas (31%, 35%, 38%, 38% mastery) with "Practice This" links
+- ✅ Student (DeShawn): "Practice This" link → tutor chat pre-fills input with "I need help with: [standard description]" (fix committed c538595)
+- ✅ Teacher (Rivera): Assessment & Grading — 3 assignments (Poetry 5/5 graded 72% avg, Narrative 0/6, American Dream 0/7)
+- ✅ Teacher: Grading detail (Poetry Analysis) — 5 submissions with scores (Amara 88%, Noah 74%, Priya 58%), stat cards
+- ✅ Teacher: Submission feedback (Amara Osei 88%) — rubric scores (Thesis 23/25 Adv, Evidence 22/25 Pro, Organization 23/25 Adv, Language 20/25 Pro), Overall Feedback with "Approved" badge, Strengths/Improvements/Next Steps, Feedback tone dropdown, Approve & Return / Edit / Regenerate buttons, "Powered by Claude" badge
+- ✅ Admin: District Analytics — 6 stat cards, Standards Mastery Distribution, Avg Scores by Subject, Teacher Engagement table, "Generate AI District Insights" button
+
+### Bugs Found & Fixed (Iteration 8-9)
+61. ✅ Tutor chat input empty when arriving from "Suggested Practice" — added initialValue prop to ChatInput, pre-fills with "I need help with: [topic]" from URL param. Commit c538595.
+
+### Next Steps (Iteration 10+)
+- Test admin "Generate AI District Insights" button (currently viewing)
+- Test IEP creation wizard end-to-end
+- Test student assignment submission (SubmitWorkForm for unsubmitted assignment)
+- Test mobile: grading feedback panel, tutor chat
+- Broader sweep: any remaining untested pages or flows
 
 ## Verified Endpoints (all working)
 - /api/health — 200
