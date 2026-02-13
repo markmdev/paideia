@@ -1,21 +1,3 @@
-4. ✅ Admin Schools page: pluralization fix "1 Teacher" not "1 Teachers" (commit 5265f79)
-5. ✅ IEP detail: capitalize accommodation types and deadline types (commit 8fb5421)
-6. ✅ Seed data: realistic student names instead of "Student 1-5" (commit after reseed)
-7. ✅ Lesson plan metadata: "8" → "8th Grade", "45" → "45 min" display formatting
-8. ✅ Tutor subject badge: "General" → correct subject (Math) after URL replacement (commit bf27e39)
-9. ✅ Parent pages grade level: "8" → "8th Grade" on children list and detail (commit a4d3274)
-10. ✅ Registration page: removed misleading role dropdown (commit 20fd78b)
-11. ✅ Student assignments page: role-aware query, hide Create button for students (commit 11e2cdd)
-12. ✅ Landing page redesign: Instrument Serif headings, warm editorial aesthetic, colored module cards (commit 321131e)
-13. ✅ Font-serif heading consistency: added Instrument Serif to h1 headings across 15 dashboard pages (commit 4f90222)
-14. ✅ Tutor session preview: strip markdown from session card preview text (commit aae7746)
-15. ✅ Admin remaining "--" → "N/A" + grade level "8" → "8th Grade" on Students table (commit 19550e7)
-16. ✅ Seed data: remaining 15 generic student names (Student 6-20) replaced with diverse realistic names (commit 2efaf32)
-
-### Pages Tested (all 5 roles)
-- ✅ Landing page (/) - redesigned with warm editorial aesthetic, Instrument Serif, colored module cards
-- ✅ Login page (/login) - demo buttons work, sign out redirects here cleanly
-- ✅ Login page: invalid credentials shows red error banner "Invalid email or password"
 - ✅ Registration page (/register) - role dropdown removed, clean form, HTML5 validation
 - ✅ Teacher dashboard (Ms. Rivera) - greeting correct, all stats
 - ✅ Teacher: Assignments list, Create Assignment form (3-step wizard), Lesson Plans list
@@ -469,20 +451,30 @@ Chrome tab ID: 1135439413. **Currently mobile viewport (390x844), on landing pag
 - ✅ Student (Aisha): Dashboard — bug #67 fix confirmed: 1 Completed Assignment, 92% avg, 2 Tutor Sessions
 - ✅ Landing page full scroll: Hero → Stats → 5 Modules → How It Works → CTA → Demo Credentials → Footer — all polished
 
+### Bugs Found & Fixed (Iteration 14)
+69. ✅ My Classes page: grade level badge showed raw "10" instead of "10th Grade" — added formatGradeLevel. Commit 598a609.
+
+### Browser Testing (Iteration 14)
+- ✅ Mobile (390x844): Report card detail (Aisha Torres A-) — full page: Overall Narrative, Powered by Claude, Strengths (3 green), Areas for Growth (2 amber), Recommendations (2 blue), AI disclosure footer — all clean on mobile
+- ✅ Mobile: Quiz detail (ELA Vocabulary Unit 3) — 10 questions with Bloom's badges (Remember, Understand, Analyze), correct answers highlighted green, explanations, standards badges — clean on mobile
+- ✅ Student (DeShawn): Assignment detail (Narrative Writing) — Assignment tab + Your Submission tab, description + instructions, "Submitted" badge, essay text, "Awaiting Teacher Feedback" amber card (tab switch works via keyboard/programmatic click, browser automation has trouble with Radix tab clicks)
+- ✅ Student (DeShawn): Progress page — 42% ELA mastery (Beginning), encouraging empty state for "What I'm Good At", 5 specific "Areas to Improve" standards
+- ✅ Teacher (Okafor): My Classes — 3 Biology classes, grade badges now show "10th Grade" (fix confirmed)
+- ✅ Teacher (Okafor): Class Detail (Period 3, 0 students) — clean empty state: 0/0/N/A/N/A stat cards, "No students enrolled" and "No assignments created" messages
+- ✅ SPED: IEP Management — 2 students (DeShawn SLD 184d left, Ethan ADHD 244d left)
+- ✅ SPED: IEP Detail (DeShawn) — rich PLAAFP (specific assessment data: F&P Level T, 97 wpm, STAR 18th percentile, 72% spelling), "Edit IEP" button present
+
 ### Dev Server
 Background task b7d8737 running `npm run dev` on localhost:3000.
-Chrome tab ID: 1135439413. Currently desktop viewport, on NextAuth signout page (unstyled).
+Chrome tab ID: 1135439413. Currently desktop viewport, on DeShawn's IEP detail page. Signed in as rodriguez@school.edu.
 
-### Potential Bug Found (Iteration 13)
-- ⚠️ Direct navigation to /api/auth/signout shows unstyled NextAuth default signout page (dark theme). The app's user menu Sign Out button likely uses programmatic signout which redirects to /login cleanly. This URL is not user-facing in normal flow, but if someone navigates directly they see an unstyled page. Low priority — the in-app sign out flow was verified working in earlier iterations.
-
-### Next Steps (Iteration 14+)
-- Sign out and test login page quick demo buttons
-- Test SPED IEP creation wizard submission (end-to-end)
-- Verify remaining edge cases on mobile: quiz detail, report card detail
-- Check for any remaining formatting issues across all roles
-- Final comprehensive sweep of all pages
-- Consider: Should the /api/auth/signout GET be handled with a custom page?
+### Next Steps (Iteration 15+)
+- Test IEP Edit page flow
+- Test lesson plan edit page
+- Test parent /dashboard/progress page (separate from student-progress)
+- Test login page quick demo buttons (was attempted in iteration 13, worked on mobile)
+- Final sweep: verify all formatting consistent across all pages
+- Consider: custom signout page for /api/auth/signout GET
 
 ## Verified Endpoints (all working)
 - /api/health — 200
