@@ -325,3 +325,26 @@
 {"type":"update","issueId":"TEAC-w25zza","timestamp":"2026-02-13T11:01:54.018Z","data":{},"source":"teaching-os"}
 {"type":"comment","issueId":"TEAC-hmi55p","timestamp":"2026-02-13T11:03:33.418Z","data":{"text":"Verified: Trash2 is no longer imported in src/app/dashboard/assignments/[id]/page.tsx. The import was already cleaned up in a prior commit.","timestamp":"2026-02-13T11:03:33.418Z"},"source":"teaching-os"}
 {"type":"close","issueId":"TEAC-hmi55p","timestamp":"2026-02-13T11:03:33.948Z","data":{"reason":"Already fixed -- Trash2 import was removed in a prior commit"},"source":"teaching-os"}
+{"type":"update","issueId":"TEAC-tbwx7g","timestamp":"2026-02-13T12:02:27.439Z","data":{"status":"in_progress"},"source":"teaching-os"}
+{"type":"update","issueId":"TEAC-w25zza","timestamp":"2026-02-13T12:02:27.439Z","data":{"status":"in_progress"},"source":"teaching-os"}
+{"type":"comment","issueId":"TEAC-tbwx7g","timestamp":"2026-02-13T12:02:27.955Z","data":{"text":"Fixed in commit 973c61b. Added remarkGfm to 3 ReactMarkdown usages in children/[childId]/page.tsx.","timestamp":"2026-02-13T12:02:27.955Z"},"source":"teaching-os"}
+{"type":"close","issueId":"TEAC-tbwx7g","timestamp":"2026-02-13T12:02:28.490Z","data":{"reason":"Fixed"},"source":"teaching-os"}
+{"type":"update","issueId":"TEAC-w14gs9","timestamp":"2026-02-13T12:02:29.039Z","data":{"status":"in_progress"},"source":"teaching-os"}
+{"type":"comment","issueId":"TEAC-w14gs9","timestamp":"2026-02-13T12:02:29.553Z","data":{"text":"Fixed in commit aba5c99. Replaced inline Anthropic client with singleton import, hardcoded model with AI_MODEL constant.","timestamp":"2026-02-13T12:02:29.553Z"},"source":"teaching-os"}
+{"type":"close","issueId":"TEAC-w14gs9","timestamp":"2026-02-13T12:02:30.083Z","data":{"reason":"Fixed"},"source":"teaching-os"}
+{"type":"update","issueId":"TEAC-35nhut","timestamp":"2026-02-13T12:02:30.666Z","data":{"status":"in_progress"},"source":"teaching-os"}
+{"type":"comment","issueId":"TEAC-35nhut","timestamp":"2026-02-13T12:02:31.193Z","data":{"text":"Fixed in commit 973c61b. Consolidated all imports to @/lib/format, removed re-export from utils.ts.","timestamp":"2026-02-13T12:02:31.193Z"},"source":"teaching-os"}
+{"type":"close","issueId":"TEAC-35nhut","timestamp":"2026-02-13T12:02:31.726Z","data":{"reason":"Fixed"},"source":"teaching-os"}
+{"type":"update","issueId":"TEAC-9o17yn","timestamp":"2026-02-13T12:02:32.290Z","data":{"status":"in_progress"},"source":"teaching-os"}
+{"type":"comment","issueId":"TEAC-9o17yn","timestamp":"2026-02-13T12:02:32.797Z","data":{"text":"Fixed in commit 8ef76e1. Added ReactMarkdown+remarkGfm to lesson plan differentiation tiers.","timestamp":"2026-02-13T12:02:32.797Z"},"source":"teaching-os"}
+{"type":"close","issueId":"TEAC-9o17yn","timestamp":"2026-02-13T12:02:33.332Z","data":{"reason":"Fixed"},"source":"teaching-os"}
+{"type":"update","issueId":"TEAC-a9yi7q","timestamp":"2026-02-13T12:02:33.889Z","data":{"status":"in_progress"},"source":"teaching-os"}
+{"type":"update","issueId":"TEAC-y2fott","timestamp":"2026-02-13T12:02:33.889Z","data":{"status":"in_progress"},"source":"teaching-os"}
+{"type":"comment","issueId":"TEAC-a9yi7q","timestamp":"2026-02-13T12:02:34.403Z","data":{"text":"Fixed in commit 8ef76e1. Added null checks for each differentiation tier.","timestamp":"2026-02-13T12:02:34.403Z"},"source":"teaching-os"}
+{"type":"close","issueId":"TEAC-a9yi7q","timestamp":"2026-02-13T12:02:34.995Z","data":{"reason":"Fixed"},"source":"teaching-os"}
+{"type":"update","issueId":"TEAC-lbhhi5","timestamp":"2026-02-13T12:02:35.575Z","data":{"status":"in_progress"},"source":"teaching-os"}
+{"type":"comment","issueId":"TEAC-lbhhi5","timestamp":"2026-02-13T12:02:36.098Z","data":{"text":"Fixed in commit 8ef76e1. Added ReactMarkdown to assignment generation preview.","timestamp":"2026-02-13T12:02:36.098Z"},"source":"teaching-os"}
+{"type":"close","issueId":"TEAC-lbhhi5","timestamp":"2026-02-13T12:02:36.628Z","data":{"reason":"Fixed"},"source":"teaching-os"}
+{"type":"update","issueId":"TEAC-byx28z","timestamp":"2026-02-13T12:03:51.498Z","data":{"status":"in_progress"},"source":"teaching-os"}
+{"type":"comment","issueId":"TEAC-byx28z","timestamp":"2026-02-13T12:03:52.004Z","data":{"text":"Fixed in commit dfab0b3. Replaced split/map paragraph rendering with ReactMarkdown+remarkGfm in report-cards/[studentId]/page.tsx.","timestamp":"2026-02-13T12:03:52.004Z"},"source":"teaching-os"}
+{"type":"close","issueId":"TEAC-byx28z","timestamp":"2026-02-13T12:03:52.535Z","data":{"reason":"Fixed"},"source":"teaching-os"}
