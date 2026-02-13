@@ -132,6 +132,16 @@ export default async function ChildrenPage() {
     if (avgPercentage !== null) {
       if (avgPercentage < 60) overallStatus = 'concern'
       else if (avgPercentage < 75) overallStatus = 'watch'
+    } else if (childMastery.length > 0) {
+      const masteryScores = childMastery
+        .map((m) => (m.avgScore ? Number(m.avgScore) : null))
+        .filter((s): s is number => s !== null)
+      if (masteryScores.length > 0) {
+        const avgMastery =
+          masteryScores.reduce((sum, s) => sum + s, 0) / masteryScores.length
+        if (avgMastery < 60) overallStatus = 'concern'
+        else if (avgMastery < 75) overallStatus = 'watch'
+      }
     }
 
     return {
