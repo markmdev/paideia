@@ -604,7 +604,7 @@ export default async function AssignmentDetailPage({
                         className="flex items-start gap-3 text-sm"
                       >
                         <CheckCircle2 className="size-4 text-emerald-500 mt-0.5 shrink-0" />
-                        <span className="leading-relaxed prose prose-sm prose-stone max-w-none [&>p]:m-0"><ReactMarkdown>{item}</ReactMarkdown></span>
+                        <span className="leading-relaxed prose prose-stone prose-sm max-w-none [&>p]:m-0"><ReactMarkdown>{item}</ReactMarkdown></span>
                       </li>
                     ))}
                   </ul>
@@ -631,7 +631,7 @@ export default async function AssignmentDetailPage({
                         <span className="size-4 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center text-xs font-medium mt-0.5 shrink-0">
                           {index + 1}
                         </span>
-                        <span className="leading-relaxed prose prose-sm prose-stone max-w-none [&>p]:m-0"><ReactMarkdown>{item}</ReactMarkdown></span>
+                        <span className="leading-relaxed prose prose-stone prose-sm max-w-none [&>p]:m-0"><ReactMarkdown>{item}</ReactMarkdown></span>
                       </li>
                     ))}
                   </ul>
@@ -658,7 +658,7 @@ export default async function AssignmentDetailPage({
                         <span className="size-4 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-xs font-medium mt-0.5 shrink-0">
                           {index + 1}
                         </span>
-                        <span className="leading-relaxed prose prose-sm prose-stone max-w-none [&>p]:m-0"><ReactMarkdown>{item}</ReactMarkdown></span>
+                        <span className="leading-relaxed prose prose-stone prose-sm max-w-none [&>p]:m-0"><ReactMarkdown>{item}</ReactMarkdown></span>
                       </li>
                     ))}
                   </ul>

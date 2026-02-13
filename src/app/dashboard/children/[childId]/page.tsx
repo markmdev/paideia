@@ -386,7 +386,7 @@ export default async function ChildDetailPage({
                           {strengths.map((str, i) => (
                             <li
                               key={i}
-                              className="text-[11px] text-stone-600 pl-3 prose prose-sm prose-stone max-w-none [&>p]:m-0 [&>p]:inline"
+                              className="text-[11px] text-stone-600 pl-3 prose prose-stone prose-sm max-w-none [&>p]:m-0 [&>p]:inline"
                             >
                               <ReactMarkdown remarkPlugins={[remarkGfm]}>{str}</ReactMarkdown>
                             </li>
@@ -406,7 +406,7 @@ export default async function ChildDetailPage({
                           {improvements.map((imp, i) => (
                             <li
                               key={i}
-                              className="text-[11px] text-stone-600 pl-3 prose prose-sm prose-stone max-w-none [&>p]:m-0 [&>p]:inline"
+                              className="text-[11px] text-stone-600 pl-3 prose prose-stone prose-sm max-w-none [&>p]:m-0 [&>p]:inline"
                             >
                               <ReactMarkdown remarkPlugins={[remarkGfm]}>{imp}</ReactMarkdown>
                             </li>
@@ -415,7 +415,7 @@ export default async function ChildDetailPage({
                       </div>
                     )}
                     {fb.finalFeedback && (
-                      <div className="text-[11px] text-stone-500 italic border-t pt-2 prose prose-sm prose-stone max-w-none [&>p]:m-0">
+                      <div className="text-[11px] text-stone-500 italic border-t pt-2 prose prose-stone prose-sm max-w-none [&>p]:m-0">
                         <ReactMarkdown remarkPlugins={[remarkGfm]}>{fb.finalFeedback}</ReactMarkdown>
                       </div>
                     )}

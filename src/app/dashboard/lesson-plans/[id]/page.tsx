@@ -269,7 +269,7 @@ export default async function LessonPlanDetailPage({
                   <span className="inline-block text-xs font-semibold px-2 py-0.5 rounded-full mb-2 text-amber-700 bg-amber-100">
                     Below Grade Level
                   </span>
-                  <div className="text-sm leading-relaxed text-muted-foreground prose prose-sm max-w-none">
+                  <div className="text-sm leading-relaxed text-muted-foreground prose prose-stone prose-sm max-w-none">
                     <ReactMarkdown
                       remarkPlugins={[remarkGfm]}
                       components={{
@@ -286,7 +286,7 @@ export default async function LessonPlanDetailPage({
                   <span className="inline-block text-xs font-semibold px-2 py-0.5 rounded-full mb-2 text-emerald-700 bg-emerald-100">
                     On Grade Level
                   </span>
-                  <div className="text-sm leading-relaxed text-muted-foreground prose prose-sm max-w-none">
+                  <div className="text-sm leading-relaxed text-muted-foreground prose prose-stone prose-sm max-w-none">
                     <ReactMarkdown
                       remarkPlugins={[remarkGfm]}
                       components={{
@@ -303,7 +303,7 @@ export default async function LessonPlanDetailPage({
                   <span className="inline-block text-xs font-semibold px-2 py-0.5 rounded-full mb-2 text-blue-700 bg-blue-100">
                     Above Grade Level
                   </span>
-                  <div className="text-sm leading-relaxed text-muted-foreground prose prose-sm max-w-none">
+                  <div className="text-sm leading-relaxed text-muted-foreground prose prose-stone prose-sm max-w-none">
                     <ReactMarkdown
                       remarkPlugins={[remarkGfm]}
                       components={{
@@ -332,7 +332,7 @@ export default async function LessonPlanDetailPage({
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-sm leading-relaxed prose prose-sm max-w-none">
+            <div className="text-sm leading-relaxed prose prose-stone prose-sm max-w-none">
               <ReactMarkdown
                 remarkPlugins={[remarkGfm]}
                 components={{
@@ -384,7 +384,7 @@ function ReadOnlySection({
         </div>
       </CardHeader>
       <CardContent>
-        <div className="text-sm leading-relaxed prose prose-sm max-w-none">
+        <div className="text-sm leading-relaxed prose prose-stone prose-sm max-w-none">
           <ReactMarkdown
             remarkPlugins={[remarkGfm]}
             components={{

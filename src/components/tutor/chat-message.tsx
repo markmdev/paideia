@@ -41,7 +41,7 @@ export function ChatMessage({ role, content, timestamp, isStreaming }: ChatMessa
           {isUser ? (
             <p className="whitespace-pre-wrap">{content}</p>
           ) : (
-            <div className="prose prose-sm prose-stone max-w-none [&>p]:mb-2 [&>p:last-child]:mb-0 [&>ul]:mb-2 [&>ol]:mb-2">
+            <div className="prose prose-stone prose-sm max-w-none [&>p]:mb-2 [&>p:last-child]:mb-0 [&>ul]:mb-2 [&>ol]:mb-2">
               <ReactMarkdown
                 remarkPlugins={[remarkGfm]}
                 components={{
