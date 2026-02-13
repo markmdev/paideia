@@ -13,8 +13,6 @@ import {
   users,
 } from '@/lib/db/schema'
 import { eq, and } from 'drizzle-orm'
-import ReactMarkdown from 'react-markdown'
-import remarkGfm from 'remark-gfm'
 import { ArrowLeft, User, Calendar, FileText } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -216,15 +214,8 @@ export default async function FeedbackReviewPage({
               </div>
             </CardHeader>
             <CardContent className="p-6">
-              <div className="prose prose-sm prose-stone max-w-none text-sm text-stone-700 leading-relaxed">
-                <ReactMarkdown
-                  remarkPlugins={[remarkGfm]}
-                  components={{
-                    table: ({ children, ...props }) => <table className="w-full border-collapse my-4 text-sm" {...props}>{children}</table>,
-                    th: ({ children, ...props }) => <th className="border border-stone-300 bg-stone-50 px-3 py-2 text-left font-medium" {...props}>{children}</th>,
-                    td: ({ children, ...props }) => <td className="border border-stone-300 px-3 py-2" {...props}>{children}</td>,
-                  }}
-                >{submission.content}</ReactMarkdown>
+              <div className="whitespace-pre-wrap text-sm text-stone-700 leading-relaxed">
+                {submission.content}
               </div>
             </CardContent>
           </Card>
