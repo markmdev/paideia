@@ -1,17 +1,3 @@
-- ✅ SPED: IEP Detail — Present Levels, 2 Goals (Reading Fluency 12pts, Written Expression 6pts), 9 Accommodations, Related Services, Compliance Deadlines
-- ✅ SPED: Progress Monitoring — Quick Data Entry form, charts with baseline/goal lines, "On Track" + "Flat" trends
-- ✅ SPED: Create IEP — 5-step wizard (Student Info, Present Levels, Goals, Accommodations, Review)
-- ✅ Student: Dashboard — "Welcome back, Aisha", stat cards (1 class, 0 assignments, N/A avg, 0 tutor)
-- ✅ Student: Progress — 85% ELA mastery, 4 skills (3 proficient, 1 advanced)
-- ✅ Parent (Sarah Chen): Dashboard — "Welcome back, Sarah", Children card, Quick Actions
-- ✅ Parent: My Children — Aisha Torres, "8th Grade", On Track, ELA
-- ✅ Parent: Child detail — Stats, Skills Snapshot (4 ELA skills), "No progress summaries yet" empty state
-- ✅ Landing page — all sections verified (hero, stats, 6 modules, How It Works, CTA, demo creds, footer)
-- ✅ SPED: Mobile (390x844) — IEP Management page responsive
-
-### Bugs Found & Fixed (Iteration 3-4)
-21. ✅ Marcus Williams (parent) login fails — seed had `marcus.w@email.com`, CLAUDE.md says `marcus.williams@email.com`. Fixed in seed, re-seeded. (commit da5f928)
-22. ✅ Lesson plan generation: `standards.join is not a function` — standards passed as string, AI service expects array. Added normalization. (commit 8b21976)
 23. ✅ Assignment generation: `differentiatedVersions.belowGrade` undefined — max_tokens too low (4096→8192), added null safety. (commit 6fe0511)
 24. ✅ Re-grading fails with duplicate key constraint — existing feedback_draft not deleted before insert. Added delete-before-insert. (commit by subagent)
 
@@ -472,13 +458,28 @@ Chrome tab ID: 1135439413. Currently desktop viewport (1280x900), on teacher das
 
 ### Dev Server
 Background task b7d8737 running `npm run dev` on localhost:3000.
-Chrome tab ID: 1135439413. Currently desktop viewport (1280x900), on teacher dashboard. Signed in as rivera@school.edu.
+Chrome tab ID: 1135439413. Currently desktop viewport (1280x900). Signed out (on landing page).
 
-### Next Steps (Iteration 21+)
-- Code health review agent ab5c88c still running — check results when done
-- Mobile test of parent child status fix (Marcus "Falling Behind" badge)
-- Test remaining edge cases: teacher message reply, admin quick actions navigation
-- Final sweep and workspace update
+### Browser Testing (Iteration 21)
+- ✅ Admin: Dashboard quick actions — Analytics, SPED Compliance, Schools links all navigate correctly
+- ✅ Admin: Teachers page — 4 teachers with engagement metrics (Classes, Assignments, Submissions Graded, AI Feedback)
+- ✅ Admin: Lesson Plans — empty state (correct, admin hasn't created any)
+- ✅ Teacher (Rivera): Message reply flow — typed reply to Sarah Chen, sent successfully, "Re: Question About Aisha's Reading Progress" appeared at top of messages list dated 2/13/2026
+- ✅ **Teacher message reply flow: END-TO-END VERIFIED** (teacher → parent reply)
+- ✅ Mobile (390x844): Teacher messages — 10 messages stacked with type badges, reply at top
+- ✅ Mobile: Teacher dashboard — 5 stat cards stack single-column, Quick Actions below
+- ✅ Mobile: SPED IEP Management — 2x2 stat grid, DeShawn (SLD, 184d) + Ethan (ADHD) cards
+- ✅ Mobile: SPED IEP Edit (DeShawn) — Present Levels textarea, "Regenerate with AI", 2 SMART goals with all fields, 8+ accommodations with type dropdowns, "Save IEP" button at bottom
+- ✅ Student (Aisha): Dashboard — 1 Completed, 92% avg (bug #67 fix holding), 2 assignments with "Submitted" badges
+- ✅ Student: Feedback tab (American Dream Essay) — emerald grade card (91.67/100, A), rich Teacher Feedback narrative, Strengths (green, 4 items), Areas for Improvement (amber, 3 numbered), Next Steps (blue, 3 numbered), markdown renders correctly, AI disclosure footer
+- ✅ Student: Assignments list — 2 cards with "Grading" badges (assignment-level status, correct)
+- ✅ Login page (signed out) — Email/Password, Sign in, 5 demo buttons, Register link
+- ✅ Landing page full scroll — Hero → Stats → Modules → How It Works → CTA → Demo Credentials → Footer, all polished
+
+### Next Steps (Iteration 22+)
+- Run full test suite (192 tests expected passing)
+- Code health review agent ab5c88c — check when notified
+- Any remaining edge cases or final polish
 
 ## Verified Endpoints (all working)
 - /api/health — 200
