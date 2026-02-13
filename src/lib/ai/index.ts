@@ -10,8 +10,14 @@ export type { SmartAssignmentInput, GeneratedSmartAssignment } from './generate-
 export { generateQuiz } from './generate-quiz'
 export type { QuizInput, GeneratedQuiz } from './generate-quiz'
 
-export { differentiateContent } from './differentiate'
-export type { DifferentiateInput, DifferentiatedContent } from './differentiate'
+export { differentiateContent, assessmentDrivenDifferentiation } from './differentiate'
+export type {
+  DifferentiateInput,
+  DifferentiatedContent,
+  AssessmentDifferentiationInput,
+  TierActivity,
+  AssessmentDifferentiationResult,
+} from './differentiate'
 
 export { gradeSubmission, batchGradeSubmissions } from './grade-submission'
 export type {
@@ -72,3 +78,17 @@ export type {
   ExitTicketInput,
   GeneratedExitTicket,
 } from './generate-exit-ticket'
+
+export { generateStudentInterventions } from './early-warning'
+export type {
+  FlaggedStudent,
+  StudentIntervention,
+  StudentInterventionsResult,
+} from './early-warning'
+
+export { generateReteachActivities } from './mastery-gaps'
+export type {
+  GapData,
+  ReteachRecommendation,
+  ReteachActivitiesResult,
+} from './mastery-gaps'

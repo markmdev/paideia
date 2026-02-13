@@ -112,3 +112,156 @@ All three tiers must maintain the same core learning objective and essential con
 
   return toolUseBlock.input as DifferentiatedContent
 }
+
+export interface AssessmentDifferentiationInput {
+  assignmentTitle: string
+  subject: string
+  gradeLevel: string
+  instructions: string | null
+  belowGrade: { count: number; avgScore: number }
+  onGrade: { count: number; avgScore: number }
+  aboveGrade: { count: number; avgScore: number }
+}
+
+export interface TierActivity {
+  title: string
+  description: string
+  instructions: string
+  scaffolds?: string[]
+  extensions?: string[]
+}
+
+export interface AssessmentDifferentiationResult {
+  below_grade: TierActivity
+  on_grade: TierActivity
+  above_grade: TierActivity
+}
+
+export async function assessmentDrivenDifferentiation(
+  input: AssessmentDifferentiationInput
+): Promise<AssessmentDifferentiationResult> {
+  const response = await anthropic.messages.create({
+    model: AI_MODEL,
+    max_tokens: 4096,
+    system:
+      'You are an expert K-12 instructional designer. Based on student performance data from a graded assignment, generate differentiated follow-up activities for three performance tiers. Each activity should target the same learning objective but at different complexity levels. The below-grade activity should include scaffolds (sentence starters, graphic organizers, word banks, etc). The above-grade activity should include extensions (research tasks, creative applications, leadership roles, etc). The on-grade activity should reinforce the core concepts at the appropriate level.',
+    tools: [
+      {
+        name: 'differentiated_activities',
+        description:
+          'Generate three differentiated follow-up activities based on student performance tiers from a graded assignment.',
+        input_schema: {
+          type: 'object' as const,
+          properties: {
+            below_grade: {
+              type: 'object',
+              properties: {
+                title: {
+                  type: 'string',
+                  description:
+                    'Title of the follow-up activity for struggling students.',
+                },
+                description: {
+                  type: 'string',
+                  description:
+                    'Brief description of what this activity addresses and why.',
+                },
+                instructions: {
+                  type: 'string',
+                  description:
+                    'Step-by-step instructions for students, written in accessible language.',
+                },
+                scaffolds: {
+                  type: 'array',
+                  items: { type: 'string' },
+                  description:
+                    'Specific scaffolds: sentence starters, graphic organizers, word banks, chunked steps, visual aids.',
+                },
+              },
+              required: ['title', 'description', 'instructions', 'scaffolds'],
+            },
+            on_grade: {
+              type: 'object',
+              properties: {
+                title: {
+                  type: 'string',
+                  description:
+                    'Title of the follow-up activity for students meeting expectations.',
+                },
+                description: {
+                  type: 'string',
+                  description:
+                    'Brief description of what this activity reinforces.',
+                },
+                instructions: {
+                  type: 'string',
+                  description: 'Step-by-step instructions for students.',
+                },
+              },
+              required: ['title', 'description', 'instructions'],
+            },
+            above_grade: {
+              type: 'object',
+              properties: {
+                title: {
+                  type: 'string',
+                  description:
+                    'Title of the follow-up activity for students exceeding expectations.',
+                },
+                description: {
+                  type: 'string',
+                  description: 'Brief description of the enrichment focus.',
+                },
+                instructions: {
+                  type: 'string',
+                  description: 'Step-by-step instructions for students.',
+                },
+                extensions: {
+                  type: 'array',
+                  items: { type: 'string' },
+                  description:
+                    'Extension challenges: research tasks, cross-curricular connections, creative applications, leadership roles.',
+                },
+              },
+              required: ['title', 'description', 'instructions', 'extensions'],
+            },
+          },
+          required: ['below_grade', 'on_grade', 'above_grade'],
+        },
+      },
+    ],
+    tool_choice: { type: 'tool', name: 'differentiated_activities' },
+    messages: [
+      {
+        role: 'user',
+        content: `Generate differentiated follow-up activities for a graded assignment.
+
+Assignment Details:
+- Title: ${input.assignmentTitle}
+- Subject: ${input.subject}
+- Grade Level: ${input.gradeLevel}
+- Instructions: ${input.instructions ?? 'N/A'}
+
+Student Performance Data:
+- Below Grade (score < 60%): ${input.belowGrade.count} students${input.belowGrade.count > 0 ? ` — average score: ${input.belowGrade.avgScore}%` : ''}
+- On Grade (60-84%): ${input.onGrade.count} students${input.onGrade.count > 0 ? ` — average score: ${input.onGrade.avgScore}%` : ''}
+- Above Grade (85%+): ${input.aboveGrade.count} students${input.aboveGrade.count > 0 ? ` — average score: ${input.aboveGrade.avgScore}%` : ''}
+
+Generate three targeted follow-up activities that address the same learning objective at different complexity levels. The below-grade activity should provide additional scaffolding and practice on foundational skills. The on-grade activity should deepen understanding. The above-grade activity should challenge students with extensions and higher-order thinking.`,
+      },
+    ],
+  })
+
+  const toolUseBlock = response.content.find(
+    (block): block is Extract<typeof block, { type: 'tool_use' }> =>
+      block.type === 'tool_use'
+  )
+
+  if (!toolUseBlock) {
+    throw new Error(
+      'AI did not return structured differentiation data. Please try again.'
+    )
+  }
+
+  return toolUseBlock.input as AssessmentDifferentiationResult
+}

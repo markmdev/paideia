@@ -13,31 +13,18 @@ vi.mock('@/lib/auth', () => ({
   auth: vi.fn(),
 }))
 
-vi.mock('@/lib/ai', () => ({
-  anthropic: {
-    messages: {
-      create: vi.fn().mockResolvedValue({
-        content: [
-          {
-            type: 'tool_use',
-            name: 'student_interventions',
-            input: {
-              students: [
-                {
-                  studentLabel: 'Student A',
-                  recommendations: [
-                    'Provide targeted practice on linear equations',
-                    'Schedule a one-on-one check-in',
-                  ],
-                },
-              ],
-            },
-          },
+vi.mock('@/lib/ai/early-warning', () => ({
+  generateStudentInterventions: vi.fn().mockResolvedValue({
+    students: [
+      {
+        studentLabel: 'Student A',
+        recommendations: [
+          'Provide targeted practice on linear equations',
+          'Schedule a one-on-one check-in',
         ],
-      }),
-    },
-  },
-  AI_MODEL: 'claude-opus-4-6',
+      },
+    ],
+  }),
 }))
 
 function createChainMock(result: unknown = []) {

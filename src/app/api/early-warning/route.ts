@@ -9,7 +9,7 @@ import {
 } from '@/lib/db/schema'
 import { eq, and, inArray, gte, desc } from 'drizzle-orm'
 import { NextRequest, NextResponse } from 'next/server'
-import { anthropic, AI_MODEL } from '@/lib/ai'
+import { generateStudentInterventions } from '@/lib/ai/early-warning'
 
 interface StudentRisk {
   id: string
@@ -283,73 +283,27 @@ export async function GET(req: NextRequest) {
         // Build anonymized identifiers to avoid sending PII to the AI
         const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
         const anonymizedIdToStudent = new Map<string, StudentRisk>()
-        const studentSummaries = flaggedStudents.map((s, index) => {
+        const flaggedInput = flaggedStudents.map((s, index) => {
           const anonId = index < 26
             ? `Student ${alphabet[index]}`
             : `Student ${alphabet[Math.floor(index / 26) - 1]}${alphabet[index % 26]}`
           anonymizedIdToStudent.set(anonId, s)
-          return `Student: ${anonId}\nRisk Level: ${s.riskLevel.replace('_', ' ')}\nIndicators: ${s.indicators.join(', ')}\nRecent Scores: ${s.recentScores.join(', ') || 'No scores'}\nTrend: ${s.trendDirection}`
-        }).join('\n\n')
-
-        const response = await anthropic.messages.create({
-          model: AI_MODEL,
-          max_tokens: 4096,
-          system: 'You are an expert K-12 education interventionist. Based on student performance data, generate specific, actionable intervention recommendations for teachers. Students are identified by anonymized labels (e.g. "Student A", "Student B"). Use these exact labels in your response.',
-          tools: [
-            {
-              name: 'student_interventions',
-              description: 'Generate intervention recommendations for at-risk students based on their performance data.',
-              input_schema: {
-                type: 'object' as const,
-                properties: {
-                  students: {
-                    type: 'array',
-                    items: {
-                      type: 'object',
-                      properties: {
-                        studentLabel: {
-                          type: 'string',
-                          description: 'The anonymized student label exactly as provided (e.g. "Student A").',
-                        },
-                        recommendations: {
-                          type: 'array',
-                          items: { type: 'string' },
-                          description: '2-3 specific, actionable intervention recommendations for this student.',
-                        },
-                      },
-                      required: ['studentLabel', 'recommendations'],
-                    },
-                  },
-                },
-                required: ['students'],
-              },
-            },
-          ],
-          tool_choice: { type: 'tool', name: 'student_interventions' },
-          messages: [
-            {
-              role: 'user',
-              content: `The following students have been flagged as at-risk based on their recent performance data. Please generate 2-3 specific intervention recommendations for each student.\n\n${studentSummaries}`,
-            },
-          ],
+          return {
+            anonId,
+            riskLevel: s.riskLevel,
+            indicators: s.indicators,
+            recentScores: s.recentScores,
+            trendDirection: s.trendDirection,
+          }
         })
 
-        const toolUseBlock = response.content.find(
-          (block): block is Extract<typeof block, { type: 'tool_use' }> =>
-            block.type === 'tool_use'
-        )
+        const result = await generateStudentInterventions(flaggedInput)
 
-        if (toolUseBlock) {
-          const result = toolUseBlock.input as {
-            students: { studentLabel: string; recommendations: string[] }[]
-          }
-
-          // Match recommendations back to students using anonymized labels
-          for (const rec of result.students) {
-            const match = anonymizedIdToStudent.get(rec.studentLabel)
-            if (match) {
-              match.recommendations = rec.recommendations
-            }
+        // Match recommendations back to students using anonymized labels
+        for (const rec of result.students) {
+          const match = anonymizedIdToStudent.get(rec.studentLabel)
+          if (match) {
+            match.recommendations = rec.recommendations
           }
         }
       } catch (error) {
