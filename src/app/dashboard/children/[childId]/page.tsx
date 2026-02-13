@@ -32,8 +32,9 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { ProgressNarrative } from '@/components/parent/progress-narrative'
 import { ClaudeBadge } from '@/components/ui/claude-badge'
-import { formatGradeLevel } from '@/lib/utils'
+import { formatGradeLevel } from '@/lib/format'
 import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 
 export default async function ChildDetailPage({
   params,
@@ -387,7 +388,7 @@ export default async function ChildDetailPage({
                               key={i}
                               className="text-[11px] text-stone-600 pl-3 prose prose-sm prose-stone max-w-none [&>p]:m-0 [&>p]:inline"
                             >
-                              <ReactMarkdown>{str}</ReactMarkdown>
+                              <ReactMarkdown remarkPlugins={[remarkGfm]}>{str}</ReactMarkdown>
                             </li>
                           ))}
                         </ul>
@@ -407,7 +408,7 @@ export default async function ChildDetailPage({
                               key={i}
                               className="text-[11px] text-stone-600 pl-3 prose prose-sm prose-stone max-w-none [&>p]:m-0 [&>p]:inline"
                             >
-                              <ReactMarkdown>{imp}</ReactMarkdown>
+                              <ReactMarkdown remarkPlugins={[remarkGfm]}>{imp}</ReactMarkdown>
                             </li>
                           ))}
                         </ul>
@@ -415,7 +416,7 @@ export default async function ChildDetailPage({
                     )}
                     {fb.finalFeedback && (
                       <div className="text-[11px] text-stone-500 italic border-t pt-2 prose prose-sm prose-stone max-w-none [&>p]:m-0">
-                        <ReactMarkdown>{fb.finalFeedback}</ReactMarkdown>
+                        <ReactMarkdown remarkPlugins={[remarkGfm]}>{fb.finalFeedback}</ReactMarkdown>
                       </div>
                     )}
                   </div>

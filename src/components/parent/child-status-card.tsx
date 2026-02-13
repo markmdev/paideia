@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { Users, TrendingUp, BookOpen, ChevronRight } from 'lucide-react'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { formatGradeLevel } from '@/lib/utils'
+import { formatGradeLevel } from '@/lib/format'
 
 interface ChildStatusCardProps {
   child: {

@@ -16,7 +16,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { formatGradeLevel } from '@/lib/utils'
+import { formatGradeLevel } from '@/lib/format'
 
 function formatDuration(duration: string): string {
   const num = parseInt(duration, 10)
