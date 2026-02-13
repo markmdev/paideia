@@ -166,7 +166,7 @@ export function ProgressNarrative({ narrative }: ProgressNarrativeProps) {
             )}
           </>
         ) : (
-          <div className="text-sm text-stone-700 leading-relaxed prose prose-sm max-w-none">
+          <div className="text-sm text-stone-700 leading-relaxed prose prose-stone prose-sm max-w-none">
             <ReactMarkdown
               remarkPlugins={[remarkGfm]}
               components={{

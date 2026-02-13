@@ -95,7 +95,7 @@ export function IepDetailTabs({
           Present Levels
         </h2>
         {iep.presentLevels ? (
-          <div className="text-sm text-stone-600 prose prose-sm max-w-none">
+          <div className="text-sm text-stone-600 prose prose-stone prose-sm max-w-none">
             <ReactMarkdown
               remarkPlugins={[remarkGfm]}
               components={{

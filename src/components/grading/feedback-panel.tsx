@@ -261,7 +261,7 @@ export function FeedbackPanel({
             </div>
           </div>
         ) : (
-          <div className="bg-white rounded-xl border border-stone-200 p-4 text-sm text-stone-700 leading-relaxed prose prose-sm max-w-none">
+          <div className="bg-white rounded-xl border border-stone-200 p-4 text-sm text-stone-700 leading-relaxed prose prose-stone prose-sm max-w-none">
             <ReactMarkdown
               remarkPlugins={[remarkGfm]}
               components={{

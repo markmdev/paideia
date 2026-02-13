@@ -509,7 +509,7 @@ export function GenerationForm({ classes }: GenerationFormProps) {
                     <h4 className="text-sm font-medium text-muted-foreground mb-1">
                       Description
                     </h4>
-                    <div className="text-sm leading-relaxed prose prose-sm max-w-none">
+                    <div className="text-sm leading-relaxed prose prose-stone prose-sm max-w-none">
                       <ReactMarkdown remarkPlugins={[remarkGfm]}>
                         {generated.assignment.description}
                       </ReactMarkdown>
@@ -520,7 +520,7 @@ export function GenerationForm({ classes }: GenerationFormProps) {
                       <h4 className="text-sm font-medium text-muted-foreground mb-1">
                         Instructions
                       </h4>
-                      <div className="text-sm leading-relaxed prose prose-sm max-w-none bg-slate-50 rounded-lg p-4 border">
+                      <div className="text-sm leading-relaxed prose prose-stone prose-sm max-w-none bg-slate-50 rounded-lg p-4 border">
                         <ReactMarkdown remarkPlugins={[remarkGfm]}>
                           {generated.assignment.instructions}
                         </ReactMarkdown>
@@ -599,7 +599,7 @@ export function GenerationForm({ classes }: GenerationFormProps) {
                         </CardTitle>
                       </CardHeader>
                       <CardContent className="space-y-3">
-                        <div className="text-sm leading-relaxed prose prose-sm max-w-none">
+                        <div className="text-sm leading-relaxed prose prose-stone prose-sm max-w-none">
                           <ReactMarkdown remarkPlugins={[remarkGfm]}>
                             {version.content}
                           </ReactMarkdown>
