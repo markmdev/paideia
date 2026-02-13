@@ -98,7 +98,7 @@ export default async function GradingOverviewPage() {
   // Only show assignments that have submissions
   const assignmentsWithSubmissions = teacherAssignments.filter((a) => {
     const stats = statsMap.get(a.id)
-    return stats && stats.totalCount > 0
+    return stats && Number(stats.totalCount) > 0
   })
 
   return (
@@ -127,10 +127,10 @@ export default async function GradingOverviewPage() {
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {assignmentsWithSubmissions.map((assignment) => {
             const stats = statsMap.get(assignment.id)
-            const total = stats?.totalCount ?? 0
-            const graded = stats?.gradedCount ?? 0
-            const ungraded = stats?.ungradedCount ?? 0
-            const avgScore = stats?.avgScore
+            const total = Number(stats?.totalCount ?? 0)
+            const graded = Number(stats?.gradedCount ?? 0)
+            const ungraded = Number(stats?.ungradedCount ?? 0)
+            const avgScore = stats?.avgScore != null ? Number(stats.avgScore) : null
             const rubricTitle = assignment.rubricId
               ? rubricMap.get(assignment.rubricId)
               : null

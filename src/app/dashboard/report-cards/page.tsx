@@ -89,7 +89,7 @@ export default async function ReportCardsPage() {
     )
     .groupBy(classMembers.classId)
 
-  const studentCountMap = new Map(studentCounts.map((s) => [s.classId, s.count]))
+  const studentCountMap = new Map(studentCounts.map((s) => [s.classId, Number(s.count)]))
 
   // Get report card stats per class
   const rcStats = await db

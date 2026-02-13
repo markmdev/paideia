@@ -66,7 +66,9 @@ export async function GET(req: Request) {
     .where(conditions.length > 0 ? and(...conditions) : undefined)
     .orderBy(desc(ieps.updatedAt))
 
-  return NextResponse.json(results)
+  return NextResponse.json(
+    results.map((r) => ({ ...r, goalCount: Number(r.goalCount) }))
+  )
 }
 
 export async function POST(req: Request) {
