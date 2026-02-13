@@ -108,19 +108,19 @@ async function getStudentStats(userId: string): Promise<StudentStats> {
     .from(classMembers)
     .where(and(eq(classMembers.userId, userId), eq(classMembers.role, 'student')))
 
-  // Count completed (graded) assignments
+  // Count completed (graded or returned) assignments
   const [completedCount] = await db
     .select({ count: sql<number>`count(*)` })
     .from(submissions)
-    .where(and(eq(submissions.studentId, userId), eq(submissions.status, 'graded')))
+    .where(and(eq(submissions.studentId, userId), inArray(submissions.status, ['graded', 'returned'])))
 
-  // Average score across graded submissions (percentage)
+  // Average score across graded/returned submissions (percentage)
   const avgResult = await db
     .select({
       avgPct: sql<number>`avg(case when ${submissions.maxScore} > 0 then (${submissions.totalScore} / ${submissions.maxScore}) * 100 else null end)`,
     })
     .from(submissions)
-    .where(and(eq(submissions.studentId, userId), eq(submissions.status, 'graded')))
+    .where(and(eq(submissions.studentId, userId), inArray(submissions.status, ['graded', 'returned'])))
 
   const averageScore = avgResult[0]?.avgPct !== null ? Math.round(Number(avgResult[0].avgPct)) : null
 
