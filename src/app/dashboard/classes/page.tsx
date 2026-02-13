@@ -7,6 +7,7 @@ import { eq, and, sql, count } from 'drizzle-orm'
 import { GraduationCap, BookOpen, Users } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
+import { formatGradeLevel } from '@/lib/format'
 
 export default async function ClassesPage() {
   const session = await auth()
@@ -121,7 +122,7 @@ export default async function ClassesPage() {
                       variant="secondary"
                       className="shrink-0 text-xs"
                     >
-                      {cls.gradeLevel}
+                      {formatGradeLevel(cls.gradeLevel)}
                     </Badge>
                   </div>
                 </CardHeader>
