@@ -481,6 +481,16 @@ Chrome tab ID: 1135439413. Currently desktop viewport (1280x900). Signed in as s
 - ✅ Parent: Child Detail (DeShawn) — N/A avg, 2 classes, 0 graded, 8 ELA skills (mostly Beginning), AI Transparency panel with 3 cards, "Powered by Claude"
 - ✅ Test suite: 192/192 passing, TypeScript: zero errors
 
+### Browser Testing (Iteration 29 — Final Sweep)
+- ✅ Teacher: Exit Ticket Generator — Topic, Grade Level, Subject dropdowns, Questions slider (3), Lesson Context textarea, Generate button
+- ✅ Teacher: Assignment creation wizard — 3-step stepper, Learning Objective, Class/Type/Subject/Grade/Standards fields, "Generate with AI"
+- ✅ Teacher: My Classes — 5 periods with "8th Grade" badges, ELA, student counts (7/5/4/0/0)
+- ✅ Teacher: Quiz detail — 10 questions with Bloom's taxonomy badges, correct answers, explanations, point values
+- ✅ Landing page (desktop, full scroll) — Hero with "Powered by Claude Opus" badge, 4 stats, 6 module cards, How It Works, CTA, Demo Credentials, Footer
+- ✅ Production build: all routes compile clean
+- ✅ Test suite: 192/192 passing, TypeScript: zero errors
+- **No new bugs found this iteration.**
+
 ### Remaining Pebble Issues (1)
 - TEAC-6zuv8p: Two message compose components with overlapping functionality (P2, minor refactoring — not a bug)
 
