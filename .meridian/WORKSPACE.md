@@ -1,27 +1,3 @@
-
-## Current State
-- 24 test files, 192 tests, ALL PASSING
-- Pebble epic TEAC-w25zza: 47/53 issues CLOSED (6 open)
-- Production build: 100 routes, TypeScript clean
-- Schema pushed to Supabase
-- All dashboard pages verified 200 for all 5 roles
-- All API endpoints verified with auth boundary checks (401/403)
-- AI features verified with real Opus API: quiz gen, exit tickets, streaming tutor
-- Loading skeletons on 9 dashboard pages, error boundary at dashboard level
-- Favicon (SVG book icon on amber) + apple touch icon
-- ~120 git commits
-- **Database re-seeded** multiple times with rich demo data
-
-## Polish Loop (Iteration 11 of 30)
-Work-until loop active: browser testing + visual/UX polish.
-Dev server running as background task b7d8737.
-Chrome browser tab ID: 1135439413.
-Frontend-design skill installed at .claude/skills/frontend-design/SKILL.md.
-
-### Bugs Found & Fixed
-1. ✅ Landing page: "--" → em dashes, stats updated, K-12 non-breaking (commit 19b0356)
-2. ✅ Dashboard greeting: title-aware name display "Ms. Rivera" (commits 49c2d00, 56b3083)
-3. ✅ Double-dash placeholders → "N/A" across 10 files (commit 4c6db8e)
 4. ✅ Admin Schools page: pluralization fix "1 Teacher" not "1 Teachers" (commit 5265f79)
 5. ✅ IEP detail: capitalize accommodation types and deadline types (commit 8fb5421)
 6. ✅ Seed data: realistic student names instead of "Student 1-5" (commit after reseed)
@@ -479,16 +455,30 @@ Chrome tab ID: 1135439413. **Currently mobile viewport (390x844), on landing pag
 - ✅ Mobile (390x844): Admin analytics — stat cards 2x3 grid, tables fit (AI Feedback column truncated, minor)
 - ✅ Hydration errors on pages are from Claude-in-Chrome browser extension, not app bugs
 
+### Browser Testing (Iteration 13)
+- ✅ Admin: School Detail (Washington MS) on desktop — 4 stat cards (3 Teachers, 16 Students, 9 Classes, 80% Avg), Teachers table, Classes section
+- ✅ Mobile (390x844): Admin School Detail — 2x2 stat grid, Teachers table fits, Classes table with 9 rows, Top Subjects (Science 84%, ELA 76%), Mastery Distribution (23 Adv, 38 Pro, 32 Dev, 23 Beg)
+- ✅ SPED: Progress Monitoring data entry — Goal dropdown (Reading Fluency, Written Expression), Value input, Unit dropdown (wpm, %, rubric 0-4, count), Notes textarea, "+ Record Data Point" button
+- ✅ SPED: Ethan Nakamura progress — 1 active goal (Organization and Task Completion), On Track, baseline 45% → target 80%, 8 data points, latest 65%, clear upward trend
+- ✅ Mobile (390x844): Teacher Messages — 6+ messages stacked cleanly with type badges, dates, preview text
+- ✅ Mobile: Compose dialog — To dropdown (Sarah Chen Parent, Marcus Williams Parent), Subject, Message textarea, Send button — all fit 390px viewport
+- ✅ Student (Aisha): AI Tutor hub on desktop — 6 colorful subject cards (3x2), greeting, Recent Sessions (Math Linear Equations), no Suggested Practice (correct — high mastery)
+- ✅ Student: Tutor chat on desktop — ELA badge, timer, End Session button, Socratic response ("what do you already know about..."), "Powered by Claude" badge, input hint
+- ✅ Teacher (Rivera): Early Warning — 16 students, 3 High Risk, 5 Moderate, 8 On Track, expandable AI interventions (3 numbered, specific, data-driven recommendations per student)
+- ✅ Teacher: Rubrics — 1 template (Essay Writing Rubric), 4 criteria, 4 levels, "+ Create Rubric" button
+- ✅ Student (Aisha): Dashboard — bug #67 fix confirmed: 1 Completed Assignment, 92% avg, 2 Tutor Sessions
+- ✅ Landing page full scroll: Hero → Stats → 5 Modules → How It Works → CTA → Demo Credentials → Footer — all polished
+
 ### Dev Server
 Background task b7d8737 running `npm run dev` on localhost:3000.
-Chrome tab ID: 1135439413. Currently desktop viewport, admin analytics page.
+Chrome tab ID: 1135439413. Currently desktop viewport, landing page.
 
-### Next Steps (Iteration 13+)
-- Test teacher early warning expandable interventions (key demo feature)
-- Test admin school detail on mobile
-- Test SPED progress monitoring data entry
-- Check for any remaining raw markdown, N/A, or formatting issues
-- Broader sweep: message compose on mobile, tutor chat on desktop
+### Next Steps (Iteration 14+)
+- Test login page quick demo buttons (verified working earlier, re-check)
+- Test SPED IEP creation wizard submission (end-to-end)
+- Verify remaining edge cases on mobile: quiz detail, report card detail
+- Check for any remaining formatting issues across all roles
+- Final comprehensive sweep of all pages
 
 ## Verified Endpoints (all working)
 - /api/health — 200
