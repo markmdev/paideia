@@ -2,8 +2,6 @@ import { auth } from '@/lib/auth'
 import { db } from '@/lib/db'
 import {
   submissions,
-  feedbackDrafts,
-  criterionScores,
   assignments,
   rubrics,
   rubricCriteria,
@@ -12,7 +10,7 @@ import {
 import { eq, desc, and, inArray } from 'drizzle-orm'
 import { NextResponse } from 'next/server'
 import { gradeSubmission } from '@/lib/ai/grade-submission'
-import type { GradeSubmissionInput } from '@/lib/ai/grade-submission'
+import { buildRubricInput, persistGradingResult } from '@/lib/grading-helpers'
 
 export async function GET(req: Request) {
   const session = await auth()
@@ -174,74 +172,15 @@ export async function POST(req: Request) {
       .where(eq(submissions.id, targetSubmission.id))
 
     // Build AI grading input
-    const gradeInput: GradeSubmissionInput = {
+    const { rubric: rubricData, assignment: assignmentData } = buildRubricInput(rubric, criteria, assignment)
+
+    const gradingResult = await gradeSubmission({
       studentWork: targetSubmission.content,
-      rubric: {
-        title: rubric.title,
-        levels: JSON.parse(rubric.levels) as string[],
-        criteria: criteria.map((c) => ({
-          id: c.id,
-          name: c.name,
-          description: c.description ?? '',
-          weight: c.weight,
-          descriptors: JSON.parse(c.descriptors) as Record<string, string>,
-        })),
-      },
-      assignment: {
-        title: assignment.title,
-        description: assignment.description,
-        instructions: assignment.instructions ?? undefined,
-        subject: assignment.subject,
-        gradeLevel: assignment.gradeLevel,
-      },
-    }
-
-    const gradingResult = await gradeSubmission(gradeInput)
-
-    // Delete existing feedback and scores if re-grading
-    await db.delete(feedbackDrafts).where(eq(feedbackDrafts.submissionId, targetSubmission.id))
-    await db.delete(criterionScores).where(eq(criterionScores.submissionId, targetSubmission.id))
-
-    // Store feedback draft
-    await db.insert(feedbackDrafts).values({
-      submissionId: targetSubmission.id,
-      teacherId: session.user.id,
-      aiFeedback: gradingResult.overallFeedback,
-      strengths: JSON.stringify(gradingResult.strengths),
-      improvements: JSON.stringify(gradingResult.improvements),
-      nextSteps: JSON.stringify(gradingResult.nextSteps),
-      aiMetadata: JSON.stringify({
-        misconceptions: gradingResult.misconceptions,
-        letterGrade: gradingResult.letterGrade,
-      }),
-      status: 'draft',
+      rubric: rubricData,
+      assignment: assignmentData,
     })
 
-    // Store criterion scores
-    if (gradingResult.criterionScores.length > 0) {
-      await db.insert(criterionScores).values(
-        gradingResult.criterionScores.map((cs) => ({
-          submissionId: targetSubmission!.id,
-          criterionId: cs.criterionId,
-          level: cs.level,
-          score: cs.score,
-          maxScore: cs.maxScore,
-          justification: cs.justification,
-        }))
-      )
-    }
-
-    // Update submission with scores and status
-    await db
-      .update(submissions)
-      .set({
-        status: 'graded',
-        totalScore: gradingResult.totalScore,
-        maxScore: gradingResult.maxScore,
-        letterGrade: gradingResult.letterGrade,
-        gradedAt: new Date(),
-      })
-      .where(eq(submissions.id, targetSubmission.id))
+    await persistGradingResult(targetSubmission.id, session.user.id, gradingResult)
 
     return NextResponse.json(
       {

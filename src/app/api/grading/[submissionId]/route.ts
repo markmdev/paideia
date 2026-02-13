@@ -12,7 +12,7 @@ import {
 import { eq, and } from 'drizzle-orm'
 import { NextResponse } from 'next/server'
 import { gradeSubmission } from '@/lib/ai/grade-submission'
-import type { GradeSubmissionInput } from '@/lib/ai/grade-submission'
+import { buildRubricInput } from '@/lib/grading-helpers'
 
 export async function GET(
   _req: Request,
@@ -287,26 +287,22 @@ export async function PUT(
         .from(rubricCriteria)
         .where(eq(rubricCriteria.rubricId, rubric.id))
 
-      const gradeInput: GradeSubmissionInput = {
-        studentWork: submission.content,
-        rubric: {
-          title: rubric.title,
-          levels: JSON.parse(rubric.levels) as string[],
-          criteria: criteria.map((c) => ({
-            id: c.id,
-            name: c.name,
-            description: c.description ?? '',
-            weight: c.weight,
-            descriptors: JSON.parse(c.descriptors) as Record<string, string>,
-          })),
-        },
-        assignment: {
+      const { rubric: rubricData, assignment: assignmentData } = buildRubricInput(
+        rubric,
+        criteria,
+        {
           title: submission.assignmentTitle,
           description: submission.assignmentDescription,
-          instructions: submission.assignmentInstructions ?? undefined,
+          instructions: submission.assignmentInstructions,
           subject: submission.subject,
           gradeLevel: submission.gradeLevel,
-        },
+        }
+      )
+
+      const gradeInput = {
+        studentWork: submission.content,
+        rubric: rubricData,
+        assignment: assignmentData,
         feedbackTone: feedbackTone ?? undefined,
         teacherGuidance: teacherEdits ?? undefined,
       }
