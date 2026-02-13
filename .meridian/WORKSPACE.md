@@ -1,21 +1,3 @@
-- ✅ Teacher: Grading detail - stat cards, submission list with realistic names
-- ✅ Student dashboard (Aisha Torres) - greeting, stats correct
-- ✅ Student: Assignments - shows class assignments, no Create button (fixed)
-- ✅ Student: My Classes - "8th Grade ELA - Period 1", Ms. Rivera
-- ✅ Student: Progress page - 85% mastery, ELA skills with progress bars
-- ✅ Student: AI Tutor hub - colorful subject cards, personalized greeting
-- ✅ Student: AI Tutor chat - streaming Socratic response works, subject badge fixed
-- ✅ Student: Tutor session preview - markdown stripped, clean text (verified fix)
-- ✅ Parent dashboard (Sarah Chen) - greeting, children section
-- ✅ Parent: My Children - Aisha Torres card with "8th Grade", On Track badge
-- ✅ Parent: Child detail - stats cards, Skills Snapshot, progress summaries empty state
-- ✅ Parent: Progress page - 85% mastery, ELA skills with progress bars
-- ✅ Parent: Messages - clean empty state
-- ✅ Admin dashboard (Dr. Williams) - greeting, stats, analytics
-- ✅ Admin: Schools (pluralization fixed), Teachers, Students (grade level "8th Grade", N/A for nulls)
-- ✅ Admin: District Analytics - stat cards, mastery distribution badges, avg scores by subject (N/A fixed)
-- ✅ Admin: Teacher Engagement table - Mrs. Chen, Ms. Rivera, Mr. Okafor
-- ✅ SPED Teacher dashboard (Ms. Rodriguez) - greeting, Special Education section
 - ✅ SPED: IEP Management (caseload), IEP Detail, Create IEP form (5-step wizard)
 - ✅ SPED: Exit Tickets, Compliance Dashboard (color-coded deadlines, days left badges)
 - ✅ SPED: Early Warning - 1 student (DeShawn), On Track badge
@@ -477,12 +459,27 @@ Chrome tab ID: 1135439413. **Currently mobile viewport (390x844), on landing pag
 Background task b7d8737 running `npm run dev` on localhost:3000.
 Chrome tab ID: 1135439413. Currently desktop viewport (1280x900), on teacher dashboard. Signed in as rivera@school.edu.
 
-### Next Steps (Iteration 16+)
-- Test /api/auth/signout GET (custom signout page?)
-- Test assignment new/edit pages for grade level formatting
-- Final mobile sweep of any remaining untested pages
-- Consider running full test suite to verify no regressions
-- Consider running code health review after all polish iterations
+### Browser Testing (Iteration 16)
+- ✅ Teacher: Create Assignment wizard (desktop) — 3-step stepper, Learning Objective textarea, Class/Assignment Type/Subject/Grade Level/Standards fields, "Generate with AI" button
+- ✅ Teacher: Create Rubric (desktop) — two-panel layout (Assignment Details + Proficiency Levels), tag badges with removable levels + Add, "Generate with AI"
+- ✅ Teacher: Generate Quiz (desktop) — 3-step stepper, Topic/Subject/Grade/NumQuestions/Difficulty/Question Types toggles (MC/Short/Essay)/Standards, "Generate with AI"
+- ✅ Teacher: Create Lesson Plan (desktop) — AI Lesson Plan Generator card, Subject/Grade/Topic/Duration/Model, full-width "Generate with AI"
+- ✅ Teacher: Exit Ticket Generator (desktop) — Topic/Grade/Subject/Questions/Lesson Context, "Generate Exit Ticket"
+- ✅ Teacher: Reports & Analytics (desktop) — 5 class cards with mastery distribution bars, Period 4-5 "No mastery data yet"
+- ✅ Mobile (390x844): Assignment creation — stepper + all fields stack cleanly, button accessible
+- ✅ Mobile: Rubric creation — two-panel stacks to single column, proficiency level tags fit
+- ✅ Mobile: Quiz creation — all fields + Question Type toggles fit in row
+- ✅ Mobile: Lesson plan creation — all fields stack, full-width button
+- ✅ Mobile: Exit tickets — all fields fit, button accessible
+- ✅ Mobile: IEP creation wizard step 1 — 5-step icon stepper (person/doc/target/shield/check), Student Info form, Back/Next nav
+- ✅ SPED: IEP creation stepper icons (zoomed) — clear and legible on mobile
+
+### Next Steps (Iteration 17+)
+- Test reports detail heatmap page (click through from reports list)
+- Test teacher assignment edit page
+- Run full test suite to confirm no regressions
+- Consider running code health review after polish iterations
+- Test remaining edge cases and empty states
 
 ## Verified Endpoints (all working)
 - /api/health — 200
