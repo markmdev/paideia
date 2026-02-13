@@ -10,7 +10,7 @@ This is that experiment. The AI Teaching OS is a K-12 education platform with 55
 
 **To build the application:**
 
-1. Give this entire `spec/` directory to an AI coding agent (Claude Code, Cursor, Devin, etc.)
+1. Give this entire `spec/` directory to an AI coding agent (Claude Code, Cursor, Codex, etc.)
 2. Tell it: *"Translate every English test into a real test in [your language]. Then implement the application until all tests pass. You may not modify the tests."*
 3. The agent produces a fully functional AI Teaching OS.
 
