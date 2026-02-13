@@ -1,23 +1,3 @@
-- API: /api/parent/dashboard, /api/parent/children/[childId], /api/messages
-- UI: /dashboard/children, /dashboard/progress, /dashboard/messages
-- Creative Opus: native LLM multilingual translation
-- Verified: Parent Sarah Chen sees child Aisha Torres, all pages 200
-
-## Phase 6 Complete: Student AI Tutor
-Commits: 55f5003, fd4e7a7, e1c4813, bf9633f, 237a391
-- AI service: tutor.ts with streaming Socratic responses (anthropic.messages.stream())
-- API: /api/tutor (streaming POST), /api/tutor/sessions
-- UI: /dashboard/tutor (hub + chat interface)
-- Creative Opus: STREAMING real-time Socratic tutoring — the showpiece feature
-- Verified: Student Aisha gets Socratic responses for "2x + 5 = 13" — AI asks guiding questions
-
-## Phase 7 Complete: District Intelligence
-Commits: f216d3d (API), ea2ac10 (UI)
-- Admin API: /api/admin/overview, /api/admin/analytics, /api/admin/schools (500 error — needs fix), /api/admin/teachers, /api/admin/students, /api/admin/insights
-- Admin UI: /dashboard/analytics (with loading.tsx), /dashboard/schools, /dashboard/teachers, /dashboard/students
-- Components: stat-card, ai-insights, student-search, student-table
-- AI service: district-insights.ts — Opus generates narrative insights from aggregate data
-- Verified: Login as williams@school.edu (admin), overview returns real data (2 schools, 5 teachers, 22 students), analytics returns mastery distribution, teachers returns engagement metrics, students returns performance data
 - BUG: /api/admin/schools returns 500 — needs investigation and fix
 
 ## Phase 8 Complete: Integration & Polish
@@ -474,17 +454,33 @@ Ran `npm run db:seed` after seed data double-dash fix (commit 5859fa8). All em d
 ### Bugs Found & Fixed (Iteration 8-9)
 61. ✅ Tutor chat input empty when arriving from "Suggested Practice" — added initialValue prop to ChatInput, pre-fills with "I need help with: [topic]" from URL param. Commit c538595.
 
+### Bugs Found & Fixed (Iteration 10)
+62. ✅ Report Cards: "1 drafts" → "1 draft" — pluralization fix + Number() coercion for SQL count comparison (commits de6f906, 09d5df9)
+63. ✅ Reports mastery heatmap: Science standards (HS-LS1-*) leaked into ELA class report — added innerJoin with standards table filtered by cls.subject (commit 52c2ebc)
+
+### Browser Testing (Iteration 10)
+- ✅ Admin: Student Detail (Ethan Nakamura) — 3 classes, 62% avg, 3 submissions, IEP Status "Active" ADHD
+- ✅ Admin: "View IEP" cross-navigation from student detail → IEP detail page works (navigated to Ethan's IEP)
+- ✅ Admin: IEP Detail (Ethan) — rich PLAAFP, 1 SMART goal (Organization), "Powered by Claude", admin sidebar correct
+- ✅ Admin: Students search — typing "priya" filters to Priya Sharma (58%, 1 Dev 6 Beg) — instant client-side filter
+- ✅ Student (Aisha): My Classes — 1 class (8th Grade ELA - Period 1, Ms. Rivera, 8 students)
+- ✅ Teacher (Rivera): Report Cards — "1 draft" (pluralization fix confirmed), "4 approved", 5 report cards total
+- ✅ Teacher: Reports & Analytics — 5 class cards with mastery distribution bars, "No mastery data yet" for empty classes
+- ✅ Teacher: Reports detail (Period 1 heatmap) — 8 ELA-only standards (science leakage fixed), 7 students, color-coded cells
+- ✅ Mobile (390x844): Reports heatmap — table scrolls horizontally, student names readable, cells sized correctly
+- ✅ Mobile: Landing page — hero (Instrument Serif, CTAs), stats 2x2, module cards stacked single-column with colored borders
+
 ### Dev Server
 Background task b7d8737 running `npm run dev` on localhost:3000.
-Chrome tab ID: 1135439413. **Currently mobile viewport (390x844).**
+Chrome tab ID: 1135439413. **Currently mobile viewport (390x844), on landing page.**
 
-### Next Steps (Iteration 10+)
-- Resize back to desktop (1440x900)
-- Test mobile: grading feedback panel (sign in as Rivera, navigate to graded submission)
-- Test IEP creation wizard end-to-end
-- Test student assignment submission (SubmitWorkForm for unsubmitted assignment)
-- Test admin "Generate AI District Insights" button
-- Broader sweep: any remaining untested pages or flows
+### Next Steps (Iteration 11+)
+- Continue mobile landing page scroll test (module cards, How It Works, footer)
+- Test student graded feedback view (need to approve feedback first via API or find approved seed data)
+- Test IEP creation wizard end-to-end (step 2-5)
+- Test admin "Generate AI District Insights" button (costs API credits)
+- Test 404 page behavior
+- Broader sweep: any remaining untested pages or edge cases
 
 ## Verified Endpoints (all working)
 - /api/health — 200
