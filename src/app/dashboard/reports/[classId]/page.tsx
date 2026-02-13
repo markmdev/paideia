@@ -91,9 +91,24 @@ export default async function ClassMasteryPage({
 
   if (studentIds.length > 0) {
     records = await db
-      .select()
+      .select({
+        id: masteryRecords.id,
+        studentId: masteryRecords.studentId,
+        standardId: masteryRecords.standardId,
+        level: masteryRecords.level,
+        score: masteryRecords.score,
+        assessedAt: masteryRecords.assessedAt,
+        source: masteryRecords.source,
+        notes: masteryRecords.notes,
+      })
       .from(masteryRecords)
-      .where(inArray(masteryRecords.studentId, studentIds))
+      .innerJoin(standards, eq(masteryRecords.standardId, standards.id))
+      .where(
+        and(
+          inArray(masteryRecords.studentId, studentIds),
+          eq(standards.subject, cls.subject)
+        )
+      )
       .orderBy(desc(masteryRecords.assessedAt))
   }
 
