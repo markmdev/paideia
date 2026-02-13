@@ -1,13 +1,3 @@
-- ✅ Registration page (/register) - role dropdown removed, clean form, HTML5 validation
-- ✅ Teacher dashboard (Ms. Rivera) - greeting correct, all stats
-- ✅ Teacher: Assignments list, Create Assignment form (3-step wizard), Lesson Plans list
-- ✅ Teacher: Create Lesson Plan form, Rubrics (1 template, 4 criteria, 4 levels)
-- ✅ Teacher: Quizzes list (empty state with CTA), Create Quiz form (3-step wizard)
-- ✅ Teacher: Exit Tickets (generator form), Assessment & Grading, Reports, Report Cards
-- ✅ Teacher: Early Warning dashboard (22 students, risk badges, indicator pills)
-- ✅ Teacher: My Classes (5 periods, student counts)
-- ✅ Teacher: Reports & Analytics - mastery bars, class cards, avg scores
-- ✅ Teacher: Report Cards - class cards with "Generate All" buttons
 - ✅ Teacher: Grading detail - stat cards, submission list with realistic names
 - ✅ Student dashboard (Aisha Torres) - greeting, stats correct
 - ✅ Student: Assignments - shows class assignments, no Create button (fixed)
@@ -464,17 +454,35 @@ Chrome tab ID: 1135439413. **Currently mobile viewport (390x844), on landing pag
 - ✅ SPED: IEP Management — 2 students (DeShawn SLD 184d left, Ethan ADHD 244d left)
 - ✅ SPED: IEP Detail (DeShawn) — rich PLAAFP (specific assessment data: F&P Level T, 97 wpm, STAR 18th percentile, 72% spelling), "Edit IEP" button present
 
+### Bugs Found & Fixed (Iteration 15)
+70. ✅ Lesson plan edit page: grade badge showed raw "8" instead of "8th Grade" — added formatGradeLevel to edit page + new page preview. Commit 75bea19.
+
+### Browser Testing (Iteration 15)
+- ✅ SPED: IEP Edit page (DeShawn) — "Edit IEP: DeShawn Williams", Present Levels textarea with full PLAAFP, "Regenerate with AI" button, 2 Goals (Reading Fluency, Written Expression) with all SMART fields editable, 8+ Accommodations with type dropdowns, "Save IEP" button
+- ✅ Teacher: Lesson plan detail — "Analyzing Persuasive Techniques in Media", 8th Grade, ELA, 50 min, standards, all sections
+- ✅ Teacher: Lesson plan edit page — card-based layout, editable title, badges (8th Grade fix confirmed), standards, 3 editable objectives, 5 editable sections (Warm-Up through Closure), materials, differentiation tiers, assessment plan, Save Changes + Cancel buttons
+- ✅ Parent (Sarah Chen): Progress page — "Track your children's mastery across subjects", ELA 84% On Track, 8 ELA skills with bars and levels (2 Advanced, 6 Proficient)
+- ✅ Login page (desktop) — email/password, Sign in, 5 demo buttons (Teacher, Admin, Parent, Student, SPED Teacher), Register link
+- ✅ Login page (mobile 390x844) — all elements fit, 2-column demo buttons, clean responsive
+- ✅ Registration page (desktop) — Name, Email, Password, Confirm Password, "You will be registered as a Teacher" note, Create account, Sign in link
+- ✅ Registration page (mobile 390x844) — all fields fit, button full width, clean responsive
+- ✅ Demo login button (Student Aisha Torres) — JS click works, navigated to student dashboard correctly (browser automation ref click doesn't trigger React handlers — known limitation, not code bug)
+- ✅ Teacher (Rivera): Rubrics list — 1 template (Essay Writing Rubric), 4 criteria, 4 levels, "+ Create Rubric" button
+- ✅ Teacher: Rubric detail — full 4x4 color-coded grid (Thesis/Evidence/Organization/Language × Beginning/Developing/Proficient/Advanced), 25% weights each, "Use in Assignment" + "Delete" buttons
+- ✅ Teacher: Dashboard — 5 stat cards (5 classes, 13 pending, 3 assignments, 16 students, 1 unread), Quick Actions, full sidebar
+- ✅ Landing page full scroll (desktop) — Hero → Stats (5+/13/100+/6) → 6 Module Cards → How It Works → CTA → Demo Credentials → Footer (FERPA/COPPA/IDEA/SOC 2)
+- ✅ Grade level formatting audit: ALL display-level gradeLevel usages go through formatGradeLevel across entire dashboard
+
 ### Dev Server
 Background task b7d8737 running `npm run dev` on localhost:3000.
-Chrome tab ID: 1135439413. Currently desktop viewport, on DeShawn's IEP detail page. Signed in as rodriguez@school.edu.
+Chrome tab ID: 1135439413. Currently desktop viewport (1280x900), on teacher dashboard. Signed in as rivera@school.edu.
 
-### Next Steps (Iteration 15+)
-- Test IEP Edit page flow
-- Test lesson plan edit page
-- Test parent /dashboard/progress page (separate from student-progress)
-- Test login page quick demo buttons (was attempted in iteration 13, worked on mobile)
-- Final sweep: verify all formatting consistent across all pages
-- Consider: custom signout page for /api/auth/signout GET
+### Next Steps (Iteration 16+)
+- Test /api/auth/signout GET (custom signout page?)
+- Test assignment new/edit pages for grade level formatting
+- Final mobile sweep of any remaining untested pages
+- Consider running full test suite to verify no regressions
+- Consider running code health review after all polish iterations
 
 ## Verified Endpoints (all working)
 - /api/health — 200
