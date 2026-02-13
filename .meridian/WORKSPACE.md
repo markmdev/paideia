@@ -1,15 +1,27 @@
-## Current Status
+## Current Status (2026-02-13 08:57)
 
-Lesson plan creation page UX fixes — ALL VERIFIED in browser:
-1. ✅ **Markdown rendering** — ReactMarkdown with preview/edit toggle on all sections and differentiation tiers
-2. ✅ **Standards badges overflow** — Split code from description using multi-delimiter matching (em dash, en dash, hyphen). Code renders as compact monospace badge; description wraps. Commit c87492b.
-3. ✅ **Section heights** — Auto-sizing textareas with min-h-40, dynamic rows based on content
+**All clear.** 30 iterations of browser testing + polish completed. 192/192 tests passing, zero TS errors, production build clean.
+
+### Most Recent Work: Lesson Plan Creation Page UX Fixes
+User reported raw markdown, standards overflow, and truncated sections on `/dashboard/lesson-plans/new`. Fixed and browser-verified:
+1. ✅ **Markdown rendering** — ReactMarkdown with preview/edit toggle on all LessonSection and DifferentiationTier components
+2. ✅ **Standards badges overflow** — Split standard code from description using multi-delimiter matching (em dash, en dash, plain hyphen). Code renders as compact monospace badge; description wraps. Commit c87492b.
+3. ✅ **Section heights** — Auto-sizing textareas with min-h-40, dynamic rows based on content line count
 4. ✅ **Assessment Plan empty state** — Friendly message when AI doesn't generate one
-5. ✅ **Differentiation tiers** — Three columns with colored badges and rich markdown
+5. ✅ **Differentiation tiers** — Three columns with colored badges and rich markdown content
+
+Key insight: The AI generates standards with plain ASCII hyphens (` - `), not em dashes (` — `). The original code only split on em dash, causing the entire standard text to render as one overflowing badge.
+
+### Known Not-Built
+- `/dashboard/mastery/[id]` route — never implemented. User encountered 404. Not a regression, just unbuilt.
 
 ### Dev Server
-Background task b7d8737 running `npm run dev` on localhost:3000.
-Chrome tab ID: 1135439413. Currently desktop viewport (1280x900), on lesson plan creation page.
+Run `npm run dev` for localhost:3000. Signed in as rivera@school.edu for teacher view.
+
+### Build Health
+- TypeScript: zero errors
+- Tests: 192/192 passing across 24 files
+- Production build: all ~100 routes compile clean
 
 ---
 
