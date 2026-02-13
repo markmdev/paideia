@@ -44,6 +44,7 @@ export default function TutorSessionPage() {
 
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const initialSubject = searchParams.get('subject')
+  const initialTopic = searchParams.get('topic')
   const [subjectState] = useState(initialSubject ?? 'General')
   const subject = session?.subject ?? subjectState
   const [startTime] = useState(new Date())
@@ -321,6 +322,11 @@ export default function TutorSessionPage() {
             messages.length === 0
               ? `What are you working on in ${subject}?`
               : 'Type your response...'
+          }
+          initialValue={
+            isNew && initialTopic
+              ? `I need help with: ${initialTopic}`
+              : undefined
           }
         />
       )}

@@ -10,10 +10,11 @@ interface ChatInputProps {
   onSend: (message: string) => void
   disabled?: boolean
   placeholder?: string
+  initialValue?: string
 }
 
-export function ChatInput({ onSend, disabled, placeholder }: ChatInputProps) {
-  const [message, setMessage] = useState('')
+export function ChatInput({ onSend, disabled, placeholder, initialValue }: ChatInputProps) {
+  const [message, setMessage] = useState(initialValue ?? '')
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 
   const handleSend = useCallback(() => {
