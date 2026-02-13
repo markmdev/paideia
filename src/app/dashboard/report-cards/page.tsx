@@ -174,13 +174,13 @@ export default async function ReportCardsPage() {
                     <div className="flex items-center justify-between text-xs text-stone-500">
                       <span className="flex items-center gap-1">
                         <Users className="size-3" />
-                        {total} report cards
+                        {total} report {total === 1 ? 'card' : 'cards'}
                       </span>
                       <div className="flex items-center gap-2">
                         {drafts > 0 && (
                           <span className="flex items-center gap-1">
                             <Clock className="size-3 text-amber-500" />
-                            {drafts} drafts
+                            {drafts} {drafts === 1 ? 'draft' : 'drafts'}
                           </span>
                         )}
                         {approved > 0 && (
