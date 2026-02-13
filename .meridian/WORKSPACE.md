@@ -471,14 +471,18 @@ Chrome tab ID: 1135439413. **Currently mobile viewport (390x844), on landing pag
 
 ### Dev Server
 Background task b7d8737 running `npm run dev` on localhost:3000.
-Chrome tab ID: 1135439413. Currently desktop viewport, landing page.
+Chrome tab ID: 1135439413. Currently desktop viewport, on NextAuth signout page (unstyled).
+
+### Potential Bug Found (Iteration 13)
+- ⚠️ Direct navigation to /api/auth/signout shows unstyled NextAuth default signout page (dark theme). The app's user menu Sign Out button likely uses programmatic signout which redirects to /login cleanly. This URL is not user-facing in normal flow, but if someone navigates directly they see an unstyled page. Low priority — the in-app sign out flow was verified working in earlier iterations.
 
 ### Next Steps (Iteration 14+)
-- Test login page quick demo buttons (verified working earlier, re-check)
+- Sign out and test login page quick demo buttons
 - Test SPED IEP creation wizard submission (end-to-end)
 - Verify remaining edge cases on mobile: quiz detail, report card detail
 - Check for any remaining formatting issues across all roles
 - Final comprehensive sweep of all pages
+- Consider: Should the /api/auth/signout GET be handled with a custom page?
 
 ## Verified Endpoints (all working)
 - /api/health — 200
