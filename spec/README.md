@@ -1,16 +1,16 @@
 # AI Teaching OS — Executable English Specification
 
-> **This repository contains no application code.** It contains a complete behavioral specification — architecture, data model, AI service contracts, and 300+ tests written in plain English — that any AI coding agent can implement in any programming language.
+> **This directory contains no application code.** It contains a complete behavioral specification — architecture, data model, AI service contracts, and **943 tests written in plain English** — that any AI coding agent can implement in any programming language.
 
 ## The Concept
 
 What if you could describe an entire application so precisely in English that an AI agent could build it from scratch?
 
-This is that experiment. The AI Teaching OS is a K-12 education platform with 55+ API endpoints, 40+ dashboard pages, 13 AI service modules, and 31+ database tables. Instead of shipping code, we ship the **specification**: behavioral tests and architectural contracts written in plain English.
+This is that experiment. The AI Teaching OS is a K-12 education platform with 55 API endpoints, 40+ dashboard pages, 21 AI service functions, and 31+ database tables. Instead of shipping code, we ship the **specification**: behavioral tests and architectural contracts written in plain English.
 
 **To build the application:**
 
-1. Give this entire `spec/` directory to an AI coding agent (Claude Code, Cursor, Codex, etc.)
+1. Give this entire `spec/` directory to an AI coding agent (Claude Code, Cursor, Devin, etc.)
 2. Tell it: *"Translate every English test into a real test in [your language]. Then implement the application until all tests pass. You may not modify the tests."*
 3. The agent produces a fully functional AI Teaching OS.
 
@@ -20,7 +20,7 @@ The specification is language-agnostic. It works for TypeScript/Next.js, Go/Chi,
 
 This is a submission for the Anthropic hackathon demonstrating **creative usage of Claude Opus**. The creative angle:
 
-- Claude Opus built the original application (55 routes, 40+ pages, 13 AI modules, 192 tests)
+- Claude Opus built the original application (55 routes, 40+ pages, 21 AI service functions, 192 coded tests)
 - Claude Opus then distilled the running application into this language-agnostic specification
 - Any Claude instance can reconstruct the application from this specification alone
 - **The code is ephemeral. The specification is the product.**
@@ -32,22 +32,24 @@ This demonstrates that AI can work at the *specification level* — understandin
 ```
 spec/
 ├── README.md                        # You are here
-├── ARCHITECTURE.md                  # System design, modules, patterns, decisions
-├── SCHEMA.md                        # Complete data model (every table, column, relationship)
-├── AI_CONTRACTS.md                  # AI service behavioral contracts (inputs → outputs)
-└── tests/
-    ├── auth.tests.md                # Authentication, authorization, role guards
-    ├── assignments.tests.md         # Assignment CRUD and AI generation
-    ├── grading.tests.md             # Grading, batch processing, analytics, differentiation
-    ├── content-generation.tests.md  # Rubrics, lesson plans, quizzes, exit tickets
-    ├── iep-compliance.tests.md      # IEP lifecycle, SPED compliance, progress monitoring
-    ├── mastery-analytics.tests.md   # Mastery tracking, gap analysis, early warning
-    ├── communication.tests.md       # Messaging, translation, contacts
-    ├── parent-portal.tests.md       # Parent dashboard, child detail, progress narratives
-    ├── student-experience.tests.md  # Student dashboard, progress, AI tutor
-    ├── admin-district.tests.md      # District analytics, schools, teachers, report cards
-    └── ui-pages.tests.md           # All dashboard pages, landing page, navigation
+├── ARCHITECTURE.md                  # System design, modules, patterns, decisions (798 lines)
+├── SCHEMA.md                        # Complete data model — every table, column, relationship (969 lines)
+├── AI_CONTRACTS.md                  # 21 AI service behavioral contracts (1,548 lines)
+└── tests/                           # 943 behavioral tests (12,553 lines)
+    ├── auth.tests.md                # 128 tests — authentication, authorization, role guards
+    ├── admin-district.tests.md      # 100 tests — district analytics, schools, teachers, report cards
+    ├── ui-pages.tests.md            #  99 tests — dashboard shell, navigation, landing page, patterns
+    ├── iep-compliance.tests.md      #  98 tests — IEP lifecycle, SPED compliance, progress monitoring
+    ├── grading.tests.md             #  91 tests — grading, batch processing, analytics, differentiation
+    ├── student-experience.tests.md  #  89 tests — student dashboard, progress, AI tutor
+    ├── content-generation.tests.md  #  85 tests — rubrics, lesson plans, quizzes, exit tickets
+    ├── mastery-analytics.tests.md   #  82 tests — mastery tracking, gap analysis, early warning
+    ├── communication.tests.md       #  68 tests — messaging, translation, contacts
+    ├── parent-portal.tests.md       #  54 tests — parent dashboard, child detail, progress narratives
+    └── assignments.tests.md         #  49 tests — assignment CRUD and AI generation
 ```
+
+**Total: 15,987 lines of specification across 15 files.**
 
 ## Test Format
 
@@ -75,6 +77,8 @@ Every test uses BDD-style English with Given/When/Then:
   - createdAt: a valid timestamp
 **And** the assignment is retrievable via GET /api/assignments
 ```
+
+Tests are specific about HTTP methods, paths, request bodies with field names and types, response status codes, response body structure, role requirements, and error cases. Every API endpoint has tests for success, unauthorized (401), forbidden (403), not found (404), and validation errors (400).
 
 ## Rules for Implementing Agents
 
@@ -109,11 +113,14 @@ A K-12 education platform with 5 interconnected modules and a student AI tutor:
 
 The original implementation (which this spec describes):
 
-- **55** API route handlers
-- **40+** dashboard pages
-- **13** AI service modules
-- **31+** database tables
-- **192** passing tests
-- **5** user roles with complete RBAC
-- **0** TypeScript errors
-- **~100** compiled routes in production build
+| Metric | Count |
+|--------|-------|
+| API route handlers | 55 |
+| Dashboard pages | 40+ |
+| AI service functions | 21 |
+| Database tables | 31+ |
+| English behavioral tests | 943 |
+| Coded tests (Vitest) | 192 |
+| User roles with full RBAC | 5 |
+| Lines of specification | 15,987 |
+| Compiled production routes | ~100 |
