@@ -6,6 +6,7 @@ import { db } from '@/lib/db'
 import { users } from '@/lib/db/schema'
 import { eq } from 'drizzle-orm'
 import bcrypt from 'bcryptjs'
+import { DEMO_SEED_EMAILS } from './demo-constants'
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   adapter: DrizzleAdapter(db) as NextAuthConfig['adapter'],
@@ -23,8 +24,13 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) return null
 
+        const email = credentials.email as string
+
+        // Block direct login for seed demo accounts — use demo button instead
+        if (DEMO_SEED_EMAILS.has(email)) return null
+
         const user = await db.query.users.findFirst({
-          where: eq(users.email, credentials.email as string),
+          where: eq(users.email, email),
         })
 
         if (!user?.passwordHash) return null
