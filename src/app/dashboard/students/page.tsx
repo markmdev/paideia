@@ -1,6 +1,7 @@
 import { redirect } from 'next/navigation'
 import { cookies } from 'next/headers'
 import { auth } from '@/lib/auth'
+import { getBaseUrl } from '@/lib/url'
 import { GraduationCap } from 'lucide-react'
 import { StudentTable } from '@/components/admin/student-table'
 
@@ -24,7 +25,7 @@ export default async function StudentsPage() {
     redirect('/dashboard')
   }
 
-  const baseUrl = process.env.NEXTAUTH_URL || 'http://localhost:3000'
+  const baseUrl = await getBaseUrl()
   const cookieStore = await cookies()
   const res = await fetch(`${baseUrl}/api/admin/students`, {
     headers: { cookie: cookieStore.toString() },

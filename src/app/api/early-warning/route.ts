@@ -11,6 +11,10 @@ import { eq, and, inArray, gte, desc } from 'drizzle-orm'
 import { NextRequest, NextResponse } from 'next/server'
 import { generateStudentInterventions } from '@/lib/ai/early-warning'
 
+// Cache AI recommendations for 5 minutes to avoid re-analysis on every page load
+const recommendationCache = new Map<string, { data: Map<string, string[]>; expiresAt: number }>()
+const CACHE_TTL_MS = 5 * 60 * 1000
+
 interface StudentRisk {
   id: string
   name: string
@@ -297,13 +301,44 @@ export async function GET(req: NextRequest) {
           }
         })
 
-        const result = await generateStudentInterventions(flaggedInput)
+        const cacheKey = session.user.id
+        const now = Date.now()
 
-        // Match recommendations back to students using anonymized labels
-        for (const rec of result.students) {
-          const match = anonymizedIdToStudent.get(rec.studentLabel)
-          if (match) {
-            match.recommendations = rec.recommendations
+        // Clean up expired cache entries
+        for (const [key, entry] of recommendationCache) {
+          if (entry.expiresAt <= now) {
+            recommendationCache.delete(key)
+          }
+        }
+
+        const cached = recommendationCache.get(cacheKey)
+        if (cached && cached.expiresAt > now) {
+          // Apply cached recommendations using anonymized labels
+          for (const [anonId, recommendations] of cached.data) {
+            const match = anonymizedIdToStudent.get(anonId)
+            if (match) {
+              match.recommendations = recommendations
+            }
+          }
+        } else {
+          const result = await generateStudentInterventions(flaggedInput)
+
+          // Build cache entry from AI results
+          const cacheData = new Map<string, string[]>()
+          for (const rec of result.students) {
+            cacheData.set(rec.studentLabel, rec.recommendations)
+          }
+          recommendationCache.set(cacheKey, {
+            data: cacheData,
+            expiresAt: now + CACHE_TTL_MS,
+          })
+
+          // Match recommendations back to students using anonymized labels
+          for (const rec of result.students) {
+            const match = anonymizedIdToStudent.get(rec.studentLabel)
+            if (match) {
+              match.recommendations = rec.recommendations
+            }
           }
         }
       } catch (error) {

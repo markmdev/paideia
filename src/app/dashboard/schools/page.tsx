@@ -2,6 +2,7 @@ import { redirect } from 'next/navigation'
 import { cookies } from 'next/headers'
 import Link from 'next/link'
 import { auth } from '@/lib/auth'
+import { getBaseUrl } from '@/lib/url'
 import { Building2, Users, GraduationCap, BookOpen, FileText } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -31,7 +32,7 @@ export default async function SchoolsPage() {
     redirect('/dashboard')
   }
 
-  const baseUrl = process.env.NEXTAUTH_URL || 'http://localhost:3000'
+  const baseUrl = await getBaseUrl()
   const cookieStore = await cookies()
   const res = await fetch(`${baseUrl}/api/admin/schools`, {
     headers: { cookie: cookieStore.toString() },

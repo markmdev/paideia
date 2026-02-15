@@ -1,6 +1,7 @@
 import { redirect } from 'next/navigation'
 import { cookies } from 'next/headers'
 import { auth } from '@/lib/auth'
+import { getBaseUrl } from '@/lib/url'
 import {
   School,
   Users,
@@ -96,7 +97,7 @@ export default async function AnalyticsPage() {
     redirect('/dashboard')
   }
 
-  const baseUrl = process.env.NEXTAUTH_URL || 'http://localhost:3000'
+  const baseUrl = await getBaseUrl()
   const cookieStore = await cookies()
   const headers = {
     cookie: cookieStore.toString(),
