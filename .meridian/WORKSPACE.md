@@ -2,40 +2,15 @@
 
 **Paideia deployed to production.** Live at [usepaideia.com](https://usepaideia.com).
 
-### Active Work: Fixing Reviewer Findings on Demo Clone
+### Reviewer Findings — All Fixed
 
-**Code health reviewer found 4 issues (2 P1, 2 P2). Fixing now.**
+Code health reviewer found 4 issues (2 P1, 2 P2), all resolved:
+- **TEAC-syz8jj (P1):** Added parent + student emails to DEMO_ENTRY_EMAILS
+- **TEAC-0m3fq5 (P1):** 3-phase scoped reads in clone service (user-scoped → parent-ID-scoped → grandchild-ID-scoped)
+- **TEAC-cpc9lz (P2):** Cleanup deletes wrapped in transaction
+- **TEAC-76qssa (P2):** Removed dead cleanExpiredCache() export
 
-**DONE — P1 fix #1:** TEAC-syz8jj — Added parent + student emails to `DEMO_ENTRY_EMAILS` in `src/lib/demo-constants.ts`. Previously parent/student demo buttons would fail with 400 because `sarah.chen@email.com` and `aisha@student.edu` weren't in the entry email set.
-
-**TODO — P1 fix #2:** TEAC-0m3fq5 — Clone reads 17 tables without filtering by seed users. Tables like classes, rubrics, assignments etc. are read with `db.select().from(table)` without filtering. If non-seed data exists, it would get cloned with original FKs. Fix: filter reads by seed user IDs. In `src/lib/demo-clone.ts`, the parallel Promise.all block starting around line 55 needs scoping. Tables to filter:
-- `classes` — filter by classMembers where userId is a seed user
-- `rubrics` — filter where teacherId in seedUserIds
-- `assignments` — filter where teacherId in seedUserIds
-- `lessonPlans` — filter where teacherId in seedUserIds
-- `quizzes` — filter where createdBy in seedUserIds
-- `ieps` — filter where studentId in seedUserIds
-- `messages` — filter where senderId in seedUserIds
-- `notifications` — filter where userId in seedUserIds
-- `tutorSessions` — filter where studentId in seedUserIds
-- `reportCards` — filter where studentId in seedUserIds
-- `feedbackDrafts` — filter by cloned submission IDs (needs 2-pass or subquery)
-- `criterionScores` — filter by cloned submission IDs
-- `classStandards` — filter by cloned class IDs
-- `rubricCriteria` — filter by cloned rubric IDs
-- `differentiatedVersions` — filter by cloned assignment IDs
-- `quizQuestions` — filter by cloned quiz IDs
-- `questionStandards` — filter by cloned question IDs
-- `iepGoals` — filter by cloned IEP IDs
-- `progressDataPoints` — filter by cloned goal IDs
-- `complianceDeadlines` — filter by seed user IDs
-- `parentChildren` — filter by seed user IDs
-
-**TODO — P2 fix #3:** TEAC-cpc9lz — Wrap cleanup in a transaction.
-
-**TODO — P2 fix #4:** TEAC-76qssa — Remove `cleanExpiredCache()` export (dead code — getCached already handles per-key expiry).
-
-**Code reviewer (aea9887) still running in background.**
+Code reviewer (aea9887) was still running at session end — check results next session.
 
 ### Recently Completed: Demo User Isolation + DB Cache
 
@@ -82,13 +57,7 @@ K-12 AI education platform (hackathon submission) with two deliverables:
 - Plus 20 additional students (students[0-19])
 
 ### Open Pebble Issues
-**From code health review (fix now):**
-- TEAC-syz8jj: Demo email constants duplicated (P1) — FIXED, commit pending
-- TEAC-0m3fq5: Clone reads without seed-user scoping (P1) — TODO
-- TEAC-cpc9lz: Cleanup deletes without transaction (P2) — TODO
-- TEAC-76qssa: cleanExpiredCache() never called (P2) — TODO
-
-**Older cosmetic issues:**
+**Cosmetic (not blocking):**
 - TEAC-u05c08: Mastery level config duplicated across 5 files (P2)
 - TEAC-66p252: Analytics page unnecessary Content-Type header (P2)
 - TEAC-h7mh6v: Mastery page header duplication (P2)
