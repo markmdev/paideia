@@ -1,6 +1,6 @@
 import { db } from '@/lib/db'
 import { createId } from '@paralleldrive/cuid2'
-import { isNull, lte, inArray } from 'drizzle-orm'
+import { isNull, lte, inArray, or } from 'drizzle-orm'
 import * as schema from '@/lib/db/schema'
 import { DEMO_SEED_EMAILS } from './demo-constants'
 
@@ -662,7 +662,9 @@ export async function cleanupExpiredDemoSessions(): Promise<void> {
     await tx.delete(schema.reportCards).where(inArray(schema.reportCards.studentId, demoUserIds))
     await tx.delete(schema.tutorSessions).where(inArray(schema.tutorSessions.studentId, demoUserIds))
     await tx.delete(schema.notifications).where(inArray(schema.notifications.userId, demoUserIds))
-    await tx.delete(schema.messages).where(inArray(schema.messages.senderId, demoUserIds))
+    await tx.delete(schema.messages).where(
+      or(inArray(schema.messages.senderId, demoUserIds), inArray(schema.messages.receiverId, demoUserIds))
+    )
 
     if (demoGoalIds.length > 0) {
       await tx.delete(schema.progressDataPoints).where(inArray(schema.progressDataPoints.goalId, demoGoalIds))
@@ -702,7 +704,9 @@ export async function cleanupExpiredDemoSessions(): Promise<void> {
       await tx.delete(schema.classStandards).where(inArray(schema.classStandards.classId, demoClassIds))
     }
     await tx.delete(schema.classMembers).where(inArray(schema.classMembers.userId, demoUserIds))
-    await tx.delete(schema.parentChildren).where(inArray(schema.parentChildren.parentId, demoUserIds))
+    await tx.delete(schema.parentChildren).where(
+      or(inArray(schema.parentChildren.parentId, demoUserIds), inArray(schema.parentChildren.childId, demoUserIds))
+    )
     if (demoClassIds.length > 0) {
       await tx.delete(schema.classes).where(inArray(schema.classes.id, demoClassIds))
     }
