@@ -1,4 +1,4 @@
-# AI Teaching OS: Vision & Product Requirements Document
+# Paideia: Vision & Product Requirements Document
 
 ---
 
@@ -24,7 +24,7 @@
 
 ## 1. Executive Summary
 
-The AI Teaching OS is a K-12 education platform that unifies the fragmented teaching lifecycle -- planning, instruction, assessment, communication, and compliance -- into a single AI-native system. While competitors like MagicSchool AI offer 80+ standalone content generation tools and Google Gemini adds generic AI to Classroom, no product connects the full arc from lesson creation through student feedback through parent communication through SPED compliance. Teachers currently stitch together 5-10 separate tools, losing hours to context switching and manual data transfer. The AI Teaching OS closes that loop.
+The Paideia is a K-12 education platform that unifies the fragmented teaching lifecycle -- planning, instruction, assessment, communication, and compliance -- into a single AI-native system. While competitors like MagicSchool AI offer 80+ standalone content generation tools and Google Gemini adds generic AI to Classroom, no product connects the full arc from lesson creation through student feedback through parent communication through SPED compliance. Teachers currently stitch together 5-10 separate tools, losing hours to context switching and manual data transfer. The Paideia closes that loop.
 
 The platform's core innovation is the **Smart Assignment** workflow: teachers create an assignment, the AI generates a standards-aligned rubric and success criteria, the assignment is delivered through the teacher's existing LMS (Google Classroom, Canvas), student work flows back, and the AI drafts individualized feedback scored against the rubric. This collapses the planning-to-assessment cycle into a single continuous experience. No competitor does this today.
 
@@ -63,11 +63,11 @@ Three-tier SaaS with a product-led growth engine:
 
 ### Mission
 
-Reclaim teaching time. Every minute a teacher spends on administrative work is a minute taken from students. The AI Teaching OS exists to automate the mechanical labor of teaching -- grading, formatting, differentiating, documenting, communicating -- so teachers can focus on the irreplaceable human work: mentoring, inspiring, and connecting with their students.
+Reclaim teaching time. Every minute a teacher spends on administrative work is a minute taken from students. The Paideia exists to automate the mechanical labor of teaching -- grading, formatting, differentiating, documenting, communicating -- so teachers can focus on the irreplaceable human work: mentoring, inspiring, and connecting with their students.
 
 ### Vision Statement
 
-The AI Teaching OS is the operating system for K-12 teaching -- not another tool in a teacher's toolbar of 10 apps, but the single intelligence layer where they plan, assess, differentiate, communicate, and comply. It sits on top of existing workflows (Google Classroom, Canvas, PowerSchool) and makes them smarter, rather than replacing them.
+The Paideia is the operating system for K-12 teaching -- not another tool in a teacher's toolbar of 10 apps, but the single intelligence layer where they plan, assess, differentiate, communicate, and comply. It sits on top of existing workflows (Google Classroom, Canvas, PowerSchool) and makes them smarter, rather than replacing them.
 
 ### Core Principles
 
@@ -81,11 +81,11 @@ The AI Teaching OS is the operating system for K-12 teaching -- not another tool
 
 **5. Curriculum-grounded, not generic.** AI outputs are aligned to the teacher's specific state standards, adopted curriculum, and pacing guide. A 4th-grade Texas math lesson references TEKS standards and the district's adopted textbook, not generic content.
 
-**6. Build for the lifecycle, not the moment.** Every assignment, every piece of feedback, every assessment score feeds a longitudinal model that gets smarter about each student over time. The AI Teaching OS doesn't generate content and discard context -- it learns.
+**6. Build for the lifecycle, not the moment.** Every assignment, every piece of feedback, every assessment score feeds a longitudinal model that gets smarter about each student over time. The Paideia doesn't generate content and discard context -- it learns.
 
 ### The Five Modules
 
-The AI Teaching OS is a complete platform composed of five interconnected modules. Each module is valuable on its own, but the real power emerges from the connections between them -- assessment data informs differentiation, differentiation strategies flow into lesson plans, lesson plan outcomes feed back into assessment, student progress drives parent communication, and compliance documentation draws from all of the above.
+The Paideia is a complete platform composed of five interconnected modules. Each module is valuable on its own, but the real power emerges from the connections between them -- assessment data informs differentiation, differentiation strategies flow into lesson plans, lesson plan outcomes feed back into assessment, student progress drives parent communication, and compliance documentation draws from all of the above.
 
 **Module 1: Instructional Design Engine** -- Planning, content generation, and differentiation. The teacher's starting point for creating curriculum-aligned, multi-level instructional materials.
 
@@ -117,7 +117,7 @@ The global education market represents a $7.3 trillion opportunity in 2025, proj
 
 ### Total Addressable Market (TAM)
 
-The AI Teaching OS addresses the intersection of K-12 instruction, assessment, special education compliance, and family engagement:
+The Paideia addresses the intersection of K-12 instruction, assessment, special education compliance, and family engagement:
 
 - **U.S. K-12 public schools**: ~130,000 schools across ~13,000 districts
 - **U.S. K-12 teachers**: ~3.7 million
@@ -172,15 +172,15 @@ The window for an AI-native teaching platform is open now and closing:
 
 ### Competitive Positioning Statement
 
-**"MagicSchool helps teachers create content. The AI Teaching OS helps teachers understand their students."**
+**"MagicSchool helps teachers create content. The Paideia helps teachers understand their students."**
 
-Every competitor in the K-12 AI space generates content: lesson plans, worksheets, quiz questions, rubrics. Content generation is becoming commoditized -- Google Gemini now provides it free inside Classroom, and MagicSchool offers 80+ content tools. The AI Teaching OS occupies a different category: student learning intelligence. Every interaction is stateful, accumulating context about each student's mastery, each teacher's practice, and each classroom's needs over time. This longitudinal intelligence powers assessment feedback, differentiation, SPED compliance, parent communication, and administrative insight -- capabilities no content-generation tool can replicate.
+Every competitor in the K-12 AI space generates content: lesson plans, worksheets, quiz questions, rubrics. Content generation is becoming commoditized -- Google Gemini now provides it free inside Classroom, and MagicSchool offers 80+ content tools. The Paideia occupies a different category: student learning intelligence. Every interaction is stateful, accumulating context about each student's mastery, each teacher's practice, and each classroom's needs over time. This longitudinal intelligence powers assessment feedback, differentiation, SPED compliance, parent communication, and administrative insight -- capabilities no content-generation tool can replicate.
 
-The competitive analogy: **Grammarly is to Google Docs what the AI Teaching OS is to Google Classroom.** Grammarly doesn't compete with Google Docs; it makes documents smarter. The AI Teaching OS doesn't compete with Google Classroom; it makes classrooms smarter. Both accumulate context over time (writing style for Grammarly; learning patterns for us) that creates a deepening moat.
+The competitive analogy: **Grammarly is to Google Docs what the Paideia is to Google Classroom.** Grammarly doesn't compete with Google Docs; it makes documents smarter. The Paideia doesn't compete with Google Classroom; it makes classrooms smarter. Both accumulate context over time (writing style for Grammarly; learning patterns for us) that creates a deepening moat.
 
 ### Competitive Matrix
 
-| Capability | AI Teaching OS | MagicSchool AI | Khanmigo | Brisk Teaching | Diffit | Google Gemini + Classroom |
+| Capability | Paideia | MagicSchool AI | Khanmigo | Brisk Teaching | Diffit | Google Gemini + Classroom |
 |-----------|---------------|---------------|----------|---------------|-------|--------------------------|
 | **Lesson planning** | Standards-aligned, curriculum-grounded | 80+ tools, market leader | Free for teachers | Chrome extension | No | Free, built-in |
 | **Assessment/quiz generation** | Rubric-scaffolded, feeds intelligence engine | Basic quiz gen | Basic | Basic | No | Basic |
@@ -212,7 +212,7 @@ The competitive analogy: **Grammarly is to Google Docs what the AI Teaching OS i
 
 1. **Content generation is commoditized.** Google gives it away free. MagicSchool built 80+ tools. Competing on content generation breadth is a losing strategy. Competing on intelligence depth is wide open.
 
-2. **No competitor is stateful.** Every AI EdTech tool treats each interaction as independent. The AI Teaching OS accumulates understanding of each student over time -- the fundamental architectural difference that enables every downstream capability.
+2. **No competitor is stateful.** Every AI EdTech tool treats each interaction as independent. The Paideia accumulates understanding of each student over time -- the fundamental architectural difference that enables every downstream capability.
 
 3. **The SPED compliance market has no AI-native entrant.** A $2.5-6.8B market served by legacy web forms with zero AI capabilities. Due process hearings cost districts $50K-$200K+ each. An AI-native SPED platform with automated progress monitoring directly reduces litigation risk.
 
@@ -374,7 +374,7 @@ The competitive analogy: **Grammarly is to Google Docs what the AI Teaching OS i
 
 ## 6. Complete Product Specification
 
-*The following describes the fully-realized AI Teaching OS -- every feature, every module, every stakeholder experience.*
+*The following describes the fully-realized Paideia -- every feature, every module, every stakeholder experience.*
 
 ### 6.1 Module 1: Instructional Design Engine
 
@@ -716,11 +716,11 @@ A pedagogically designed, Socratic AI tutoring experience grounded in rigorous e
 
 ### 7.1 Teacher Journey: Ms. Rivera's Sunday Evening
 
-**Before the AI Teaching OS:**
+**Before the Paideia:**
 Ms. Rivera opens Google Classroom to grade 30 essays. She reads each essay (5 min), marks the rubric (3 min), writes feedback (5-7 min), enters the grade in PowerSchool (1 min). Per student: 15 minutes. Total: 7.5 hours. She finishes at midnight. She has no time for differentiation, parent communication, or planning.
 
-**With the AI Teaching OS:**
-Ms. Rivera opens Google Classroom. The Chrome extension detects 30 ungraded submissions. She clicks "Grade with AI Teaching OS." The platform generates rubric-aligned feedback for all 30 in under 2 minutes. She reviews each draft -- reading the feedback, making a small edit here, adding a personal note there -- approving each in 30-60 seconds. Total review time: 20 minutes.
+**With the Paideia:**
+Ms. Rivera opens Google Classroom. The Chrome extension detects 30 ungraded submissions. She clicks "Grade with Paideia." The platform generates rubric-aligned feedback for all 30 in under 2 minutes. She reviews each draft -- reading the feedback, making a small edit here, adding a personal note there -- approving each in 30-60 seconds. Total review time: 20 minutes.
 
 The class insights dashboard shows 12 students struggled with textual evidence. She clicks "Generate Re-teach Lesson" and the platform produces a 45-minute mini-lesson with scaffolded practice, already differentiated into 3 tiers. She assigns the tiered activities to the appropriate student groups directly in Google Classroom.
 
@@ -840,7 +840,7 @@ Total IEP drafting time: under 1 hour (down from 3-10 hours).
 
 ### Design Philosophy
 
-The AI Teaching OS is built on three architectural principles:
+The Paideia is built on three architectural principles:
 
 1. **Stateful intelligence**: Every interaction accumulates context. Student submissions, teacher feedback, assessment results, and learning patterns are stored, connected, and used to improve all subsequent AI outputs. The platform gets smarter with use.
 
@@ -852,7 +852,7 @@ The AI Teaching OS is built on three architectural principles:
 
 ```
 +--------------------------------------------------------------+
-|                      AI Teaching OS                           |
+|                      Paideia                           |
 |                                                               |
 |  +--------------------------------------------------------+  |
 |  |              FREE TIER (No Student PII)                 |  |
@@ -942,13 +942,13 @@ Assignment -> Rubric -> Student Submission -> AI Analysis -> Teacher-Approved Fe
                                         Progress Data   Narratives       Fidelity Metrics
 ```
 
-This data architecture is the platform's competitive moat. Content generation tools (MagicSchool, Brisk, Google Gemini) generate output and discard context. The AI Teaching OS generates output and accumulates intelligence.
+This data architecture is the platform's competitive moat. Content generation tools (MagicSchool, Brisk, Google Gemini) generate output and discard context. The Paideia generates output and accumulates intelligence.
 
 ---
 
 ## 9. Integration Architecture
 
-The AI Teaching OS sits on top of existing school technology. It does not replace Google Classroom, Canvas, or PowerSchool -- it makes them smarter.
+The Paideia sits on top of existing school technology. It does not replace Google Classroom, Canvas, or PowerSchool -- it makes them smarter.
 
 ### LMS Integration (Google Classroom, Canvas)
 
@@ -1133,7 +1133,7 @@ Target ACV: $15,000-$100,000+.
 
 ### Conversion Strategy
 
-**The conversion trigger is longitudinal data, not usage limits.** MagicSchool's trigger ("you hit your generation limit") is adversarial. The AI Teaching OS trigger is aspirational: teacher accumulates a semester of assignment data, sees a preview of mastery trends, and the upgrade sells itself. "You've built something valuable -- unlock its full potential."
+**The conversion trigger is longitudinal data, not usage limits.** MagicSchool's trigger ("you hit your generation limit") is adversarial. The Paideia trigger is aspirational: teacher accumulates a semester of assignment data, sees a preview of mastery trends, and the upgrade sells itself. "You've built something valuable -- unlock its full potential."
 
 This creates the data network effect moat: more upgraded teachers -> more longitudinal data -> smarter AI -> more valuable product -> more teachers.
 
