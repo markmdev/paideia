@@ -21,7 +21,7 @@ export default function Home() {
             <div className="flex size-8 items-center justify-center rounded-lg bg-amber-600 text-white">
               <BookOpen className="size-4" />
             </div>
-            <span className="text-lg font-bold tracking-tight">AI Teaching OS</span>
+            <span className="text-lg font-bold tracking-tight">Paideia</span>
           </div>
           <div className="flex items-center gap-3">
             <Button asChild variant="ghost" size="sm">
@@ -200,7 +200,7 @@ export default function Home() {
               Teachers save 5+ hours every week
             </h2>
             <p className="mt-5 text-lg leading-relaxed text-stone-600">
-              See how AI Teaching OS reduces administrative burden so teachers
+              See how Paideia reduces administrative burden so teachers
               can focus on meaningful instruction.
             </p>
             <div className="mt-10">
@@ -247,7 +247,7 @@ export default function Home() {
             <div className="flex size-6 items-center justify-center rounded bg-amber-600 text-white">
               <BookOpen className="size-3" />
             </div>
-            <span className="font-semibold text-stone-700">AI Teaching OS</span>
+            <span className="font-semibold text-stone-700">Paideia</span>
           </div>
           <span>FERPA &middot; COPPA &middot; IDEA &middot; SOC 2 Compliant</span>
         </div>

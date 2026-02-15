@@ -1,4 +1,4 @@
-# AI Teaching OS
+# Paideia
 
 K-12 education platform with 5 modules + Student AI Tutor, built for the Anthropic hackathon. Unified web app (no Chrome extension) covering instructional design, assessment intelligence, SPED/compliance, family engagement, district intelligence, and Socratic tutoring.
 

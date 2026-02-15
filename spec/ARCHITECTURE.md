@@ -1,12 +1,12 @@
 # Architecture Specification
 
-This document describes the AI Teaching OS system architecture in language-agnostic terms. It provides enough detail for any agent to reimplement the platform in any language or framework while preserving equivalent behavior.
+This document describes the Paideia system architecture in language-agnostic terms. It provides enough detail for any agent to reimplement the platform in any language or framework while preserving equivalent behavior.
 
 ---
 
 ## 1. System Overview
 
-AI Teaching OS is a K-12 education platform that combines five administrative modules with a student-facing AI tutor. It serves as a unified operating system for instructional design, assessment, special education compliance, family engagement, and district-level intelligence.
+Paideia is a K-12 education platform that combines five administrative modules with a student-facing AI tutor. It serves as a unified operating system for instructional design, assessment, special education compliance, family engagement, and district-level intelligence.
 
 ### 1.1 User Roles
 
@@ -493,7 +493,7 @@ The protected dashboard area uses a shell layout with three sections:
 
 **Sidebar (left):**
 - Collapsible to icon-only mode
-- Header: application logo and name ("AI Teaching OS")
+- Header: application logo and name ("Paideia")
 - Navigation: role-aware groups and items (see 5.2)
 - Footer: current user name and email
 - Rail for collapse/expand control

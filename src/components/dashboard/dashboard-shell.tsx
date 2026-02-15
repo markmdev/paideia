@@ -46,7 +46,7 @@ export function DashboardShell({ user, children }: DashboardShellProps) {
           >
             <BookOpen className="size-5 shrink-0 text-primary" />
             <span className="font-semibold text-sm group-data-[collapsible=icon]:hidden">
-              AI Teaching OS
+              Paideia
             </span>
           </Link>
         </SidebarHeader>

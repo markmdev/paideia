@@ -1,6 +1,6 @@
 # Data Model
 
-This document defines every table, column, constraint, and relationship in the AI Teaching OS database. An implementation in any language or ORM must reproduce this schema exactly to support the application's behavioral specifications.
+This document defines every table, column, constraint, and relationship in the Paideia database. An implementation in any language or ORM must reproduce this schema exactly to support the application's behavioral specifications.
 
 ## 1. Overview
 

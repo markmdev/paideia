@@ -1,4 +1,4 @@
-# AI Teaching OS
+# Paideia
 
 A K-12 education platform that unifies the fragmented teaching lifecycle — planning, instruction, assessment, communication, and compliance — into a single AI-native system. Built for the Anthropic hackathon as a demonstration of creative Claude Opus usage.
 

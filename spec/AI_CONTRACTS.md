@@ -1,6 +1,6 @@
 # AI Service Contracts
 
-This document specifies every AI-powered feature in AI Teaching OS. Each contract defines the function signature, system prompt intent, tool schema, behavioral expectations, and a representative example. Any reimplementation that satisfies these contracts will produce a functionally equivalent system.
+This document specifies every AI-powered feature in Paideia. Each contract defines the function signature, system prompt intent, tool schema, behavioral expectations, and a representative example. Any reimplementation that satisfies these contracts will produce a functionally equivalent system.
 
 ---
 

@@ -21,7 +21,7 @@
 **Given** a visitor navigates to "/"
 
 **Then** the sticky header contains a BookOpen icon inside an amber-600 rounded container
-**And** the header displays the text "AI Teaching OS" in bold
+**And** the header displays the text "Paideia" in bold
 **And** the header has a white semi-transparent background with backdrop blur
 
 ---
@@ -144,7 +144,7 @@
 
 **Given** a visitor navigates to "/"
 
-**Then** the footer contains the AI Teaching OS logo (BookOpen icon, amber-600)
+**Then** the footer contains the Paideia logo (BookOpen icon, amber-600)
 **And** the footer displays the text "FERPA . COPPA . IDEA . SOC 2 Compliant"
 **And** the footer has a stone-50 background with a top border
 
@@ -178,7 +178,7 @@
 **Then** the page renders a SidebarProvider wrapping:
   - A collapsible Sidebar on the left with header, navigation, and footer
   - A SidebarInset area containing a top header bar and a main content area
-**And** the sidebar header contains a BookOpen icon and "AI Teaching OS" text linked to "/dashboard"
+**And** the sidebar header contains a BookOpen icon and "Paideia" text linked to "/dashboard"
 
 ---
 
@@ -188,7 +188,7 @@
 
 **Then** the sidebar includes a SidebarRail element for resize/collapse interaction
 **And** the sidebar is configured with `collapsible="icon"`, enabling toggle between full and icon-only modes
-**And** when collapsed, the "AI Teaching OS" text is hidden via the `group-data-[collapsible=icon]:hidden` class
+**And** when collapsed, the "Paideia" text is hidden via the `group-data-[collapsible=icon]:hidden` class
 
 ---
 
@@ -1096,5 +1096,5 @@
 
 **Given** any page renders
 
-**Then** the HTML document has the title "AI Teaching OS"
+**Then** the HTML document has the title "Paideia"
 **And** the description meta tag reads "The operating system for K-12 teaching"

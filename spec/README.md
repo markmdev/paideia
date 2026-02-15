@@ -1,4 +1,4 @@
-# AI Teaching OS — Executable English Specification
+# Paideia — Executable English Specification
 
 > **This directory contains no application code.** It contains a complete behavioral specification — architecture, data model, AI service contracts, and **943 tests written in plain English** — that any AI coding agent can implement in any programming language.
 
@@ -6,13 +6,13 @@
 
 What if you could describe an entire application so precisely in English that an AI agent could build it from scratch?
 
-This is that experiment. The AI Teaching OS is a K-12 education platform with 55 API endpoints, 40+ dashboard pages, 21 AI service functions, and 31+ database tables. Instead of shipping code, we ship the **specification**: behavioral tests and architectural contracts written in plain English.
+This is that experiment. Paideia is a K-12 education platform with 55 API endpoints, 40+ dashboard pages, 21 AI service functions, and 31+ database tables. Instead of shipping code, we ship the **specification**: behavioral tests and architectural contracts written in plain English.
 
 **To build the application:**
 
 1. Give this entire `spec/` directory to an AI coding agent (Claude Code, Cursor, Devin, etc.)
 2. Tell it: *"Translate every English test into a real test in [your language]. Then implement the application until all tests pass. You may not modify the tests."*
-3. The agent produces a fully functional AI Teaching OS.
+3. The agent produces a fully functional Paideia instance.
 
 The specification is language-agnostic. It works for TypeScript/Next.js, Go/Chi, Python/FastAPI, Java/Spring, Rust/Axum — any stack capable of building a web application with an AI integration layer.
 
@@ -94,7 +94,7 @@ Tests are specific about HTTP methods, paths, request bodies with field names an
 
 6. **All tests must pass.** The implementation is complete when every English test has a corresponding real test, and every real test passes.
 
-## What the AI Teaching OS Does
+## What Paideia Does
 
 A K-12 education platform with 5 interconnected modules and a student AI tutor:
 

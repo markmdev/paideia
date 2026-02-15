@@ -23,7 +23,7 @@ const instrumentSerif = Instrument_Serif({
 });
 
 export const metadata: Metadata = {
-  title: "AI Teaching OS",
+  title: "Paideia",
   description: "The operating system for K-12 teaching",
 };
 
