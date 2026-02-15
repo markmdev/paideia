@@ -2,7 +2,7 @@
 
 **Live at [usepaideia.com](https://usepaideia.com)**
 
-<!-- TODO: Add submission video -->
+<video src="paideia-demo-final.mp4" controls width="100%"></video>
 
 ---
 
@@ -10,7 +10,7 @@ Paideia is a K-12 education platform — planning, grading, IEPs, parent communi
 
 **21 hours. 30 iterations. Zero human-written code.**
 
-![Claude Code session: 30 iterations complete, cooked for 21h 3m 19s](resources/cc-time.png)
+<img src="resources/cc-time.png" alt="Claude Code session: 30 iterations complete, cooked for 21h 3m 19s" width="600">
 
 ## What Opus Built
 
