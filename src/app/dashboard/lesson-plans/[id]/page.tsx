@@ -132,7 +132,7 @@ export default async function LessonPlanDetailPage({
                 <Badge
                   key={i}
                   variant="outline"
-                  className="text-xs font-mono bg-sky-50 text-sky-700 border-sky-200"
+                  className="text-xs font-mono bg-sky-50 text-sky-700 border-sky-200 whitespace-normal shrink"
                 >
                   {standard}
                 </Badge>
