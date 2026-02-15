@@ -2,7 +2,7 @@
 
 **Live at [usepaideia.com](https://usepaideia.com)**
 
-<video src="paideia-demo-final.mp4" controls width="100%"></video>
+https://github.com/markmdev/paideia/raw/main/paideia-demo-final.mp4
 
 ---
 
