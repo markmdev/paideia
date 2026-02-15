@@ -40,7 +40,7 @@ Each agent returned structured findings. Claude Code synthesized all 10 reports 
 
 Claude Code then spawned 5 subagents — each representing a different stakeholder perspective (teacher, SPED specialist, parent, administrator, student) — and had them debate the product direction using Claude Code's multi-agent coordination. They challenged each other's assumptions, identified blind spots, surfaced trade-offs between user needs, and converged on a unified product vision.
 
-The result: a [16,000-word Vision & PRD document](spec/) covering 5 user roles, 5 platform modules, a student AI tutor, pricing strategy, go-to-market plan, and 943 behavioral requirements — all written collaboratively by AI agents.
+The result: a [16,000-word Vision & PRD document](.meridian/docs/VISION-PRD.md) covering 5 user roles, 5 platform modules, a student AI tutor, pricing strategy, go-to-market plan, and 943 behavioral requirements — all written collaboratively by AI agents.
 
 ### Implementation Phase — 21 Hours, Fully Autonomous
 
