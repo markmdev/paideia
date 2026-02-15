@@ -1,45 +1,41 @@
-## Current Status (2026-02-13 17:00)
+## Current Status (2026-02-15 11:05)
 
-**Project renamed to Paideia.** Executable English Specification complete. All code and spec committed.
+**Paideia deployed to production.** Live at [usepaideia.com](https://usepaideia.com).
 
 ### What Is Paideia
 K-12 AI education platform (hackathon submission) with two deliverables:
 1. **The Application** — 55 API routes, 40+ dashboard pages, 13 AI service modules, 31+ DB tables, 5 user roles
 2. **The Executable English Specification** — 943 behavioral tests in plain English that any AI agent can use to rebuild the app in any programming language
 
-### Executable English Specification
-Built this session. 14 agents spawned in parallel to read source code and write spec files.
+### Deployment
+- **Production URL:** https://usepaideia.com (custom domain on Vercel)
+- **Vercel project:** teaching-os (auto-deploys on push to main)
+- **GitHub:** https://github.com/markmdev/paideia
+- **Env vars on Vercel:** DATABASE_URL, ANTHROPIC_API_KEY, AUTH_SECRET
+- `NEXTAUTH_URL` is NOT set on Vercel — pages use `getBaseUrl()` from `src/lib/url.ts` which derives the URL from the request's `host` header
 
+### Production Fixes (2026-02-15)
+- **Server component self-fetches** — analytics, students, teachers, schools pages used `process.env.NEXTAUTH_URL || 'http://localhost:3000'` which fails on Vercel. Created `src/lib/url.ts` with `getBaseUrl()` that reads from request headers.
+- **Mastery 404** — Created `/dashboard/mastery/[studentId]` page (was missing, linked from class detail page)
+- **Early warning caching** — Added 5-minute in-memory cache for AI intervention recommendations to avoid Claude API call on every page load
+
+### READMEs
+Rewrote both `README.md` and `spec/README.md` to focus on the Opus story — 21-hour autonomous build, Opus-powered research, self-deployment, video generation. Less technical, more inspiring.
+
+### Executable English Specification
 ```
 spec/
-├── README.md              (127 lines)  — Hackathon pitch + usage guide
-├── ARCHITECTURE.md        (798 lines)  — System design, 57 routes, 5 role nav trees
-├── SCHEMA.md              (969 lines)  — 31 tables, every column/type/constraint
-├── AI_CONTRACTS.md      (1,548 lines)  — 21 AI service behavioral contracts
-└── tests/                              — 943 behavioral tests in 11 files
-    auth (128), admin-district (100), ui-pages (99), iep-compliance (98),
-    grading (91), student-experience (89), content-generation (85),
-    mastery-analytics (82), communication (68), parent-portal (54),
-    assignments (49)
-
-Total: 15,987 lines across 15 files
+├── README.md              — Hackathon pitch + usage guide
+├── ARCHITECTURE.md        — System design, 57 routes, 5 role nav trees
+├── SCHEMA.md              — 31 tables, every column/type/constraint
+├── AI_CONTRACTS.md        — 21 AI service behavioral contracts
+└── tests/                 — 943 behavioral tests in 11 files
 ```
-
-The concept: hand `spec/` to any AI coding agent and say "translate every English test into a real test in [language], then implement until all tests pass." The spec is language-agnostic — works for TypeScript, Go, Python, Java, Rust, etc.
-
-### Naming
-Renamed from "AI Teaching OS" to **Paideia** (Greek: the holistic upbringing and education of a child). Updated across all source files, spec files, READMEs, CLAUDE.md, and VISION-PRD.md. Only `.pebble/issues.jsonl` retains old name (append-only log).
-
-### Application Status
-- 192/192 tests passing, zero TS errors, production build clean
-- 55 API routes, 40+ dashboard pages, 13 AI service modules, 31+ DB tables
-- All 8 build phases complete, 30 iterations of browser testing done
-- Run `npm run dev` for localhost:3000
 
 ### Build Health
 - TypeScript: zero errors
 - Tests: 192/192 passing across 24 files
-- Production build: all ~100 routes compile clean
+- Production build: clean on Vercel
 
 ### Seed Users (password: password123)
 - rivera@school.edu (teacher, 8th ELA)
