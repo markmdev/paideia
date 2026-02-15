@@ -3,7 +3,7 @@
 **Executable English Specification — COMPLETE.** All 15 files written and committed. Project renamed from "AI Teaching OS" to "Paideia" (Greek: holistic education of a child).
 
 ### What Was Built This Session
-Hackathon submission pivot: distilled the entire AI Teaching OS into a language-agnostic behavioral specification. 14 agents spawned in parallel to read source code and write spec files.
+Hackathon submission pivot: distilled the entire Paideia application into a language-agnostic behavioral specification. 14 agents spawned in parallel to read source code and write spec files.
 
 ### Spec Summary
 ```
