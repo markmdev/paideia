@@ -1,131 +1,89 @@
 # Paideia
 
-A K-12 education platform that unifies the fragmented teaching lifecycle — planning, instruction, assessment, communication, and compliance — into a single AI-native system. Built for the Anthropic hackathon as a demonstration of creative Claude Opus usage.
+**Live at [usepaideia.com](https://usepaideia.com)**
 
-## Two Deliverables, One Project
+<!-- TODO: Add submission video -->
 
-This project ships two artifacts:
+---
 
-### 1. The Application
+Paideia is a K-12 education platform — planning, grading, IEPs, parent communication, district analytics, and a Socratic AI tutor — built entirely by Claude Opus in a single autonomous session.
 
-A fully functional web application with 55 API routes, 40+ dashboard pages, and 13 AI service modules powered by Claude Opus. Five user roles (Teacher, SPED Teacher, Admin, Parent, Student) each get tailored dashboards, permissions, and data scoping.
+**21 hours. 30 iterations. Zero human-written code.**
 
-### 2. The Executable English Specification
+![Claude Code session: 30 iterations complete, cooked for 21h 3m 19s](resources/cc-time.png)
 
-The entire application distilled into **943 behavioral tests written in plain English** — no code, just precise descriptions of what the system does. Any AI coding agent can translate these tests into real tests and implement the system in any programming language. See [`spec/README.md`](spec/README.md) for details.
+## What Opus Built
 
-**The creative angle:** Claude Opus built the application. Claude Opus then distilled it into a language-agnostic specification. Any Claude instance can reconstruct the application from that specification alone. The code is ephemeral. The specification is the product.
+One human described a vision. Opus did everything else.
 
-## Modules
+Opus researched the K-12 education market — reading teacher communities on Reddit, analyzing competitors, studying FERPA and IDEA compliance requirements, reviewing peer-reviewed AI tutoring studies from Harvard, Stanford, and CMU. It synthesized all of that into a [16,000-line product specification](spec/) covering five user roles, five platform modules, and 943 behavioral requirements.
+
+Then it built the whole thing. 55 API endpoints. 40+ dashboard pages. 13 AI service modules. 31 database tables. 192 passing tests. A production Next.js application with authentication, role-based access control, real-time streaming, and every AI feature powered by Opus itself — grading student essays, writing IEP goals, generating lesson plans, tutoring students through Socratic dialogue.
+
+Then it reviewed its own code. Found bugs. Fixed them. Refactored. Ran 30 iterations of browser testing to polish the UI. Wrote an executable English specification so precise that another AI agent can rebuild the entire application from scratch in any programming language.
+
+Then it bought a domain, configured DNS, and deployed itself to production.
+
+And right now, another Opus session is generating the video for this submission.
+
+**It's Opus all the way down.**
+
+## The Platform
+
+Paideia unifies the fragmented teaching lifecycle into one AI-native system. Teachers currently juggle 5–10 disconnected tools. Paideia replaces all of them.
 
 | Module | What It Does |
 |--------|-------------|
-| **Instructional Design** | AI-generated lesson plans, assignments, rubrics, quizzes, exit tickets, and 3-tier differentiation |
-| **Assessment Intelligence** | AI grading with rubric-aligned feedback, batch processing, longitudinal mastery tracking, gap analysis |
-| **Special Education** | IEP development with AI-drafted present levels, SMART goals, accommodations, progress monitoring, compliance tracking |
-| **Family Engagement** | Parent portal with AI-synthesized progress narratives, multilingual messaging (10+ languages), AI transparency panel |
-| **District Intelligence** | Admin dashboards with school analytics, teacher engagement metrics, early warning system, AI-powered district insights |
-| **Student AI Tutor** | Streaming Socratic tutoring that asks guiding questions instead of giving answers, with practice recommendations based on mastery gaps |
+| **Instructional Design** | AI-generated lesson plans, assignments, rubrics, quizzes, exit tickets — all standards-aligned, with automatic 3-tier differentiation |
+| **Assessment Intelligence** | Grade a class set of essays in 90 seconds. Rubric-aligned feedback, batch processing, longitudinal mastery tracking, gap analysis |
+| **Special Education** | Full IEP workflow — AI-drafted present levels, SMART goals, accommodations, progress monitoring, compliance deadlines. Cookie-cutter detection built in |
+| **Family Engagement** | Parent portal with AI-synthesized progress narratives in plain language, multilingual messaging, and an AI transparency panel |
+| **District Intelligence** | Cross-school analytics, teacher engagement, early warning system, and AI-powered district insights using extended thinking |
+| **Student AI Tutor** | Streaming Socratic tutoring — asks guiding questions, never gives answers. Grounded in the student's actual assignments and mastery gaps |
 
-## How Claude Opus Is Used
+Five roles — Teacher, SPED Teacher, Admin, Parent, Student — each with tailored dashboards, permissions, and data scoping.
 
-Every AI feature runs through Claude Opus using the `tool_use` pattern for structured output:
+## The Executable English Specification
 
-- **Grading**: Analyzes student essays against rubrics, generates criterion-level scores and individualized feedback
-- **Content Generation**: Creates standards-aligned lesson plans, rubrics, quizzes, and differentiated materials
-- **IEP Writing**: Drafts present levels, SMART goals, and accommodations from student data — with similarity detection to prevent cookie-cutter IEPs
-- **Parent Communication**: Synthesizes assessment data into plain-language progress narratives, translates to 10+ languages
-- **District Insights**: Uses extended thinking to analyze district-wide patterns and generate actionable recommendations
-- **Socratic Tutoring**: Streams conversational responses that guide students through problems without giving direct answers
-- **Early Warning**: Identifies at-risk students and generates specific, data-driven intervention recommendations
+The most creative part: after building the application, Opus distilled it into **943 behavioral tests written in plain English**. No code. Just precise Given/When/Then descriptions of every API endpoint, every permission check, every AI service contract.
 
-The tutor is the only service using streaming (`messages.stream()`). All others use forced `tool_choice` for structured JSON output.
+Hand the [`spec/`](spec/) directory to any AI coding agent and say:
 
-## Quick Start
+> *"Translate every English test into a real test. Then implement until all tests pass."*
 
-```bash
-# Install dependencies
-npm install
+The agent produces a fully functional Paideia — in TypeScript, Go, Python, Rust, whatever. The code is ephemeral. The specification is the product.
 
-# Set environment variables
-cp .env.example .env  # Then fill in values
+**[Read the full spec →](spec/README.md)**
 
-# Push schema and seed data
-npx drizzle-kit push
-npm run db:seed
+## Try It
 
-# Start development server
-npm run dev
-```
-
-Open [localhost:3000](http://localhost:3000) and sign in with any demo account.
-
-## Demo Accounts
+**Live:** [usepaideia.com](https://usepaideia.com) — sign in with any demo account below.
 
 All passwords: `password123`
 
-| Email | Role | Persona |
-|-------|------|---------|
-| `rivera@school.edu` | Teacher | 8th grade ELA, 5 classes, 16 students |
-| `okafor@school.edu` | Teacher | 10th grade Biology, 3 classes |
-| `chen@school.edu` | Teacher | 3rd grade, all subjects |
-| `rodriguez@school.edu` | SPED Teacher | Case manager, 2 IEPs |
-| `williams@school.edu` | Admin | District administrator |
-| `sarah.chen@email.com` | Parent | Parent of Aisha Torres |
-| `marcus.williams@email.com` | Parent | Parent of DeShawn Williams |
-| `aisha@student.edu` | Student | 8th grader, high mastery |
-| `deshawn@student.edu` | Student | 10th grader, struggling in ELA |
+| Email | Role |
+|-------|------|
+| `rivera@school.edu` | Teacher (8th grade ELA) |
+| `rodriguez@school.edu` | SPED Teacher |
+| `williams@school.edu` | District Admin |
+| `sarah.chen@email.com` | Parent |
+| `aisha@student.edu` | Student |
 
 ## Tech Stack
 
-- **Framework**: Next.js 16, TypeScript, React 19
-- **Styling**: Tailwind CSS 4, shadcn/ui, Lucide icons
-- **Database**: Drizzle ORM + PostgreSQL (Supabase)
-- **Auth**: NextAuth.js v5 with JWT strategy
-- **AI**: Anthropic Claude Opus via `@anthropic-ai/sdk`
-- **Testing**: Vitest (192 passing tests)
+Next.js 16 · TypeScript · React 19 · Tailwind CSS 4 · shadcn/ui · Drizzle ORM · PostgreSQL (Supabase) · NextAuth.js v5 · Claude Opus (`claude-opus-4-6`) · Vitest (192 tests) · Vercel
 
-## Environment Variables
+## By the Numbers
 
-```
-DATABASE_URL=        # Supabase pooler connection string
-DIRECT_URL=          # Supabase direct connection string (for migrations)
-ANTHROPIC_API_KEY=   # Anthropic API key
-AUTH_SECRET=         # NextAuth secret (openssl rand -base64 32)
-```
-
-## The Executable Spec
-
-The `spec/` directory contains the entire application described in plain English:
-
-```
-spec/
-├── ARCHITECTURE.md           # System design and module map
-├── SCHEMA.md                 # 31 tables, every column and relationship
-├── AI_CONTRACTS.md           # 21 AI service behavioral contracts
-└── tests/                    # 943 behavioral tests across 11 files
-    ├── auth.tests.md              (128 tests)
-    ├── admin-district.tests.md    (100 tests)
-    ├── ui-pages.tests.md           (99 tests)
-    ├── iep-compliance.tests.md     (98 tests)
-    ├── grading.tests.md            (91 tests)
-    ├── student-experience.tests.md (89 tests)
-    ├── content-generation.tests.md (85 tests)
-    ├── mastery-analytics.tests.md  (82 tests)
-    ├── communication.tests.md      (68 tests)
-    ├── parent-portal.tests.md      (54 tests)
-    └── assignments.tests.md        (49 tests)
-```
-
-To rebuild the app in another language, give the `spec/` directory to an AI coding agent and say: *"Translate every English test into a real test. Then implement until all tests pass. Do not modify the tests."*
-
-## Project Stats
-
-- **55** API route handlers
-- **40+** dashboard pages
-- **13** AI service modules (21 service functions)
-- **31+** database tables
-- **943** English behavioral tests
-- **192** coded tests (Vitest)
-- **5** user roles with full RBAC
-- **~16,000** lines of specification
+| | |
+|---|---|
+| Autonomous build time | **21 hours 3 minutes** |
+| Build iterations | **30** |
+| API endpoints | **55** |
+| Dashboard pages | **40+** |
+| AI service modules | **13** (21 functions) |
+| Database tables | **31+** |
+| English behavioral tests | **943** |
+| Coded tests | **192** |
+| Lines of specification | **15,987** |
+| Human-written lines of code | **0** |
