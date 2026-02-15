@@ -6,7 +6,7 @@ K-12 education platform with 5 modules + Student AI Tutor, built for the Anthrop
 
 ```bash
 npm run dev          # Start dev server on localhost:3000
-npx vitest run       # Run all tests (22 files, 175 tests)
+npx vitest run       # Run all tests (24 files, 192 tests)
 npx tsc --noEmit     # Type check
 npx next build       # Production build (~100 routes)
 npm run db:seed      # Seed demo data (requires DATABASE_URL)
@@ -37,7 +37,7 @@ src/
     api/                    # Route handlers (Next.js App Router)
       admin/                # District intelligence (overview, analytics, schools, teachers, students, insights)
       assignments/          # CRUD + AI generation
-      auth/                 # NextAuth catch-all + registration
+      auth/                 # NextAuth catch-all + registration + demo-login
       compliance/           # SPED compliance deadlines
       early-warning/        # At-risk student detection
       exit-tickets/         # Formative assessment generation
@@ -89,21 +89,26 @@ src/
     auth.ts                 # NextAuth configuration
     db/
       index.ts              # Drizzle client (postgres.js driver, prepare: false for Supabase pooler)
-      schema/               # 14 schema files, 31+ tables
-        auth.ts             # users, accounts, sessions, verificationTokens
+      schema/               # 16 schema files, 33+ tables
+        demo.ts             # demoSessions
+        cache.ts            # cacheEntries (DB-backed cache)
+        auth.ts             # users (with demoSessionId), accounts, sessions, verificationTokens
         classes.ts          # schools, classes, classMembers
         standards.ts        # standards
-        assignments.ts      # assignments, rubrics, rubricCriteria
-        submissions.ts      # studentSubmissions, submissionFeedback
-        mastery.ts          # studentMastery
+        assignments.ts      # assignments, rubrics, rubricCriteria, differentiatedVersions
+        submissions.ts      # submissions, feedbackDrafts, criterionScores
+        mastery.ts          # masteryRecords
         lesson-plans.ts     # lessonPlans
-        quizzes.ts          # quizzes, quizQuestions
-        sped.ts             # ieps, iepGoals, iepAccommodations, iepProgressEntries
-        communication.ts    # messages, parentStudents
-        tutor.ts            # tutorSessions, tutorMessages
+        quizzes.ts          # quizzes, quizQuestions, questionStandards
+        sped.ts             # ieps, iepGoals, progressDataPoints, complianceDeadlines
+        communication.ts    # messages, notifications, parentChildren
+        tutor.ts            # tutorSessions
         audit.ts            # auditLogs
         report-cards.ts     # reportCards
       seed.ts               # Seed script (29 users, schools, classes, standards, assignments, IEP data)
+    cache.ts                # DB-backed cache helpers (getCached, setCache, cleanExpiredCache)
+    demo-constants.ts       # DEMO_SEED_EMAILS, DEMO_ENTRY_EMAILS
+    demo-clone.ts           # cloneDemoData(), cleanupExpiredDemoSessions()
     utils.ts                # cn() utility (clsx + tailwind-merge)
   hooks/                    # Custom React hooks
   types/                    # TypeScript type extensions (next-auth.d.ts)
