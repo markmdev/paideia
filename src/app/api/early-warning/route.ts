@@ -10,9 +10,8 @@ import {
 import { eq, and, inArray, gte, desc } from 'drizzle-orm'
 import { NextRequest, NextResponse } from 'next/server'
 import { generateStudentInterventions } from '@/lib/ai/early-warning'
+import { getCached, setCache } from '@/lib/cache'
 
-// Cache AI recommendations for 5 minutes to avoid re-analysis on every page load
-const recommendationCache = new Map<string, { data: Map<string, string[]>; expiresAt: number }>()
 const CACHE_TTL_MS = 5 * 60 * 1000
 
 interface StudentRisk {
@@ -304,21 +303,13 @@ export async function GET(req: NextRequest) {
         // Cache key includes user ID and sorted flagged student IDs to invalidate
         // when the flagged set changes (prevents stale recommendations for wrong students)
         const flaggedIds = flaggedStudents.map((s) => s.id).sort().join(',')
-        const cacheKey = `${session.user.id}:${flaggedIds}`
-        const now = Date.now()
+        const cacheKey = `early-warning:${session.user.id}:${flaggedIds}`
 
-        // Clean up expired cache entries
-        for (const [key, entry] of recommendationCache) {
-          if (entry.expiresAt <= now) {
-            recommendationCache.delete(key)
-          }
-        }
-
-        const cached = recommendationCache.get(cacheKey)
-        if (cached && cached.expiresAt > now) {
+        const cached = await getCached<Record<string, string[]>>(cacheKey)
+        if (cached) {
           // Apply cached recommendations keyed by real student ID
           for (const student of flaggedStudents) {
-            const recs = cached.data.get(student.id)
+            const recs = cached[student.id]
             if (recs) {
               student.recommendations = recs
             }
@@ -327,18 +318,15 @@ export async function GET(req: NextRequest) {
           const result = await generateStudentInterventions(flaggedInput)
 
           // Build cache entry keyed by real student ID (not positional label)
-          const cacheData = new Map<string, string[]>()
+          const cacheData: Record<string, string[]> = {}
           for (const rec of result.students) {
             const match = anonymizedIdToStudent.get(rec.studentLabel)
             if (match) {
               match.recommendations = rec.recommendations
-              cacheData.set(match.id, rec.recommendations)
+              cacheData[match.id] = rec.recommendations
             }
           }
-          recommendationCache.set(cacheKey, {
-            data: cacheData,
-            expiresAt: now + CACHE_TTL_MS,
-          })
+          await setCache(cacheKey, cacheData, CACHE_TTL_MS)
         }
       } catch (error) {
         console.error('Failed to generate intervention recommendations:', error)
