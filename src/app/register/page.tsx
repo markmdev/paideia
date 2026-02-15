@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { DemoAccountButtons } from '@/components/demo-accounts'
 
 export default function RegisterPage() {
   const [name, setName] = useState('')
@@ -52,14 +53,25 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-muted/50">
-      <div className="w-full max-w-md space-y-8 rounded-xl bg-card p-8 shadow-lg">
+    <div className="flex min-h-screen items-center justify-center bg-muted/50 py-8">
+      <div className="w-full max-w-md space-y-6 rounded-xl bg-card p-8 shadow-lg">
         <div className="text-center">
           <h1 className="text-3xl font-bold text-foreground">Paideia</h1>
-          <p className="mt-2 text-muted-foreground">Create your account</p>
+          <p className="mt-2 text-muted-foreground">Try a demo account instantly</p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <DemoAccountButtons compact />
+
+        <div className="relative">
+          <div className="absolute inset-0 flex items-center">
+            <div className="w-full border-t border-gray-200" />
+          </div>
+          <div className="relative flex justify-center text-sm">
+            <span className="bg-card px-3 text-muted-foreground">or create your own account</span>
+          </div>
+        </div>
+
+        <form onSubmit={handleSubmit} className="space-y-4">
           {error && (
             <div className="rounded-md bg-red-50 p-3 text-sm text-red-600">
               {error}

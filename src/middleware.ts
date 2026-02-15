@@ -5,13 +5,14 @@ export default auth((req) => {
   const isOnDashboard = req.nextUrl.pathname.startsWith('/dashboard')
   const isOnLogin = req.nextUrl.pathname === '/login'
   const isOnRegister = req.nextUrl.pathname === '/register'
+  const isOnDemo = req.nextUrl.pathname === '/demo'
   const isOnApi = req.nextUrl.pathname.startsWith('/api')
 
   // Allow API routes
   if (isOnApi) return
 
   // Redirect logged-in users away from login/register
-  if (isLoggedIn && (isOnLogin || isOnRegister)) {
+  if (isLoggedIn && (isOnLogin || isOnRegister || isOnDemo)) {
     return Response.redirect(new URL('/dashboard', req.nextUrl))
   }
 

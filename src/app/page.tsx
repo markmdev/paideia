@@ -28,7 +28,7 @@ export default function Home() {
               <Link href="/login">Sign In</Link>
             </Button>
             <Button asChild size="sm" className="bg-amber-700 hover:bg-amber-800">
-              <Link href="/register">Get Started</Link>
+              <Link href="/demo">Try Demo</Link>
             </Button>
           </div>
         </div>
@@ -73,7 +73,7 @@ export default function Home() {
             </p>
             <div className="mt-12 flex flex-wrap items-center justify-center gap-4">
               <Button asChild size="lg" className="h-12 bg-amber-700 px-8 text-base hover:bg-amber-800">
-                <Link href="/login">
+                <Link href="/demo">
                   Try the Demo
                   <ArrowRight className="ml-1 size-4" />
                 </Link>
@@ -214,27 +214,21 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Demo Credentials */}
+        {/* Demo CTA */}
         <section className="bg-white py-20">
-          <div className="mx-auto max-w-2xl px-4">
-            <div className="rounded-xl border border-stone-200 bg-stone-50/50 p-8 shadow-sm">
-              <div className="flex items-center justify-center gap-2">
-                <div className="h-px flex-1 bg-stone-200" />
-                <h3 className="text-xs font-semibold uppercase tracking-widest text-stone-500">
-                  Demo Credentials
-                </h3>
-                <div className="h-px flex-1 bg-stone-200" />
-              </div>
-              <p className="mt-3 text-center text-sm text-stone-500">
-                All accounts use password: <code className="rounded-md border border-stone-200 bg-white px-2 py-0.5 font-mono text-xs text-stone-700">password123</code>
-              </p>
-              <div className="mt-6 grid gap-2 text-sm sm:grid-cols-2">
-                <CredentialRow role="Teacher" email="rivera@school.edu" color="amber" />
-                <CredentialRow role="Admin" email="williams@school.edu" color="stone" />
-                <CredentialRow role="Parent" email="sarah.chen@email.com" color="sky" />
-                <CredentialRow role="Student" email="aisha@student.edu" color="rose" />
-                <CredentialRow role="SPED Teacher" email="rodriguez@school.edu" color="emerald" />
-              </div>
+          <div className="mx-auto max-w-2xl px-4 text-center">
+            <h3 className="text-xl font-semibold text-stone-900">See it in action</h3>
+            <p className="mt-3 text-stone-600">
+              Try any role — Teacher, SPED Teacher, Admin, Parent, or Student.
+              Each demo creates a fresh, isolated sandbox.
+            </p>
+            <div className="mt-6">
+              <Button asChild size="lg" className="h-12 bg-amber-700 px-8 text-base hover:bg-amber-800">
+                <Link href="/demo">
+                  Open Demo Accounts
+                  <ArrowRight className="ml-1 size-4" />
+                </Link>
+              </Button>
             </div>
           </div>
         </section>
@@ -308,21 +302,3 @@ function StepCard({
   )
 }
 
-function CredentialRow({ role, email, color }: { role: string; email: string; color: string }) {
-  const dotColors: Record<string, string> = {
-    amber: 'bg-amber-400',
-    stone: 'bg-stone-400',
-    sky: 'bg-sky-400',
-    rose: 'bg-rose-400',
-    emerald: 'bg-emerald-400',
-  }
-  return (
-    <div className="flex items-center justify-between rounded-lg border border-stone-200 bg-white px-4 py-2.5">
-      <div className="flex items-center gap-2">
-        <div className={`size-2 rounded-full ${dotColors[color] || 'bg-stone-400'}`} />
-        <span className="font-medium text-stone-700">{role}</span>
-      </div>
-      <code className="font-mono text-xs text-stone-500">{email}</code>
-    </div>
-  )
-}
