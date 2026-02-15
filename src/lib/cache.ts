@@ -1,6 +1,6 @@
 import { db } from '@/lib/db'
 import { cacheEntries } from '@/lib/db/schema'
-import { eq, lte } from 'drizzle-orm'
+import { eq } from 'drizzle-orm'
 
 export async function getCached<T>(key: string): Promise<T | null> {
   const [row] = await db
@@ -30,8 +30,4 @@ export async function setCache(key: string, value: unknown, ttlMs: number): Prom
       target: cacheEntries.key,
       set: { value: jsonValue, expiresAt, createdAt: new Date() },
     })
-}
-
-export async function cleanExpiredCache(): Promise<void> {
-  await db.delete(cacheEntries).where(lte(cacheEntries.expiresAt, new Date()))
 }

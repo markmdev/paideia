@@ -44,57 +44,78 @@ export async function cloneDemoData(sourceEmail: string): Promise<{ email: strin
 
   const seedUserIds = usersToClone.map((u) => u.id)
 
-  // Read all seed data in parallel
+  // Phase 1: Read tables scoped by seed user IDs
   const [
-    seedClasses,
     seedClassMembers,
     seedParentChildren,
-    seedClassStandards,
     seedRubrics,
-    seedRubricCriteria,
-    seedAssignments,
-    seedDiffVersions,
     seedSubmissions,
-    seedFeedbackDrafts,
-    seedCriterionScores,
     seedMasteryRecords,
     seedLessonPlans,
     seedQuizzes,
-    seedQuizQuestions,
-    seedQuestionStandards,
     seedIeps,
-    seedIepGoals,
-    seedProgressDataPoints,
     seedComplianceDeadlines,
     seedMessages,
     seedNotifications,
     seedTutorSessions,
     seedReportCards,
   ] = await Promise.all([
-    db.select().from(schema.classes),
     db.select().from(schema.classMembers).where(inArray(schema.classMembers.userId, seedUserIds)),
-    db.select().from(schema.parentChildren),
-    db.select().from(schema.classStandards),
-    db.select().from(schema.rubrics),
-    db.select().from(schema.rubricCriteria),
-    db.select().from(schema.assignments),
-    db.select().from(schema.differentiatedVersions),
+    db.select().from(schema.parentChildren).where(inArray(schema.parentChildren.parentId, seedUserIds)),
+    db.select().from(schema.rubrics).where(inArray(schema.rubrics.teacherId, seedUserIds)),
     db.select().from(schema.submissions).where(inArray(schema.submissions.studentId, seedUserIds)),
-    db.select().from(schema.feedbackDrafts),
-    db.select().from(schema.criterionScores),
     db.select().from(schema.masteryRecords).where(inArray(schema.masteryRecords.studentId, seedUserIds)),
-    db.select().from(schema.lessonPlans),
-    db.select().from(schema.quizzes),
-    db.select().from(schema.quizQuestions),
-    db.select().from(schema.questionStandards),
-    db.select().from(schema.ieps),
-    db.select().from(schema.iepGoals),
-    db.select().from(schema.progressDataPoints),
-    db.select().from(schema.complianceDeadlines),
-    db.select().from(schema.messages),
-    db.select().from(schema.notifications),
-    db.select().from(schema.tutorSessions),
-    db.select().from(schema.reportCards),
+    db.select().from(schema.lessonPlans).where(inArray(schema.lessonPlans.teacherId, seedUserIds)),
+    db.select().from(schema.quizzes).where(inArray(schema.quizzes.createdBy, seedUserIds)),
+    db.select().from(schema.ieps).where(inArray(schema.ieps.studentId, seedUserIds)),
+    db.select().from(schema.complianceDeadlines).where(inArray(schema.complianceDeadlines.studentId, seedUserIds)),
+    db.select().from(schema.messages).where(inArray(schema.messages.senderId, seedUserIds)),
+    db.select().from(schema.notifications).where(inArray(schema.notifications.userId, seedUserIds)),
+    db.select().from(schema.tutorSessions).where(inArray(schema.tutorSessions.studentId, seedUserIds)),
+    db.select().from(schema.reportCards).where(inArray(schema.reportCards.studentId, seedUserIds)),
+  ])
+
+  // Derive parent IDs for phase 2 child table reads
+  const seedClassIds = [...new Set(seedClassMembers.map((cm) => cm.classId))]
+  const seedRubricIds = seedRubrics.map((r) => r.id)
+  const seedSubmissionIds = seedSubmissions.map((s) => s.id)
+  const seedQuizIds = seedQuizzes.map((q) => q.id)
+  const seedIepIds = seedIeps.map((i) => i.id)
+
+  // Phase 2: Read child tables scoped by parent IDs
+  const [
+    seedClasses,
+    seedClassStandards,
+    seedRubricCriteria,
+    seedAssignments,
+    seedFeedbackDrafts,
+    seedCriterionScores,
+    seedQuizQuestions,
+    seedIepGoals,
+  ] = await Promise.all([
+    seedClassIds.length > 0 ? db.select().from(schema.classes).where(inArray(schema.classes.id, seedClassIds)) : Promise.resolve([]),
+    seedClassIds.length > 0 ? db.select().from(schema.classStandards).where(inArray(schema.classStandards.classId, seedClassIds)) : Promise.resolve([]),
+    seedRubricIds.length > 0 ? db.select().from(schema.rubricCriteria).where(inArray(schema.rubricCriteria.rubricId, seedRubricIds)) : Promise.resolve([]),
+    seedClassIds.length > 0 ? db.select().from(schema.assignments).where(inArray(schema.assignments.classId, seedClassIds)) : Promise.resolve([]),
+    seedSubmissionIds.length > 0 ? db.select().from(schema.feedbackDrafts).where(inArray(schema.feedbackDrafts.submissionId, seedSubmissionIds)) : Promise.resolve([]),
+    seedSubmissionIds.length > 0 ? db.select().from(schema.criterionScores).where(inArray(schema.criterionScores.submissionId, seedSubmissionIds)) : Promise.resolve([]),
+    seedQuizIds.length > 0 ? db.select().from(schema.quizQuestions).where(inArray(schema.quizQuestions.quizId, seedQuizIds)) : Promise.resolve([]),
+    seedIepIds.length > 0 ? db.select().from(schema.iepGoals).where(inArray(schema.iepGoals.iepId, seedIepIds)) : Promise.resolve([]),
+  ])
+
+  // Phase 3: Read grandchild tables
+  const seedAssignmentIds = seedAssignments.map((a) => a.id)
+  const seedQuestionIds = seedQuizQuestions.map((q) => q.id)
+  const seedGoalIds = seedIepGoals.map((g) => g.id)
+
+  const [
+    seedDiffVersions,
+    seedQuestionStandards,
+    seedProgressDataPoints,
+  ] = await Promise.all([
+    seedAssignmentIds.length > 0 ? db.select().from(schema.differentiatedVersions).where(inArray(schema.differentiatedVersions.assignmentId, seedAssignmentIds)) : Promise.resolve([]),
+    seedQuestionIds.length > 0 ? db.select().from(schema.questionStandards).where(inArray(schema.questionStandards.questionId, seedQuestionIds)) : Promise.resolve([]),
+    seedGoalIds.length > 0 ? db.select().from(schema.progressDataPoints).where(inArray(schema.progressDataPoints.goalId, seedGoalIds)) : Promise.resolve([]),
   ])
 
   // Build ID maps for all tables
@@ -610,115 +631,83 @@ export async function cleanupExpiredDemoSessions(): Promise<void> {
 
   const demoUserIds = demoUsers.map((u) => u.id)
 
-  // Delete in reverse dependency order
-  // Tables with user FK
-  await db.delete(schema.reportCards).where(inArray(schema.reportCards.studentId, demoUserIds))
-  await db.delete(schema.tutorSessions).where(inArray(schema.tutorSessions.studentId, demoUserIds))
-  await db.delete(schema.notifications).where(inArray(schema.notifications.userId, demoUserIds))
-  await db.delete(schema.messages).where(inArray(schema.messages.senderId, demoUserIds))
+  // Gather child IDs needed for cascading deletes
+  const [demoIeps, demoQuizzes, demoSubmissions, demoAssignments, demoRubrics, demoClassRows] = await Promise.all([
+    db.select({ id: schema.ieps.id }).from(schema.ieps).where(inArray(schema.ieps.studentId, demoUserIds)),
+    db.select({ id: schema.quizzes.id }).from(schema.quizzes).where(inArray(schema.quizzes.createdBy, demoUserIds)),
+    db.select({ id: schema.submissions.id }).from(schema.submissions).where(inArray(schema.submissions.studentId, demoUserIds)),
+    db.select({ id: schema.assignments.id }).from(schema.assignments).where(inArray(schema.assignments.teacherId, demoUserIds)),
+    db.select({ id: schema.rubrics.id }).from(schema.rubrics).where(inArray(schema.rubrics.teacherId, demoUserIds)),
+    db.select({ classId: schema.classMembers.classId }).from(schema.classMembers).where(inArray(schema.classMembers.userId, demoUserIds)),
+  ])
 
-  // SPED chain
-  // progressDataPoints has goalId FK to iepGoals, and iepGoals has iepId FK to ieps
-  // Find IEPs for demo users, then goals, then delete progress data
-  const demoIeps = await db
-    .select({ id: schema.ieps.id })
-    .from(schema.ieps)
-    .where(inArray(schema.ieps.studentId, demoUserIds))
   const demoIepIds = demoIeps.map((i) => i.id)
-
-  if (demoIepIds.length > 0) {
-    const demoGoals = await db
-      .select({ id: schema.iepGoals.id })
-      .from(schema.iepGoals)
-      .where(inArray(schema.iepGoals.iepId, demoIepIds))
-    const demoGoalIds = demoGoals.map((g) => g.id)
-
-    if (demoGoalIds.length > 0) {
-      await db.delete(schema.progressDataPoints).where(inArray(schema.progressDataPoints.goalId, demoGoalIds))
-    }
-    await db.delete(schema.iepGoals).where(inArray(schema.iepGoals.iepId, demoIepIds))
-  }
-  await db.delete(schema.complianceDeadlines).where(inArray(schema.complianceDeadlines.studentId, demoUserIds))
-  await db.delete(schema.ieps).where(inArray(schema.ieps.studentId, demoUserIds))
-
-  // Quiz chain
-  const demoQuizzes = await db
-    .select({ id: schema.quizzes.id })
-    .from(schema.quizzes)
-    .where(inArray(schema.quizzes.createdBy, demoUserIds))
   const demoQuizIds = demoQuizzes.map((q) => q.id)
-
-  if (demoQuizIds.length > 0) {
-    const demoQuestions = await db
-      .select({ id: schema.quizQuestions.id })
-      .from(schema.quizQuestions)
-      .where(inArray(schema.quizQuestions.quizId, demoQuizIds))
-    const demoQuestionIds = demoQuestions.map((q) => q.id)
-
-    if (demoQuestionIds.length > 0) {
-      await db.delete(schema.questionStandards).where(inArray(schema.questionStandards.questionId, demoQuestionIds))
-    }
-    await db.delete(schema.quizQuestions).where(inArray(schema.quizQuestions.quizId, demoQuizIds))
-  }
-  await db.delete(schema.quizzes).where(inArray(schema.quizzes.createdBy, demoUserIds))
-
-  await db.delete(schema.lessonPlans).where(inArray(schema.lessonPlans.teacherId, demoUserIds))
-  await db.delete(schema.masteryRecords).where(inArray(schema.masteryRecords.studentId, demoUserIds))
-
-  // Submission chain
-  const demoSubmissions = await db
-    .select({ id: schema.submissions.id })
-    .from(schema.submissions)
-    .where(inArray(schema.submissions.studentId, demoUserIds))
   const demoSubmissionIds = demoSubmissions.map((s) => s.id)
-
-  if (demoSubmissionIds.length > 0) {
-    await db.delete(schema.criterionScores).where(inArray(schema.criterionScores.submissionId, demoSubmissionIds))
-    await db.delete(schema.feedbackDrafts).where(inArray(schema.feedbackDrafts.submissionId, demoSubmissionIds))
-  }
-  await db.delete(schema.submissions).where(inArray(schema.submissions.studentId, demoUserIds))
-
-  // Assignment chain
-  const demoAssignments = await db
-    .select({ id: schema.assignments.id })
-    .from(schema.assignments)
-    .where(inArray(schema.assignments.teacherId, demoUserIds))
   const demoAssignmentIds = demoAssignments.map((a) => a.id)
-
-  if (demoAssignmentIds.length > 0) {
-    await db.delete(schema.differentiatedVersions).where(inArray(schema.differentiatedVersions.assignmentId, demoAssignmentIds))
-  }
-  await db.delete(schema.assignments).where(inArray(schema.assignments.teacherId, demoUserIds))
-
-  // Rubric chain
-  const demoRubrics = await db
-    .select({ id: schema.rubrics.id })
-    .from(schema.rubrics)
-    .where(inArray(schema.rubrics.teacherId, demoUserIds))
   const demoRubricIds = demoRubrics.map((r) => r.id)
-
-  if (demoRubricIds.length > 0) {
-    await db.delete(schema.rubricCriteria).where(inArray(schema.rubricCriteria.rubricId, demoRubricIds))
-  }
-  await db.delete(schema.rubrics).where(inArray(schema.rubrics.teacherId, demoUserIds))
-
-  // Class chain — find demo classes via classMembers with demo user IDs
-  const demoClassRows = await db
-    .select({ classId: schema.classMembers.classId })
-    .from(schema.classMembers)
-    .where(inArray(schema.classMembers.userId, demoUserIds))
   const demoClassIds = [...new Set(demoClassRows.map((r) => r.classId))]
 
-  if (demoClassIds.length > 0) {
-    await db.delete(schema.classStandards).where(inArray(schema.classStandards.classId, demoClassIds))
-  }
-  await db.delete(schema.classMembers).where(inArray(schema.classMembers.userId, demoUserIds))
-  await db.delete(schema.parentChildren).where(inArray(schema.parentChildren.parentId, demoUserIds))
-  if (demoClassIds.length > 0) {
-    await db.delete(schema.classes).where(inArray(schema.classes.id, demoClassIds))
-  }
+  // Gather grandchild IDs
+  const [demoGoals, demoQuestions] = await Promise.all([
+    demoIepIds.length > 0 ? db.select({ id: schema.iepGoals.id }).from(schema.iepGoals).where(inArray(schema.iepGoals.iepId, demoIepIds)) : Promise.resolve([]),
+    demoQuizIds.length > 0 ? db.select({ id: schema.quizQuestions.id }).from(schema.quizQuestions).where(inArray(schema.quizQuestions.quizId, demoQuizIds)) : Promise.resolve([]),
+  ])
 
-  // Finally, delete users and sessions
-  await db.delete(schema.users).where(inArray(schema.users.demoSessionId, sessionIds))
-  await db.delete(schema.demoSessions).where(inArray(schema.demoSessions.id, sessionIds))
+  const demoGoalIds = demoGoals.map((g) => g.id)
+  const demoQuestionIds = demoQuestions.map((q) => q.id)
+
+  // Delete everything in a transaction, reverse dependency order
+  await db.transaction(async (tx) => {
+    await tx.delete(schema.reportCards).where(inArray(schema.reportCards.studentId, demoUserIds))
+    await tx.delete(schema.tutorSessions).where(inArray(schema.tutorSessions.studentId, demoUserIds))
+    await tx.delete(schema.notifications).where(inArray(schema.notifications.userId, demoUserIds))
+    await tx.delete(schema.messages).where(inArray(schema.messages.senderId, demoUserIds))
+
+    if (demoGoalIds.length > 0) {
+      await tx.delete(schema.progressDataPoints).where(inArray(schema.progressDataPoints.goalId, demoGoalIds))
+    }
+    if (demoIepIds.length > 0) {
+      await tx.delete(schema.iepGoals).where(inArray(schema.iepGoals.iepId, demoIepIds))
+    }
+    await tx.delete(schema.complianceDeadlines).where(inArray(schema.complianceDeadlines.studentId, demoUserIds))
+    await tx.delete(schema.ieps).where(inArray(schema.ieps.studentId, demoUserIds))
+
+    if (demoQuestionIds.length > 0) {
+      await tx.delete(schema.questionStandards).where(inArray(schema.questionStandards.questionId, demoQuestionIds))
+      await tx.delete(schema.quizQuestions).where(inArray(schema.quizQuestions.quizId, demoQuizIds))
+    }
+    await tx.delete(schema.quizzes).where(inArray(schema.quizzes.createdBy, demoUserIds))
+
+    await tx.delete(schema.lessonPlans).where(inArray(schema.lessonPlans.teacherId, demoUserIds))
+    await tx.delete(schema.masteryRecords).where(inArray(schema.masteryRecords.studentId, demoUserIds))
+
+    if (demoSubmissionIds.length > 0) {
+      await tx.delete(schema.criterionScores).where(inArray(schema.criterionScores.submissionId, demoSubmissionIds))
+      await tx.delete(schema.feedbackDrafts).where(inArray(schema.feedbackDrafts.submissionId, demoSubmissionIds))
+    }
+    await tx.delete(schema.submissions).where(inArray(schema.submissions.studentId, demoUserIds))
+
+    if (demoAssignmentIds.length > 0) {
+      await tx.delete(schema.differentiatedVersions).where(inArray(schema.differentiatedVersions.assignmentId, demoAssignmentIds))
+    }
+    await tx.delete(schema.assignments).where(inArray(schema.assignments.teacherId, demoUserIds))
+
+    if (demoRubricIds.length > 0) {
+      await tx.delete(schema.rubricCriteria).where(inArray(schema.rubricCriteria.rubricId, demoRubricIds))
+    }
+    await tx.delete(schema.rubrics).where(inArray(schema.rubrics.teacherId, demoUserIds))
+
+    if (demoClassIds.length > 0) {
+      await tx.delete(schema.classStandards).where(inArray(schema.classStandards.classId, demoClassIds))
+    }
+    await tx.delete(schema.classMembers).where(inArray(schema.classMembers.userId, demoUserIds))
+    await tx.delete(schema.parentChildren).where(inArray(schema.parentChildren.parentId, demoUserIds))
+    if (demoClassIds.length > 0) {
+      await tx.delete(schema.classes).where(inArray(schema.classes.id, demoClassIds))
+    }
+
+    await tx.delete(schema.users).where(inArray(schema.users.demoSessionId, sessionIds))
+    await tx.delete(schema.demoSessions).where(inArray(schema.demoSessions.id, sessionIds))
+  })
 }
