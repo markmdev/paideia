@@ -37,11 +37,13 @@ export const DEMO_SEED_EMAILS = new Set([
   'mateo.rivera@student.edu',
 ])
 
-// The 5 demo button emails on the login page
+// Demo button emails on the login page — must match DEMO_ACCOUNTS in login/page.tsx
 export const DEMO_ENTRY_EMAILS = new Set([
   'rivera@school.edu',
   'okafor@school.edu',
   'chen@school.edu',
   'rodriguez@school.edu',
   'williams@school.edu',
+  'sarah.chen@email.com',
+  'aisha@student.edu',
 ])

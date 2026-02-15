@@ -1,33 +1,56 @@
-## Current Status (2026-02-15 12:10)
+## Current Status (2026-02-15 12:08)
 
 **Paideia deployed to production.** Live at [usepaideia.com](https://usepaideia.com).
 
+### Active Work: Fixing Reviewer Findings on Demo Clone
+
+**Code health reviewer found 4 issues (2 P1, 2 P2). Fixing now.**
+
+**DONE — P1 fix #1:** TEAC-syz8jj — Added parent + student emails to `DEMO_ENTRY_EMAILS` in `src/lib/demo-constants.ts`. Previously parent/student demo buttons would fail with 400 because `sarah.chen@email.com` and `aisha@student.edu` weren't in the entry email set.
+
+**TODO — P1 fix #2:** TEAC-0m3fq5 — Clone reads 17 tables without filtering by seed users. Tables like classes, rubrics, assignments etc. are read with `db.select().from(table)` without filtering. If non-seed data exists, it would get cloned with original FKs. Fix: filter reads by seed user IDs. In `src/lib/demo-clone.ts`, the parallel Promise.all block starting around line 55 needs scoping. Tables to filter:
+- `classes` — filter by classMembers where userId is a seed user
+- `rubrics` — filter where teacherId in seedUserIds
+- `assignments` — filter where teacherId in seedUserIds
+- `lessonPlans` — filter where teacherId in seedUserIds
+- `quizzes` — filter where createdBy in seedUserIds
+- `ieps` — filter where studentId in seedUserIds
+- `messages` — filter where senderId in seedUserIds
+- `notifications` — filter where userId in seedUserIds
+- `tutorSessions` — filter where studentId in seedUserIds
+- `reportCards` — filter where studentId in seedUserIds
+- `feedbackDrafts` — filter by cloned submission IDs (needs 2-pass or subquery)
+- `criterionScores` — filter by cloned submission IDs
+- `classStandards` — filter by cloned class IDs
+- `rubricCriteria` — filter by cloned rubric IDs
+- `differentiatedVersions` — filter by cloned assignment IDs
+- `quizQuestions` — filter by cloned quiz IDs
+- `questionStandards` — filter by cloned question IDs
+- `iepGoals` — filter by cloned IEP IDs
+- `progressDataPoints` — filter by cloned goal IDs
+- `complianceDeadlines` — filter by seed user IDs
+- `parentChildren` — filter by seed user IDs
+
+**TODO — P2 fix #3:** TEAC-cpc9lz — Wrap cleanup in a transaction.
+
+**TODO — P2 fix #4:** TEAC-76qssa — Remove `cleanExpiredCache()` export (dead code — getCached already handles per-key expiry).
+
+**Code reviewer (aea9887) still running in background.**
+
 ### Recently Completed: Demo User Isolation + DB Cache
 
-**Demo isolation implemented.** Each demo button click clones all ~500 rows of seed data with remapped IDs. Direct credential login for seed emails is blocked.
-
-**Key files created:**
+**Key files:**
 - `src/lib/db/schema/demo.ts` — demoSessions table
-- `src/lib/db/schema/cache.ts` — cacheEntries table for DB-backed caching
-- `src/lib/demo-constants.ts` — DEMO_SEED_EMAILS (29), DEMO_ENTRY_EMAILS (5)
-- `src/lib/demo-clone.ts` — cloneDemoData() clones 25 tables in a transaction, cleanupExpiredDemoSessions() deletes in reverse dependency order
-- `src/app/api/auth/demo-login/route.ts` — POST endpoint for demo login flow
-- `src/lib/cache.ts` — getCached/setCache/cleanExpiredCache with TTL and upsert
+- `src/lib/db/schema/cache.ts` — cacheEntries table
+- `src/lib/demo-constants.ts` — DEMO_SEED_EMAILS (29), DEMO_ENTRY_EMAILS (7)
+- `src/lib/demo-clone.ts` — cloneDemoData() + cleanupExpiredDemoSessions()
+- `src/app/api/auth/demo-login/route.ts` — POST endpoint
+- `src/lib/cache.ts` — getCached/setCache with TTL and upsert
+- `src/lib/auth.ts` — blocks seed email direct login
+- `src/app/login/page.tsx` — demo buttons call clone API
+- `src/app/api/early-warning/route.ts` — DB-backed cache
 
-**Key files edited:**
-- `src/lib/db/schema/auth.ts` — added demoSessionId column to users
-- `src/lib/db/schema/index.ts` — exports demo + cache schemas
-- `src/lib/auth.ts` — blocks seed email direct login via DEMO_SEED_EMAILS check
-- `src/app/login/page.tsx` — demo buttons POST to /api/auth/demo-login, show "Setting up demo..." spinner
-- `src/app/api/early-warning/route.ts` — replaced in-memory Map cache with DB-backed cache via getCached/setCache
-
-**Schema pushed to Supabase.** Needs `git push` to deploy to Vercel.
-
-**Clone flow:** Login button → POST /api/auth/demo-login → cloneDemoData() → return cloned email → signIn('credentials') with cloned email
-
-**Cleanup:** Fire-and-forget on each demo login, deletes sessions older than 1 hour. Explicit reverse-dependency-order deletes (no cascade reliance).
-
-**Cloned email format:** `{local}.demo.{sessionId8chars}@{domain}` (e.g. `rivera.demo.abc12345@school.edu`)
+**Schema pushed to Supabase.** Not yet pushed to GitHub/Vercel.
 
 ### What Is Paideia
 K-12 AI education platform (hackathon submission) with two deliverables:
@@ -58,8 +81,15 @@ K-12 AI education platform (hackathon submission) with two deliverables:
 - deshawn@student.edu (student)
 - Plus 20 additional students (students[0-19])
 
-### Open Pebble Issues (cosmetic, not blocking)
+### Open Pebble Issues
+**From code health review (fix now):**
+- TEAC-syz8jj: Demo email constants duplicated (P1) — FIXED, commit pending
+- TEAC-0m3fq5: Clone reads without seed-user scoping (P1) — TODO
+- TEAC-cpc9lz: Cleanup deletes without transaction (P2) — TODO
+- TEAC-76qssa: cleanExpiredCache() never called (P2) — TODO
+
+**Older cosmetic issues:**
 - TEAC-u05c08: Mastery level config duplicated across 5 files (P2)
 - TEAC-66p252: Analytics page unnecessary Content-Type header (P2)
 - TEAC-h7mh6v: Mastery page header duplication (P2)
-- TEAC-5hva8v: getBaseUrl() protocol detection fragile (P2) — partially addressed with x-forwarded-proto
+- TEAC-5hva8v: getBaseUrl() protocol detection fragile (P2)
