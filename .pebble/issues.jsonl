@@ -419,3 +419,13 @@
 {"type":"close","issueId":"TEAC-cpc9lz","timestamp":"2026-02-15T20:11:26.304Z","data":{"reason":"Fixed"},"source":"teaching-os"}
 {"type":"comment","issueId":"TEAC-76qssa","timestamp":"2026-02-15T20:11:26.990Z","data":{"text":"Fixed: removed cleanExpiredCache() export and unused lte import from cache.ts","timestamp":"2026-02-15T20:11:26.990Z"},"source":"teaching-os"}
 {"type":"close","issueId":"TEAC-76qssa","timestamp":"2026-02-15T20:11:27.656Z","data":{"reason":"Fixed"},"source":"teaching-os"}
+{"type":"comment","issueId":"TEAC-nlubwf","timestamp":"2026-02-15T20:12:31.481Z","data":{"text":"Already fixed in commit 14342e2 — 3-phase scoped reads filter all tables by seed user IDs","timestamp":"2026-02-15T20:12:31.481Z"},"source":"teaching-os"}
+{"type":"close","issueId":"TEAC-nlubwf","timestamp":"2026-02-15T20:12:32.078Z","data":{"reason":"Already fixed"},"source":"teaching-os"}
+{"type":"comment","issueId":"TEAC-3a3ppb","timestamp":"2026-02-15T20:12:32.686Z","data":{"text":"Already fixed in commit 111c6c8 — added parent + student emails to DEMO_ENTRY_EMAILS","timestamp":"2026-02-15T20:12:32.686Z"},"source":"teaching-os"}
+{"type":"close","issueId":"TEAC-3a3ppb","timestamp":"2026-02-15T20:12:33.298Z","data":{"reason":"Already fixed"},"source":"teaching-os"}
+{"type":"comment","issueId":"TEAC-u2jacz","timestamp":"2026-02-15T20:12:34.102Z","data":{"text":"Already fixed in commit 14342e2 — cleanup wrapped in db.transaction()","timestamp":"2026-02-15T20:12:34.102Z"},"source":"teaching-os"}
+{"type":"close","issueId":"TEAC-u2jacz","timestamp":"2026-02-15T20:12:35.039Z","data":{"reason":"Already fixed"},"source":"teaching-os"}
+{"type":"comment","issueId":"TEAC-xjhu5m","timestamp":"2026-02-15T20:13:12.607Z","data":{"text":"Fixed: cleanup now uses or(senderId, receiverId) in demo-clone.ts:665","timestamp":"2026-02-15T20:13:12.607Z"},"source":"teaching-os"}
+{"type":"close","issueId":"TEAC-xjhu5m","timestamp":"2026-02-15T20:13:13.206Z","data":{"reason":"Fixed"},"source":"teaching-os"}
+{"type":"comment","issueId":"TEAC-vapx2b","timestamp":"2026-02-15T20:13:14.082Z","data":{"text":"Fixed: cleanup now uses or(parentId, childId) in demo-clone.ts:705","timestamp":"2026-02-15T20:13:14.082Z"},"source":"teaching-os"}
+{"type":"close","issueId":"TEAC-vapx2b","timestamp":"2026-02-15T20:13:14.775Z","data":{"reason":"Fixed"},"source":"teaching-os"}
