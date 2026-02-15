@@ -1,3 +1,5 @@
+export * from './demo'
+export * from './cache'
 export * from './auth'
 export * from './classes'
 export * from './standards'

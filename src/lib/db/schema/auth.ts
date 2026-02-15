@@ -1,6 +1,7 @@
 import { pgTable, text, timestamp, integer, boolean, uniqueIndex } from 'drizzle-orm/pg-core'
 import { createId } from '@paralleldrive/cuid2'
 import { relations } from 'drizzle-orm'
+import { demoSessions } from './demo'
 
 export const users = pgTable('users', {
   id: text('id').primaryKey().$defaultFn(() => createId()),
@@ -10,6 +11,7 @@ export const users = pgTable('users', {
   image: text('image'),
   passwordHash: text('password_hash'),
   role: text('role').notNull().default('teacher'), // teacher, student, parent, sped_teacher, admin, district_admin
+  demoSessionId: text('demo_session_id').references(() => demoSessions.id),
   createdAt: timestamp('created_at', { mode: 'date' }).notNull().defaultNow(),
   updatedAt: timestamp('updated_at', { mode: 'date' }).notNull().defaultNow(),
 })
