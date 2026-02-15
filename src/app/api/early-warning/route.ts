@@ -301,7 +301,10 @@ export async function GET(req: NextRequest) {
           }
         })
 
-        const cacheKey = session.user.id
+        // Cache key includes user ID and sorted flagged student IDs to invalidate
+        // when the flagged set changes (prevents stale recommendations for wrong students)
+        const flaggedIds = flaggedStudents.map((s) => s.id).sort().join(',')
+        const cacheKey = `${session.user.id}:${flaggedIds}`
         const now = Date.now()
 
         // Clean up expired cache entries
@@ -313,33 +316,29 @@ export async function GET(req: NextRequest) {
 
         const cached = recommendationCache.get(cacheKey)
         if (cached && cached.expiresAt > now) {
-          // Apply cached recommendations using anonymized labels
-          for (const [anonId, recommendations] of cached.data) {
-            const match = anonymizedIdToStudent.get(anonId)
-            if (match) {
-              match.recommendations = recommendations
+          // Apply cached recommendations keyed by real student ID
+          for (const student of flaggedStudents) {
+            const recs = cached.data.get(student.id)
+            if (recs) {
+              student.recommendations = recs
             }
           }
         } else {
           const result = await generateStudentInterventions(flaggedInput)
 
-          // Build cache entry from AI results
+          // Build cache entry keyed by real student ID (not positional label)
           const cacheData = new Map<string, string[]>()
           for (const rec of result.students) {
-            cacheData.set(rec.studentLabel, rec.recommendations)
+            const match = anonymizedIdToStudent.get(rec.studentLabel)
+            if (match) {
+              match.recommendations = rec.recommendations
+              cacheData.set(match.id, rec.recommendations)
+            }
           }
           recommendationCache.set(cacheKey, {
             data: cacheData,
             expiresAt: now + CACHE_TTL_MS,
           })
-
-          // Match recommendations back to students using anonymized labels
-          for (const rec of result.students) {
-            const match = anonymizedIdToStudent.get(rec.studentLabel)
-            if (match) {
-              match.recommendations = rec.recommendations
-            }
-          }
         }
       } catch (error) {
         console.error('Failed to generate intervention recommendations:', error)
